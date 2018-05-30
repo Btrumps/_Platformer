@@ -1,9 +1,9 @@
 const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
+const CANVAS_HEIGHT = 800;
 const FPS = 30;
 
 var canvas, canvasContext;
-
+var player = new playerClass();
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
@@ -21,11 +21,11 @@ function updateAll() {
 }
 
 function moveAll() {
-	movePlayer();
+	player.move();
 }
 
 function drawAll() {
-	colorRect(0,0, canvas.width,canvas.height, 'black', 1);
-
-	drawPlayer();
+	colorRect(0,0, canvas.width,canvas.height, 'grey', 1);
+	drawLevel();
+	player.draw();
 }
