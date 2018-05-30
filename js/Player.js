@@ -63,31 +63,47 @@ function playerClass() {
 	}
 
 	this.wallCollisionChecks = function() {
+		
+		this.recalculateCollisionEdges();
+
+		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge) ) {
+			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
+			this.y = (topEdgeRow * TILE_HEIGHT) + PLAYER_SQUARE_LENGTH + 1;
+			this.recalculateCollisionEdges();
+			this.velY = 0;
+		}
+
+		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge) ) {
+			this.y = (Math.floor(this.bottomEdge / TILE_HEIGHT) * TILE_HEIGHT) - PLAYER_SQUARE_LENGTH / 2;
+			this.recalculateCollisionEdges();
+			this.velY = 0;
+			this.isGrounded = true;
+
+		}
+
+		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y) ) {
+			var leftEdgeRow = Math.floor(this.leftEdge / TILE_WIDTH);
+			this.x = (leftEdgeRow * TILE_WIDTH) + PLAYER_SQUARE_LENGTH + 1;
+			this.recalculateCollisionEdges();
+			this.velX = 0;
+		}
+		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y) ) {
+			var rightEdgeRow = Math.floor(this.rightEdge / TILE_WIDTH);
+			this.x = (rightEdgeRow * TILE_WIDTH) - PLAYER_SQUARE_LENGTH / 2;
+			this.recalculateCollisionEdges();
+			this.velX = 0;
+		}
+		
+		else if (isObstacleAtPixel(this.x, this.bottomEdge + 2) == false)  {
+			this.isGrounded = false;
+		}
+	}
+
+	this.recalculateCollisionEdges = function() {
 		this.leftEdge = this.x - PLAYER_SQUARE_LENGTH / 2;
 		this.rightEdge = this.x + PLAYER_SQUARE_LENGTH / 2;
 		this.topEdge = this.y - PLAYER_SQUARE_LENGTH / 2;
 		this.bottomEdge = this.y + PLAYER_SQUARE_LENGTH / 2;
-
-
-		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y) ) {
-			this.x = (Math.floor(this.leftEdge / TILE_WIDTH) * TILE_WIDTH) + PLAYER_SQUARE_LENGTH / 2;
-			this.velX = 0;
-		}
-		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y) ) {
-			this.x = (Math.floor(this.rightEdge / TILE_WIDTH) * TILE_WIDTH) - PLAYER_SQUARE_LENGTH / 2;
-			this.velX = 0;
-		}
-		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge) ) {
-			this.y = (Math.floor(this.topEdge / TILE_HEIGHT) * TILE_HEIGHT) + PLAYER_SQUARE_LENGTH / 2;
-			this.velY = 0;
-		}
-		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge) ) {
-			this.y = (Math.floor(this.topEdge / TILE_HEIGHT) * TILE_HEIGHT) - PLAYER_SQUARE_LENGTH / 2;
-			this.velY = 0;
-			this.isGrounded = true;
-		} else if (isObstacleAtPixel(this.x, this.bottomEdge + 2) == false)  {
-			this.isGrounded = false;
-		}
 	}
 
 }
