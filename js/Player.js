@@ -1,9 +1,22 @@
-const PLAYER_SPEED = 5;
-const PLAYER_VEL_X_DECAY = 0.60;
-const PLAYER_JUMP_SPEED = 2.2;
+const PLAYER_ACCELERATION = 5;
+const PLAYER_MAX_SPEED = 15;
+const PLAYER_VEL_X_DECAY = 0.65;
+const PLAYER_JUMP_SPEED = 4;
+const PLAYER_JUMP_MAX_SPEED = 15; 
 const VARIABLE_JUMP_WINDOW = 6;
 const GRAVITY = 1;
-const PLAYER_SQUARE_LENGTH = 50;
+const PLAYER_WIDTH = 50;
+const PLAYER_HEIGHT = 50;
+
+const PLAYER_HORIZONTAL_RAY_COUNT = 8;
+const PLAYER_VERTICAL_RAY_COUNT = 8;
+const PLAYER_RAY_OFFSET = 7;
+
+const TOP_EDGE = 1;
+const BOTTOM_EDGE = 2;
+const LEFT_EDGE = 3;
+const RIGHT_EDGE = 4;
+
 
 function playerClass() {
 	// TODO: Remove hardcoded values
@@ -27,21 +40,22 @@ function playerClass() {
 
 	this.move = function() {
 		
-		if (keyHeld_Left) {
-			this.velX -= PLAYER_SPEED;
+		if (keyHeld_Left && Math.abs(this.velX - PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
+			this.velX -= PLAYER_ACCELERATION;
 		}
 
-		if (keyHeld_Right) {
-			this.velX += PLAYER_SPEED;
+		if (keyHeld_Right && Math.abs(this.velX + PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
+			this.velX += PLAYER_ACCELERATION;
 		}
 
-		if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
+		if (keyHeld_Jump && Math.abs(this.velY - PLAYER_JUMP_SPEED) < PLAYER_JUMP_MAX_SPEED && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 			this.velY -= PLAYER_JUMP_SPEED;
-			this.variableJumpCounter++;
 		}
 
 		this.velX *= PLAYER_VEL_X_DECAY;
 		this.velY += GRAVITY;
+
+		
 
 		this.x += this.velX;
 		this.y += this.velY;
@@ -56,54 +70,57 @@ function playerClass() {
 	}
 
 	this.draw = function() {
-		colorRect(	this.x - PLAYER_SQUARE_LENGTH / 2,
-					this.y - PLAYER_SQUARE_LENGTH / 2,
-					PLAYER_SQUARE_LENGTH, PLAYER_SQUARE_LENGTH,
+		colorRect(	this.x - PLAYER_WIDTH / 2,
+					this.y - PLAYER_HEIGHT / 2,
+					PLAYER_WIDTH,
+					PLAYER_HEIGHT,
 					'#ad0000');
 	}
+
 
 	this.wallCollisionChecks = function() {
 		
 		this.recalculateCollisionEdges();
 
-		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge) ) {
+		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
-			this.y = (topEdgeRow * TILE_HEIGHT) + PLAYER_SQUARE_LENGTH + 1;
+			this.y = (topEdgeRow * TILE_HEIGHT) + (PLAYER_HEIGHT + (PLAYER_HEIGHT / 2)) + 1;
 			this.recalculateCollisionEdges();
 			this.velY = 0;
 		}
 
-		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge) ) {
-			this.y = (Math.floor(this.bottomEdge / TILE_HEIGHT) * TILE_HEIGHT) - PLAYER_SQUARE_LENGTH / 2;
+		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) ) {
+			this.y = (Math.floor(this.bottomEdge / TILE_HEIGHT) * TILE_HEIGHT) - (PLAYER_HEIGHT / 2);
 			this.recalculateCollisionEdges();
 			this.velY = 0;
 			this.isGrounded = true;
 
+		} else if (isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false)  {
+			this.isGrounded = false;
+			this.variableJumpCounter++;
 		}
 
-		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y) ) {
-			var leftEdgeRow = Math.floor(this.leftEdge / TILE_WIDTH);
-			this.x = (leftEdgeRow * TILE_WIDTH) + PLAYER_SQUARE_LENGTH + 1;
+		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE) ) {
+			var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
+			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2);
 			this.recalculateCollisionEdges();
 			this.velX = 0;
 		}
-		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y) ) {
-			var rightEdgeRow = Math.floor(this.rightEdge / TILE_WIDTH);
-			this.x = (rightEdgeRow * TILE_WIDTH) - PLAYER_SQUARE_LENGTH / 2;
+
+		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
+			var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
+			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2);
 			this.recalculateCollisionEdges();
 			this.velX = 0;
 		}
-		
-		else if (isObstacleAtPixel(this.x, this.bottomEdge + 2) == false)  {
-			this.isGrounded = false;
-		}
+
 	}
 
 	this.recalculateCollisionEdges = function() {
-		this.leftEdge = this.x - PLAYER_SQUARE_LENGTH / 2;
-		this.rightEdge = this.x + PLAYER_SQUARE_LENGTH / 2;
-		this.topEdge = this.y - PLAYER_SQUARE_LENGTH / 2;
-		this.bottomEdge = this.y + PLAYER_SQUARE_LENGTH / 2;
+		this.leftEdge = this.x - PLAYER_WIDTH / 2;
+		this.rightEdge = this.x + PLAYER_WIDTH / 2;
+		this.topEdge = this.y - PLAYER_HEIGHT / 2;
+		this.bottomEdge = this.y + PLAYER_HEIGHT / 2;
 	}
 
 }
