@@ -12,7 +12,7 @@ var levelGrid = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 				 1,0,0,2,2,0,0,0,0,0,0,0,0,0,0,1,
 				 1,0,0,0,0,0,0,0,0,0,2,2,2,0,0,1,
 				 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-				 1,0,0,0,2,2,2,0,0,0,0,0,0,0,0,1,
+				 1,0,0,0,2,2,2,0,0,0,0,0,0,0,3,1,
 				 1,0,0,0,0,0,0,0,0,0,0,0,0,2,2,1,
 				 1,2,2,0,0,0,0,0,0,0,2,2,2,2,2,1,
 				 1,2,2,2,0,0,0,0,0,0,2,2,2,2,2,1,
@@ -21,8 +21,10 @@ var levelGrid = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 
 	const LEVEL_WALL = 1;
 	const LEVEL_PLATFORM = 2;
+	const LEVEL_SPIKES = 3;
 
 var obstacleTileArray = [LEVEL_WALL, LEVEL_PLATFORM];
+var triggerTileArray = [LEVEL_SPIKES];
 
 
 function colRowToArrayIndex(col, row) {
@@ -38,39 +40,37 @@ function returnTileTypeAtPixel(x, y) {
 }
 
 function isObstacleAtPixel(x, y, whichEdge) {
-	var rayCastArray = [];
+	var rayArray = [];
 	var whichRayCount;
 
 	if (whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) {
 		whichRayCount = PLAYER_VERTICAL_RAY_COUNT;
 		var startX = x - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET;
-		var rayCountSpacing = (PLAYER_WIDTH - PLAYER_RAY_OFFSET * 2) / whichRayCount;
+		var endX = x + (PLAYER_WIDTH / 2) - PLAYER_RAY_OFFSET;
 
-		for (var i = 0; i < whichRayCount; i++) {
-			var thisRay = startX + (i * rayCountSpacing);
-			rayCastArray.push(thisRay);
-		}
+		rayArray.push(startX);
+		//rayArray.push(x);
+		rayArray.push(endX);
 
 	} else if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {
 		whichRayCount = PLAYER_HORIZONTAL_RAY_COUNT;
 		var startY = y - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET;
-		var rayCountSpacing = (PLAYER_HEIGHT - PLAYER_RAY_OFFSET * 2) / whichRayCount;
+		var endY = y + (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET;
 
-		for (var i = 0; i < whichRayCount; i++) {
-			var thisRay = startY + (i * rayCountSpacing);
-			rayCastArray.push(thisRay);
-		}
+		rayArray.push(startY);
+		//rayArray.push(y);
+		rayArray.push(endY);
 	}
 
 	for (var i = 0; i < obstacleTileArray.length; i++) {
-		for (var j = 0; j < rayCastArray.length; j++) {
+		for (var j = 0; j < rayArray.length; j++) {
 			if (whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) {
-				if (returnTileTypeAtPixel(rayCastArray[j], y) == obstacleTileArray[i]) {
+				if (returnTileTypeAtPixel(rayArray[j], y) == obstacleTileArray[i]) {
 					return true;
 				}
 			}
 			if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {
-				if (returnTileTypeAtPixel(x, rayCastArray[j]) == obstacleTileArray[i]) {
+				if (returnTileTypeAtPixel(x, rayArray[j]) == obstacleTileArray[i]) {
 					return true;
 				}
 			}
@@ -78,6 +78,47 @@ function isObstacleAtPixel(x, y, whichEdge) {
 	}
 
 	return false;
+}
+
+function isTriggerAtPixel(x, y, whichEdge) {
+	var rayArray = [];
+	var whichRayCount;
+
+	if (whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) {
+		whichRayCount = PLAYER_VERTICAL_RAY_COUNT;
+		var startX = x - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET;
+		var endX = x + (PLAYER_WIDTH / 2) - PLAYER_RAY_OFFSET;
+
+		rayArray.push(startX);
+		//rayArray.push(x);
+		rayArray.push(endX);
+
+	} else if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {
+		whichRayCount = PLAYER_HORIZONTAL_RAY_COUNT;
+		var startY = y - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET;
+		var endY = y + (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET;
+
+		rayArray.push(startY);
+		//rayArray.push(y);
+		rayArray.push(endY);
+	}
+
+	for (var i = 0; i < triggerTileArray.length; i++) {
+		for (var j = 0; j < rayArray.length; j++) {
+			if (whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) {
+				if (returnTileTypeAtPixel(rayArray[j], y) == triggerTileArray[i]) {
+					return triggerTileArray[i];
+				}
+			}
+			if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {
+				if (returnTileTypeAtPixel(x, rayArray[j]) == triggerTileArray[i]) {
+					return triggerTileArray[i];
+				}
+			}
+		}
+	}
+
+	return null;
 }
 
 function drawLevel() {
@@ -98,6 +139,10 @@ function drawLevel() {
 
 				case LEVEL_PLATFORM :
 					colorHere = 'white';
+					break;
+
+				case LEVEL_SPIKES :
+					colorHere = 'red';
 					break;
 
 			}

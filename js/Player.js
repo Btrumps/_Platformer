@@ -3,10 +3,15 @@ const PLAYER_RUN_ACCELERATION = 3.5;
 const PLAYER_MAX_SPEED = 12;
 const PLAYER_RUN_MAX_SPEED = 17;
 const PLAYER_VEL_X_DECAY = 0.7;
-const PLAYER_JUMP_SPEED = 3;
-const PLAYER_JUMP_MAX_SPEED = 12; 
+
 const VARIABLE_JUMP_WINDOW = 8;
+const PLAYER_JUMP_SPEED = 3;
+const PLAYER_JUMP_MAX_SPEED = 12;
+
+const MAX_Y_VELOCITY = 20;
 const GRAVITY = .9;
+const UPWARDS_GRAVITY = 0.5;
+
 const PLAYER_WIDTH = 32;
 const PLAYER_HEIGHT = 48;
 
@@ -48,35 +53,51 @@ function playerClass() {
 		
 		if (keyHeld_Left &&
 			keyHeld_Run &&
-			Math.abs(this.velX - PLAYER_RUN_ACCELERATION) < PLAYER_RUN_MAX_SPEED) {
+			Math.abs(this.velX - PLAYER_RUN_ACCELERATION) <= PLAYER_RUN_MAX_SPEED) {
 
 			this.velX -= PLAYER_RUN_ACCELERATION;
 
 		} else if (keyHeld_Left &&
-		           Math.abs(this.velX - PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
+		           Math.abs(this.velX - PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
+			
 			this.velX -= PLAYER_ACCELERATION;
 		}
 
 		if (keyHeld_Right &&
 			keyHeld_Run &&
-			Math.abs(this.velX + PLAYER_RUN_ACCELERATION) < PLAYER_RUN_MAX_SPEED) {
+			Math.abs(this.velX + PLAYER_RUN_ACCELERATION) <= PLAYER_RUN_MAX_SPEED) {
 
 			this.velX += PLAYER_RUN_ACCELERATION;
 
 		} else if (keyHeld_Right &&
-		           Math.abs(this.velX + PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
+		           Math.abs(this.velX + PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
 			this.velX += PLAYER_ACCELERATION;
 		}
 
-		if (keyHeld_Jump && 
-		    Math.abs(this.velY - PLAYER_JUMP_SPEED) < PLAYER_JUMP_MAX_SPEED &&
+		// this.velY < 1 stops the player from jumping while falling down
+		if (keyHeld_Jump &&
+			this.velY < 1 &&
+		    Math.abs(this.velY - PLAYER_JUMP_SPEED) <= PLAYER_JUMP_MAX_SPEED &&
 			this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 
 			this.velY -= PLAYER_JUMP_SPEED;
 		}
 
+
+		// if we are holding jump, we are affected by a different gravity on the upwards part of the jump
+		if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
+			this.velY += UPWARDS_GRAVITY;
+		} else {
+			this.velY += GRAVITY;
+
+			if ( this.velY > MAX_Y_VELOCITY) {
+				this.velY = MAX_Y_VELOCITY;
+			}
+		}
+
 		this.velX *= PLAYER_VEL_X_DECAY;
-		this.velY += GRAVITY;
+
+		
 
 		if (this.velX < 0) {
 			this.direction = LEFT_DIRECTION;
@@ -88,6 +109,7 @@ function playerClass() {
 		this.y += this.velY;
 
 		this.wallCollisionChecks();
+		this.triggerCollisionChecks();
 
 		if (this.isGrounded) {
 			// reset double jump, variable jump height, etc
@@ -135,6 +157,33 @@ function playerClass() {
 
 	}
 
+	this.triggerCollisionChecks = function() {
+		this.recalculateCollisionEdges();
+
+		var whichTrigger = null;
+
+		if (isTriggerAtPixel(this.x, this.topEdge, TOP_EDGE) != null) {
+			whichTrigger = isTriggerAtPixel(this.x, this.topEdge, TOP_EDGE);
+		}
+
+		if (isTriggerAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) != null) {
+			whichTrigger = isTriggerAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE);
+		}
+
+		if (isTriggerAtPixel(this.leftEdge, this.y, LEFT_EDGE) != null) {
+			whichTrigger = isTriggerAtPixel(this.leftEdge, this.y, LEFT_EDGE);
+		}
+
+		if (isTriggerAtPixel(this.rightEdge, this.y, RIGHT_EDGE) != null) {
+			whichTrigger = isTriggerAtPixel(this.rightEdge, this.y, RIGHT_EDGE);
+		}
+
+		if (whichTrigger == LEVEL_SPIKES) {
+			this.killPlayer();
+		}
+
+	}
+
 	this.recalculateCollisionEdges = function() {
 		this.leftEdge = this.x - PLAYER_WIDTH / 2;
 		this.rightEdge = this.x + PLAYER_WIDTH / 2;
@@ -142,13 +191,17 @@ function playerClass() {
 		this.bottomEdge = this.y + PLAYER_HEIGHT / 2;
 	}
 
+	this.killPlayer = function() {
+		console.log('you have died');
+	} 
+
 
 	this.draw = function() {
 		colorRect(	this.x - PLAYER_WIDTH / 2,
 					this.y - PLAYER_HEIGHT / 2,
 					PLAYER_WIDTH,
 					PLAYER_HEIGHT,
-					'#ad0000');
+					'blue');
 
 		colorRect(	this.x - 1,
 					this.y - 1,
