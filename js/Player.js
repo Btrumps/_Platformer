@@ -1,21 +1,26 @@
-const PLAYER_ACCELERATION = 5;
-const PLAYER_MAX_SPEED = 15;
-const PLAYER_VEL_X_DECAY = 0.65;
-const PLAYER_JUMP_SPEED = 4;
-const PLAYER_JUMP_MAX_SPEED = 15; 
-const VARIABLE_JUMP_WINDOW = 6;
-const GRAVITY = 1;
-const PLAYER_WIDTH = 50;
-const PLAYER_HEIGHT = 50;
+const PLAYER_ACCELERATION = 2.5;
+const PLAYER_RUN_ACCELERATION = 3.5;
+const PLAYER_MAX_SPEED = 12;
+const PLAYER_RUN_MAX_SPEED = 17;
+const PLAYER_VEL_X_DECAY = 0.7;
+const PLAYER_JUMP_SPEED = 3;
+const PLAYER_JUMP_MAX_SPEED = 12; 
+const VARIABLE_JUMP_WINDOW = 8;
+const GRAVITY = .9;
+const PLAYER_WIDTH = 32;
+const PLAYER_HEIGHT = 32;
 
-const PLAYER_HORIZONTAL_RAY_COUNT = 8;
-const PLAYER_VERTICAL_RAY_COUNT = 8;
-const PLAYER_RAY_OFFSET = 7;
+const PLAYER_HORIZONTAL_RAY_COUNT = 6;
+const PLAYER_VERTICAL_RAY_COUNT = 6;
+const PLAYER_RAY_OFFSET = 6;
 
 const TOP_EDGE = 1;
 const BOTTOM_EDGE = 2;
 const LEFT_EDGE = 3;
 const RIGHT_EDGE = 4;
+
+const LEFT_DIRECTION = 1;
+const RIGHT_DIRECTION = 2;
 
 
 function playerClass() {
@@ -25,6 +30,7 @@ function playerClass() {
 	this.y = CANVAS_HEIGHT / 2;
 	this.velX = 0;
 	this.velY = 0;
+	this.direction;
 
 	// Colliders
 	this.leftEdge;
@@ -40,15 +46,36 @@ function playerClass() {
 
 	this.move = function() {
 		
-		if (keyHeld_Left && Math.abs(this.velX - PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
+		if (keyHeld_Left &&
+			keyHeld_Run &&
+			Math.abs(this.velX - PLAYER_RUN_ACCELERATION) < PLAYER_RUN_MAX_SPEED) {
+
+			this.velX -= PLAYER_RUN_ACCELERATION;
+			this.direction = LEFT_DIRECTION;
+
+		} else if (keyHeld_Left &&
+		           Math.abs(this.velX - PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
 			this.velX -= PLAYER_ACCELERATION;
+			this.direction = LEFT_DIRECTION;
 		}
 
-		if (keyHeld_Right && Math.abs(this.velX + PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
+		if (keyHeld_Right &&
+			keyHeld_Run &&
+			Math.abs(this.velX + PLAYER_RUN_ACCELERATION) < PLAYER_RUN_MAX_SPEED) {
+
+			this.velX += PLAYER_RUN_ACCELERATION;
+			this.direction = RIGHT_DIRECTION;
+
+		} else if (keyHeld_Right &&
+		           Math.abs(this.velX + PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
 			this.velX += PLAYER_ACCELERATION;
+			this.direction = RIGHT_DIRECTION;
 		}
 
-		if (keyHeld_Jump && Math.abs(this.velY - PLAYER_JUMP_SPEED) < PLAYER_JUMP_MAX_SPEED && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
+		if (keyHeld_Jump && 
+		    Math.abs(this.velY - PLAYER_JUMP_SPEED) < PLAYER_JUMP_MAX_SPEED &&
+			this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
+
 			this.velY -= PLAYER_JUMP_SPEED;
 		}
 
@@ -85,13 +112,13 @@ function playerClass() {
 		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
 			this.y = (topEdgeRow * TILE_HEIGHT) + (PLAYER_HEIGHT + (PLAYER_HEIGHT / 2)) + 1;
-			this.recalculateCollisionEdges();
+			//this.recalculateCollisionEdges();
 			this.velY = 0;
 		}
 
 		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) ) {
 			this.y = (Math.floor(this.bottomEdge / TILE_HEIGHT) * TILE_HEIGHT) - (PLAYER_HEIGHT / 2);
-			this.recalculateCollisionEdges();
+			//this.recalculateCollisionEdges();
 			this.velY = 0;
 			this.isGrounded = true;
 
@@ -103,14 +130,14 @@ function playerClass() {
 		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE) ) {
 			var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
 			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2);
-			this.recalculateCollisionEdges();
+			//this.recalculateCollisionEdges();
 			this.velX = 0;
 		}
 
 		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
 			var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
 			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2);
-			this.recalculateCollisionEdges();
+			//this.recalculateCollisionEdges();
 			this.velX = 0;
 		}
 

@@ -1,6 +1,7 @@
 var keyHeld_Left = false; 
 var keyHeld_Right = false;
 var keyHeld_Jump = false;
+var keyHeld_Run = false;
 
 function keyDownHandler(evt) {
 	setValuesForKey(evt, true);
@@ -18,7 +19,13 @@ function setValuesForKey(evt, value) {
 		case "KeyD":
 			keyHeld_Right = value;
 			break;
-		case "KeyW" || "Space":
+		case "KeyW":
+			keyHeld_Jump = value;
+			break;
+		case "ShiftLeft":
+			keyHeld_Run = value;
+			break;
+		case "Space":
 			keyHeld_Jump = value;
 			break;
 	}

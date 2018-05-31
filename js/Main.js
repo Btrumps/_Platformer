@@ -1,5 +1,5 @@
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 800;
+const CANVAS_WIDTH = 512;
+const CANVAS_HEIGHT = 448;
 const FPS = 30;
 
 var canvas, canvasContext;
