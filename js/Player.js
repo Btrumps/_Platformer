@@ -51,12 +51,10 @@ function playerClass() {
 			Math.abs(this.velX - PLAYER_RUN_ACCELERATION) < PLAYER_RUN_MAX_SPEED) {
 
 			this.velX -= PLAYER_RUN_ACCELERATION;
-			this.direction = LEFT_DIRECTION;
 
 		} else if (keyHeld_Left &&
 		           Math.abs(this.velX - PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
 			this.velX -= PLAYER_ACCELERATION;
-			this.direction = LEFT_DIRECTION;
 		}
 
 		if (keyHeld_Right &&
@@ -64,12 +62,10 @@ function playerClass() {
 			Math.abs(this.velX + PLAYER_RUN_ACCELERATION) < PLAYER_RUN_MAX_SPEED) {
 
 			this.velX += PLAYER_RUN_ACCELERATION;
-			this.direction = RIGHT_DIRECTION;
 
 		} else if (keyHeld_Right &&
 		           Math.abs(this.velX + PLAYER_ACCELERATION) < PLAYER_MAX_SPEED) {
 			this.velX += PLAYER_ACCELERATION;
-			this.direction = RIGHT_DIRECTION;
 		}
 
 		if (keyHeld_Jump && 
@@ -81,6 +77,12 @@ function playerClass() {
 
 		this.velX *= PLAYER_VEL_X_DECAY;
 		this.velY += GRAVITY;
+
+		if (this.velX < 0) {
+			this.direction = LEFT_DIRECTION;
+		} else {
+			this.direction = RIGHT_DIRECTION;
+		}
 
 		this.x += this.velX;
 		this.y += this.velY;
