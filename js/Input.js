@@ -16,17 +16,26 @@ function setValuesForKey(evt, value) {
 		case "KeyA":
 			keyHeld_Left = value;
 			break;
+		case "ArrowLeft":
+			keyHeld_Left = value;
+			break;
+
 		case "KeyD":
 			keyHeld_Right = value;
 			break;
+		case "ArrowRight":
+			keyHeld_Right = value;
+			break;
+
 		case "KeyW":
 			keyHeld_Jump = value;
 			break;
+		case "KeyZ":
+			keyHeld_Jump = value;
+			break;
+
 		case "ShiftLeft":
 			keyHeld_Run = value;
-			break;
-		case "Space":
-			keyHeld_Jump = value;
 			break;
 	}
 }

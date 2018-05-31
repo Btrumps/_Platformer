@@ -8,7 +8,7 @@ const PLAYER_JUMP_MAX_SPEED = 12;
 const VARIABLE_JUMP_WINDOW = 8;
 const GRAVITY = .9;
 const PLAYER_WIDTH = 32;
-const PLAYER_HEIGHT = 32;
+const PLAYER_HEIGHT = 48;
 
 const PLAYER_HORIZONTAL_RAY_COUNT = 6;
 const PLAYER_VERTICAL_RAY_COUNT = 6;
@@ -82,8 +82,6 @@ function playerClass() {
 		this.velX *= PLAYER_VEL_X_DECAY;
 		this.velY += GRAVITY;
 
-		
-
 		this.x += this.velX;
 		this.y += this.velY;
 
@@ -96,14 +94,6 @@ function playerClass() {
 
 	}
 
-	this.draw = function() {
-		colorRect(	this.x - PLAYER_WIDTH / 2,
-					this.y - PLAYER_HEIGHT / 2,
-					PLAYER_WIDTH,
-					PLAYER_HEIGHT,
-					'#ad0000');
-	}
-
 
 	this.wallCollisionChecks = function() {
 		
@@ -111,14 +101,14 @@ function playerClass() {
 
 		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
-			this.y = (topEdgeRow * TILE_HEIGHT) + (PLAYER_HEIGHT + (PLAYER_HEIGHT / 2)) + 1;
-			//this.recalculateCollisionEdges();
+			this.y = (topEdgeRow * TILE_HEIGHT) + (PLAYER_HEIGHT + (PLAYER_HEIGHT / 4) - 1);
+			this.recalculateCollisionEdges();
 			this.velY = 0;
 		}
 
 		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) ) {
 			this.y = (Math.floor(this.bottomEdge / TILE_HEIGHT) * TILE_HEIGHT) - (PLAYER_HEIGHT / 2);
-			//this.recalculateCollisionEdges();
+			this.recalculateCollisionEdges();
 			this.velY = 0;
 			this.isGrounded = true;
 
@@ -130,14 +120,14 @@ function playerClass() {
 		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE) ) {
 			var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
 			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2);
-			//this.recalculateCollisionEdges();
+			this.recalculateCollisionEdges();
 			this.velX = 0;
 		}
 
 		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
 			var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
 			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2);
-			//this.recalculateCollisionEdges();
+			this.recalculateCollisionEdges();
 			this.velX = 0;
 		}
 
@@ -150,4 +140,106 @@ function playerClass() {
 		this.bottomEdge = this.y + PLAYER_HEIGHT / 2;
 	}
 
+
+	this.draw = function() {
+		colorRect(	this.x - PLAYER_WIDTH / 2,
+					this.y - PLAYER_HEIGHT / 2,
+					PLAYER_WIDTH,
+					PLAYER_HEIGHT,
+					'#ad0000');
+
+		colorRect(	this.x - 1,
+					this.y - 1,
+					2,
+					2,
+					'white');
+
+		// hit box point
+
+		// top edge center hitbox point
+		colorRect(	this.x - 1,
+					this.topEdge - 1,
+					2,
+					2,
+					'white');
+
+		// top edge left hitbox point
+		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET,
+					this.topEdge - 1,
+					2,
+					2,
+					'white');
+
+		// top edge right hitbox point
+		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_OFFSET,
+					this.topEdge - 1,
+					2,
+					2,
+					'white');
+
+
+		// bottom edge center hitbox point
+		colorRect(	this.x - 1,
+					this.bottomEdge - 1,
+					2,
+					2,
+					'white');
+
+		// bottom edge left hitbox point
+		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET,
+					this.bottomEdge - 1,
+					2,
+					2,
+					'white');
+
+		// bottom edge right hitbox point
+		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_OFFSET,
+					this.bottomEdge - 1 ,
+					2,
+					2,
+					'white');
+
+		// left edge center hitbox point
+		colorRect(	this.leftEdge - 1,
+					this.y - 1,
+					2,
+					2,
+					'white');
+
+		// left edge top hitbox point
+		colorRect(	this.leftEdge - 1,
+					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_OFFSET,
+					2,
+					2,
+					'white');
+
+		// left edge bottom hitbox point
+		colorRect(	this.leftEdge - 1,
+					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_OFFSET,
+					2,
+					2,
+					'white');
+
+		// right edge center hitbox point
+		colorRect(	this.rightEdge - 1,
+					this.y - 1,
+					2,
+					2,
+					'white');
+
+		// right edge top hitbox point
+		colorRect(	this.rightEdge - 1,
+					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_OFFSET,
+					2,
+					2,
+					'white');
+
+		// right edge bottom hitbox point
+		colorRect(	this.rightEdge - 1,
+					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_OFFSET,
+					2,
+					2,
+					'white');
+
+	}
 }
