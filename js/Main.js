@@ -11,8 +11,10 @@ window.onload = function() {
 
 	document.addEventListener('keydown', keyDownHandler);
 	document.addEventListener('keyup', keyUpHandler);
+	canvas.addEventListener('mousemove', mouseMoveHandler);
 
 	setInterval(updateAll, 1000 / FPS);
+	player.reset();
 }
 
 function updateAll() {
@@ -22,10 +24,17 @@ function updateAll() {
 
 function moveAll() {
 	player.move();
+	if (mapEditorEnabled) {
+		placeTilesOnButtonPress();
+	}
 }
 
 function drawAll() {
-	colorRect(0,0, canvas.width,canvas.height, 'grey', 1);
+	colorRect(0,0, canvas.width,canvas.height, '#5e9bff', 1);
 	drawLevel();
 	player.draw();
+
+	if (mapEditorEnabled) {
+		showMapEditorGrid();
+	}
 }

@@ -1,24 +1,24 @@
-const PLAYER_ACCELERATION = 2.5;
+const PLAYER_ACCELERATION = 5;
 const PLAYER_RUN_ACCELERATION = 3.5;
 const PLAYER_MAX_SPEED = 12;
 const PLAYER_RUN_MAX_SPEED = 17;
-const PLAYER_VEL_X_DECAY = 0.7;
+const PLAYER_VEL_X_DECAY = 0.6;
 
-const VARIABLE_JUMP_WINDOW = 8;
-const PLAYER_JUMP_SPEED = 3;
-const PLAYER_JUMP_MAX_SPEED = 12;
+const VARIABLE_JUMP_WINDOW = 6;
+const PLAYER_JUMP_SPEED = 2.3;
+const PLAYER_JUMP_MAX_SPEED = 10.5;
 
 const MAX_Y_VELOCITY = 20;
 const GRAVITY = .9;
 const UPWARDS_GRAVITY = 0.5;
 
-const PLAYER_WIDTH = 32;
-const PLAYER_HEIGHT = 48;
+const PLAYER_WIDTH = 16;
+const PLAYER_HEIGHT = 32;
 
-const PLAYER_HORIZONTAL_RAY_COUNT = 6;
-const PLAYER_VERTICAL_RAY_COUNT = 6;
-const PLAYER_RAY_OFFSET = 6;
+const PLAYER_RAY_X_OFFSET = 4;
+const PLAYER_RAY_Y_OFFSET = 6;
 
+// to tell isObstacleAtPixel and isTriggerAtPixel which edge is colliding
 const TOP_EDGE = 1;
 const BOTTOM_EDGE = 2;
 const LEFT_EDGE = 3;
@@ -31,8 +31,8 @@ const RIGHT_DIRECTION = 2;
 function playerClass() {
 	// TODO: Remove hardcoded values
 	// PlayerX/Y are in the center of the rect
-	this.x = CANVAS_WIDTH / 2; 
-	this.y = CANVAS_HEIGHT / 2;
+	this.x; 
+	this.y;
 	this.velX = 0;
 	this.velY = 0;
 	this.direction;
@@ -44,33 +44,42 @@ function playerClass() {
 	this.bottomEdge;
 
 	this.isGrounded = true;
-
-	
-
 	this.variableJumpCounter = 0;
+
+	this.insideTrigger = false;
+	this.triggerType;
+	this.triggerIndex;
+	this.triggerX;
+	this.triggerY;
+
+	this.reset = function() {
+		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
+			for (var eachCol = 0; eachCol < LEVEL_COLS; eachCol++) {
+				var index = colRowToArrayIndex(eachCol, eachRow);
+
+				if (levelGrid[index] == PLAYER_START) {
+					var startX = (eachCol * TILE_WIDTH)  + TILE_WIDTH / 2;
+					var startY = (eachRow * TILE_HEIGHT) + TILE_HEIGHT / 2;
+
+					this.x = startX;
+					this.y = startY;
+				}
+
+			}
+		}
+	}
 
 	this.move = function() {
 		
 		if (keyHeld_Left &&
-			keyHeld_Run &&
-			Math.abs(this.velX - PLAYER_RUN_ACCELERATION) <= PLAYER_RUN_MAX_SPEED) {
-
-			this.velX -= PLAYER_RUN_ACCELERATION;
-
-		} else if (keyHeld_Left &&
-		           Math.abs(this.velX - PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
+		    Math.abs(this.velX - PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
 			
 			this.velX -= PLAYER_ACCELERATION;
 		}
 
 		if (keyHeld_Right &&
-			keyHeld_Run &&
-			Math.abs(this.velX + PLAYER_RUN_ACCELERATION) <= PLAYER_RUN_MAX_SPEED) {
+		    Math.abs(this.velX + PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
 
-			this.velX += PLAYER_RUN_ACCELERATION;
-
-		} else if (keyHeld_Right &&
-		           Math.abs(this.velX + PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
 			this.velX += PLAYER_ACCELERATION;
 		}
 
@@ -111,6 +120,10 @@ function playerClass() {
 		this.wallCollisionChecks();
 		this.triggerCollisionChecks();
 
+		if (this.insideTrigger) {
+			this.insideTriggerCheck();
+		}
+
 		if (this.isGrounded) {
 			// reset double jump, variable jump height, etc
 			this.variableJumpCounter = 0;
@@ -125,7 +138,7 @@ function playerClass() {
 
 		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
-			this.y = (topEdgeRow * TILE_HEIGHT) + (PLAYER_HEIGHT + (PLAYER_HEIGHT / 4) - 1);
+			this.y = (topEdgeRow * TILE_HEIGHT) + TILE_HEIGHT + PLAYER_HEIGHT/2;
 			this.recalculateCollisionEdges();
 			this.velY = 0;
 		}
@@ -160,26 +173,15 @@ function playerClass() {
 	this.triggerCollisionChecks = function() {
 		this.recalculateCollisionEdges();
 
-		var whichTrigger = null;
 
-		if (isTriggerAtPixel(this.x, this.topEdge, TOP_EDGE) != null) {
-			whichTrigger = isTriggerAtPixel(this.x, this.topEdge, TOP_EDGE);
-		}
-
-		if (isTriggerAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) != null) {
-			whichTrigger = isTriggerAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE);
-		}
-
-		if (isTriggerAtPixel(this.leftEdge, this.y, LEFT_EDGE) != null) {
-			whichTrigger = isTriggerAtPixel(this.leftEdge, this.y, LEFT_EDGE);
-		}
-
-		if (isTriggerAtPixel(this.rightEdge, this.y, RIGHT_EDGE) != null) {
-			whichTrigger = isTriggerAtPixel(this.rightEdge, this.y, RIGHT_EDGE);
-		}
-
-		if (whichTrigger == LEVEL_SPIKES) {
-			this.killPlayer();
+		if (isTriggerAtPixel(this.x, this.topEdge, TOP_EDGE)) {
+			this.insideTrigger = true;
+		} else if (isTriggerAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE)) {
+			this.insideTrigger = true;
+		} else if (isTriggerAtPixel(this.leftEdge, this.y, LEFT_EDGE)) {
+			this.insideTrigger = true;
+		} else if (isTriggerAtPixel(this.rightEdge, this.y, RIGHT_EDGE)) {
+			this.insideTrigger = true;
 		}
 
 	}
@@ -195,6 +197,34 @@ function playerClass() {
 		console.log('you have died');
 	} 
 
+	this.insideTriggerCheck = function() {
+
+		if (this.distFrom(this.triggerX, this.triggerY) > PLAYER_WIDTH + 8) {
+			this.insideTrigger = false;
+			if (this.triggerType == LEVEL_SPIKE_TRIGGER) {
+				levelGrid[this.triggerIndex] = LEVEL_SPIKES;
+			}
+
+			this.triggerType;
+			this.triggerIndex;
+			this.triggerX;
+			this.triggerY;
+		}
+
+		if (this.triggerType == LEVEL_SPIKES) {
+			this.killPlayer();
+			this.insideTrigger = false;
+		}
+
+
+	}
+
+	this.distFrom = function(otherX, otherY) {
+		var deltaX = otherX - this.x;
+		var deltaY = otherY - this.y;
+
+		return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+	}
 
 	this.draw = function() {
 		colorRect(	this.x - PLAYER_WIDTH / 2,
@@ -219,14 +249,14 @@ function playerClass() {
 					'white');
 
 		// top edge left hitbox point
-		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET,
+		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_X_OFFSET,
 					this.topEdge - 1,
 					2,
 					2,
 					'white');
 
 		// top edge right hitbox point
-		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_OFFSET,
+		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_X_OFFSET,
 					this.topEdge - 1,
 					2,
 					2,
@@ -241,14 +271,14 @@ function playerClass() {
 					'white');
 
 		// bottom edge left hitbox point
-		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_OFFSET,
+		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_X_OFFSET,
 					this.bottomEdge - 1,
 					2,
 					2,
 					'white');
 
 		// bottom edge right hitbox point
-		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_OFFSET,
+		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_X_OFFSET,
 					this.bottomEdge - 1 ,
 					2,
 					2,
@@ -263,14 +293,14 @@ function playerClass() {
 
 		// left edge top hitbox point
 		colorRect(	this.leftEdge - 1,
-					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_OFFSET,
+					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_Y_OFFSET,
 					2,
 					2,
 					'white');
 
 		// left edge bottom hitbox point
 		colorRect(	this.leftEdge - 1,
-					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_OFFSET,
+					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_Y_OFFSET,
 					2,
 					2,
 					'white');
@@ -284,14 +314,14 @@ function playerClass() {
 
 		// right edge top hitbox point
 		colorRect(	this.rightEdge - 1,
-					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_OFFSET,
+					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_Y_OFFSET,
 					2,
 					2,
 					'white');
 
 		// right edge bottom hitbox point
 		colorRect(	this.rightEdge - 1,
-					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_OFFSET,
+					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_Y_OFFSET,
 					2,
 					2,
 					'white');
