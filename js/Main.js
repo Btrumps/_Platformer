@@ -13,6 +13,8 @@ window.onload = function() {
 	document.addEventListener('keyup', keyUpHandler);
 	canvas.addEventListener('mousemove', mouseMoveHandler);
 
+	canvasContext.imageSmoothEnabled = false;
+
 	setInterval(updateAll, 1000 / FPS);
 	player.reset();
 }

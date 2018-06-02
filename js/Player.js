@@ -8,15 +8,17 @@ const VARIABLE_JUMP_WINDOW = 6;
 const PLAYER_JUMP_SPEED = 2.3;
 const PLAYER_JUMP_MAX_SPEED = 10.5;
 
-const MAX_Y_VELOCITY = 20;
+const MAX_Y_VELOCITY = 15;
 const GRAVITY = .9;
 const UPWARDS_GRAVITY = 0.5;
 
 const PLAYER_WIDTH = 16;
 const PLAYER_HEIGHT = 32;
 
-const PLAYER_RAY_X_OFFSET = 4;
-const PLAYER_RAY_Y_OFFSET = 6;
+const PLAYER_HITBOX_X_OFFSET = 6;
+const PLAYER_HITBOX_Y_OFFSET = 8;
+const PLAYER_HITBOX_INNER_X_OFFSET = 2;
+const PLAYER_HITBOX_INNER_Y_OFFSET = 2;
 
 // to tell isObstacleAtPixel and isTriggerAtPixel which edge is colliding
 const TOP_EDGE = 1;
@@ -89,6 +91,8 @@ function playerClass() {
 		    Math.abs(this.velY - PLAYER_JUMP_SPEED) <= PLAYER_JUMP_MAX_SPEED &&
 			this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 
+			console.log(this.variableJumpCounter);
+
 			this.velY -= PLAYER_JUMP_SPEED;
 		}
 
@@ -136,17 +140,19 @@ function playerClass() {
 		
 		this.recalculateCollisionEdges();
 
-		if (this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) {
+		if (this.isGrounded == false && ( this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
-			this.y = (topEdgeRow * TILE_HEIGHT) + TILE_HEIGHT + PLAYER_HEIGHT/2;
-			this.recalculateCollisionEdges();
 			this.velY = 0;
+			this.y = (topEdgeRow * TILE_HEIGHT) + TILE_HEIGHT + PLAYER_HEIGHT / 2 - PLAYER_HITBOX_INNER_Y_OFFSET;
+			this.recalculateCollisionEdges();
+			
 		}
 
 		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) ) {
-			this.y = (Math.floor(this.bottomEdge / TILE_HEIGHT) * TILE_HEIGHT) - (PLAYER_HEIGHT / 2);
-			this.recalculateCollisionEdges();
+			var bottomEdgeRow = Math.floor(this.bottomEdge / TILE_HEIGHT);
 			this.velY = 0;
+			this.y = (bottomEdgeRow * TILE_HEIGHT) - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_INNER_Y_OFFSET;
+			this.recalculateCollisionEdges();
 			this.isGrounded = true;
 
 		} else if (isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false)  {
@@ -156,16 +162,18 @@ function playerClass() {
 
 		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE) ) {
 			var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
-			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2);
-			this.recalculateCollisionEdges();
 			this.velX = 0;
+			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET;
+			this.recalculateCollisionEdges();
+			
 		}
 
 		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
 			var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
-			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2);
-			this.recalculateCollisionEdges();
 			this.velX = 0;
+			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
+			this.recalculateCollisionEdges();
+			
 		}
 
 	}
@@ -187,10 +195,10 @@ function playerClass() {
 	}
 
 	this.recalculateCollisionEdges = function() {
-		this.leftEdge = this.x - PLAYER_WIDTH / 2;
-		this.rightEdge = this.x + PLAYER_WIDTH / 2;
-		this.topEdge = this.y - PLAYER_HEIGHT / 2;
-		this.bottomEdge = this.y + PLAYER_HEIGHT / 2;
+		this.topEdge = this.y - PLAYER_HEIGHT / 2 + PLAYER_HITBOX_INNER_X_OFFSET;
+		this.bottomEdge = this.y + PLAYER_HEIGHT / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
+		this.leftEdge = this.x - PLAYER_WIDTH / 2 + PLAYER_HITBOX_INNER_X_OFFSET;
+		this.rightEdge = this.x + PLAYER_WIDTH / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
 	}
 
 	this.killPlayer = function() {
@@ -199,7 +207,7 @@ function playerClass() {
 
 	this.insideTriggerCheck = function() {
 
-		if (this.distFrom(this.triggerX, this.triggerY) > PLAYER_WIDTH + 8) {
+		if (this.distFrom(this.triggerX, this.triggerY) > PLAYER_WIDTH + 10) {
 			this.insideTrigger = false;
 			if (this.triggerType == LEVEL_SPIKE_TRIGGER) {
 				levelGrid[this.triggerIndex] = LEVEL_SPIKES;
@@ -249,14 +257,14 @@ function playerClass() {
 					'white');
 
 		// top edge left hitbox point
-		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_X_OFFSET,
+		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
 					this.topEdge - 1,
 					2,
 					2,
 					'white');
 
 		// top edge right hitbox point
-		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_X_OFFSET,
+		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
 					this.topEdge - 1,
 					2,
 					2,
@@ -271,14 +279,14 @@ function playerClass() {
 					'white');
 
 		// bottom edge left hitbox point
-		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_RAY_X_OFFSET,
+		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
 					this.bottomEdge - 1,
 					2,
 					2,
 					'white');
 
 		// bottom edge right hitbox point
-		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_RAY_X_OFFSET,
+		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
 					this.bottomEdge - 1 ,
 					2,
 					2,
@@ -293,14 +301,14 @@ function playerClass() {
 
 		// left edge top hitbox point
 		colorRect(	this.leftEdge - 1,
-					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_Y_OFFSET,
+					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
 					2,
 					2,
 					'white');
 
 		// left edge bottom hitbox point
 		colorRect(	this.leftEdge - 1,
-					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_Y_OFFSET,
+					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
 					2,
 					2,
 					'white');
@@ -314,14 +322,14 @@ function playerClass() {
 
 		// right edge top hitbox point
 		colorRect(	this.rightEdge - 1,
-					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_RAY_Y_OFFSET,
+					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
 					2,
 					2,
 					'white');
 
 		// right edge bottom hitbox point
 		colorRect(	this.rightEdge - 1,
-					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_RAY_Y_OFFSET,
+					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
 					2,
 					2,
 					'white');
