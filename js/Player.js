@@ -54,12 +54,14 @@ function playerClass() {
 	this.triggerX;
 	this.triggerY;
 
+	this.collectiblesObtained = 0;
+
 	this.reset = function() {
 		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
 			for (var eachCol = 0; eachCol < LEVEL_COLS; eachCol++) {
 				var index = colRowToArrayIndex(eachCol, eachRow);
 
-				if (levelGrid[index] == PLAYER_START) {
+				if (levelGrid[index] == LEVEL_START) {
 					var startX = (eachCol * TILE_WIDTH)  + TILE_WIDTH / 2;
 					var startY = (eachRow * TILE_HEIGHT) + TILE_HEIGHT / 2;
 
@@ -222,6 +224,29 @@ function playerClass() {
 			this.insideTrigger = false;
 		}
 
+		if (this.triggerType == LEVEL_ENTER_PORTAL_1) {
+			for (var i = 0; i < allTriggersArray.length; i ++) {
+				if (allTriggersArray[i].type == LEVEL_EXIT_PORTAL_1) {
+					this.x = allTriggersArray[i].centeredX;
+					this.y = allTriggersArray[i].centeredY;
+					this.insideTrigger = false;
+				}
+			}
+		}
+
+		if (this.triggerType == LEVEL_COLLECTIBLE) {
+			this.collectiblesObtained++;
+			levelGrid[this.triggerIndex] = 0;
+			this.insideTrigger = false;
+
+		}
+
+		if (this.triggerType == LEVEL_END) {
+			this.insideTrigger = false;
+			loadLevel(level1, level1BG);
+			this.reset();
+		}	
+
 
 	}
 
@@ -239,98 +264,103 @@ function playerClass() {
 					PLAYER_HEIGHT,
 					'blue');
 
-		colorRect(	this.x - 1,
-					this.y - 1,
-					2,
-					2,
-					'white');
+		if (showHitbox) {
+			// this x and y point
+			colorRect(	this.x - 1,
+						this.y - 1,
+						2,
+						2,
+						'white');
 
-		// hit box point
-
-		// top edge center hitbox point
-		colorRect(	this.x - 1,
-					this.topEdge - 1,
-					2,
-					2,
-					'white');
-
-		// top edge left hitbox point
-		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
-					this.topEdge - 1,
-					2,
-					2,
-					'white');
-
-		// top edge right hitbox point
-		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
-					this.topEdge - 1,
-					2,
-					2,
-					'white');
+			// hit box point
 
 
-		// bottom edge center hitbox point
-		colorRect(	this.x - 1,
-					this.bottomEdge - 1,
-					2,
-					2,
-					'white');
+		
+			// top edge center hitbox point
+			colorRect(	this.x - 1,
+						this.topEdge - 1,
+						2,
+						2,
+						'white');
 
-		// bottom edge left hitbox point
-		colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
-					this.bottomEdge - 1,
-					2,
-					2,
-					'white');
+			// top edge left hitbox point
+			colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
+						this.topEdge - 1,
+						2,
+						2,
+						'white');
 
-		// bottom edge right hitbox point
-		colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
-					this.bottomEdge - 1 ,
-					2,
-					2,
-					'white');
+			// top edge right hitbox point
+			colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
+						this.topEdge - 1,
+						2,
+						2,
+						'white');
 
-		// left edge center hitbox point
-		colorRect(	this.leftEdge - 1,
-					this.y - 1,
-					2,
-					2,
-					'white');
 
-		// left edge top hitbox point
-		colorRect(	this.leftEdge - 1,
-					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
-					2,
-					2,
-					'white');
+			// bottom edge center hitbox point
+			colorRect(	this.x - 1,
+						this.bottomEdge - 1,
+						2,
+						2,
+						'white');
 
-		// left edge bottom hitbox point
-		colorRect(	this.leftEdge - 1,
-					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
-					2,
-					2,
-					'white');
+			// bottom edge left hitbox point
+			colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
+						this.bottomEdge - 1,
+						2,
+						2,
+						'white');
 
-		// right edge center hitbox point
-		colorRect(	this.rightEdge - 1,
-					this.y - 1,
-					2,
-					2,
-					'white');
+			// bottom edge right hitbox point
+			colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
+						this.bottomEdge - 1 ,
+						2,
+						2,
+						'white');
 
-		// right edge top hitbox point
-		colorRect(	this.rightEdge - 1,
-					this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
-					2,
-					2,
-					'white');
+			// left edge center hitbox point
+			colorRect(	this.leftEdge - 1,
+						this.y - 1,
+						2,
+						2,
+						'white');
 
-		// right edge bottom hitbox point
-		colorRect(	this.rightEdge - 1,
-					this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
-					2,
-					2,
-					'white');
+			// left edge top hitbox point
+			colorRect(	this.leftEdge - 1,
+						this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
+						2,
+						2,
+						'white');
+
+			// left edge bottom hitbox point
+			colorRect(	this.leftEdge - 1,
+						this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
+						2,
+						2,
+						'white');
+
+			// right edge center hitbox point
+			colorRect(	this.rightEdge - 1,
+						this.y - 1,
+						2,
+						2,
+						'white');
+
+			// right edge top hitbox point
+			colorRect(	this.rightEdge - 1,
+						this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
+						2,
+						2,
+						'white');
+
+			// right edge bottom hitbox point
+			colorRect(	this.rightEdge - 1,
+						this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
+						2,
+						2,
+						'white');
+		}
 
 	}
 }

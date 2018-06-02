@@ -1,3 +1,4 @@
+var showHitbox = false;
 
 function isObstacleAtPixel(x, y, whichEdge) {
 	var hitboxArray = [];

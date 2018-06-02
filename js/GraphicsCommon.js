@@ -13,3 +13,8 @@ function coloredOutlineRectCornerToCorner (corner1X, corner1Y, corner2X, corner2
 	canvasContext.rect(corner1X, corner1Y, corner2X-corner1X, corner2Y-corner1Y);
 	canvasContext.stroke();
 }
+
+function colorText (showWords, textX, textY, fillColor) {
+	canvasContext.fillStyle = fillColor;
+	canvasContext.fillText(showWords, textX, textY);
+}
