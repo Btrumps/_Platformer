@@ -87,6 +87,12 @@ function setValuesForKey(evt, value) {
 		case "Digit3" :
 			keyHeld_3 = value;
 			break;
+		case "Digit4" :
+			keyHeld_4 = value;
+			break;
+		case "Digit5" :
+			keyHeld_5 = value;
+			break;
 		case "KeyT" :
 			keyHeld_T = value;
 			break;

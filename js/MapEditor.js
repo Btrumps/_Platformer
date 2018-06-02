@@ -17,6 +17,14 @@ function placeTilesOnButtonPress() {
 		levelGrid[mouseIndex] = LEVEL_SPIKE_TRIGGER;
 	}
 
+	if (keyHeld_4) {
+		levelGrid[mouseIndex] = LEVEL_ENTER_PORTAL_1;
+	}
+
+	if (keyHeld_5) {
+		levelGrid[mouseIndex] = LEVEL_EXIT_PORTAL_1;
+	}
+
 	if (keyHeld_Minus) {
 		levelGrid[mouseIndex] = PLAYER_START;
 	}

@@ -91,8 +91,6 @@ function playerClass() {
 		    Math.abs(this.velY - PLAYER_JUMP_SPEED) <= PLAYER_JUMP_MAX_SPEED &&
 			this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 
-			console.log(this.variableJumpCounter);
-
 			this.velY -= PLAYER_JUMP_SPEED;
 		}
 
