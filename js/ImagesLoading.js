@@ -47,7 +47,7 @@ function loadImages() {
 		{levelType: LEVEL_SPIKE_S, theFile: "./images/spike_S.png"},
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/spike_W.png"},
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/spike_E.png"},
-		{levelType: LEVEL_SPIKE_TRIGGER, theFile: "./images/level_spike_trigger.png"},
+		{levelType: LEVEL_SPIKE_TRIGGER, theFile: "./images/spike_trigger.png"},
 		/*
 		{bgType: BG_BRICK_1, theFile: "./images/bg_brick_1.png"},
 		{bgType: BG_BRICK_2, theFile: "./images/bg_brick_2.png"},
