@@ -43,8 +43,8 @@ function moveAll() {
 }
 
 function drawAll() {
-	colorRect(0,0, canvas.width,canvas.height, '#5e9bff', 1);
-	drawBG();
+	colorRect(0,0, canvas.width,canvas.height, 'black', 1);
+	// drawBG();
 	drawLevel();
 	player.draw();
 
@@ -54,6 +54,6 @@ function drawAll() {
 }
 
 function startScreenWithLoadingImagesText() {
-	colorRect(0,0, canvas.width,canvas.height, '#5e9bff');
+	colorRect(0,0, canvas.width,canvas.height, 'black');
 	colorText("LOADING IMAGES", (canvas.width/2) - 50, canvas.height/2, 'black');
 }

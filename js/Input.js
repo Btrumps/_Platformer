@@ -20,6 +20,21 @@ var keyHeld_7 = false;
 var keyHeld_8 = false;
 var keyHeld_9 = false;
 var keyHeld_0 = false;
+var keyHeld_Num1 = false;
+var keyHeld_Num2 = false;
+var keyHeld_Num3 = false;
+var keyHeld_Num4 = false;
+var keyHeld_Num5 = false;
+var keyHeld_Num6 = false;
+var keyHeld_Num7 = false;
+var keyHeld_Num8 = false;
+var keyHeld_Num9 = false;
+var keyHeld_Num0 = false;
+var keyHeld_Divide = false;
+var keyHeld_Multiply = false;
+var keyHeld_Subtract = false;
+var keyHeld_Add = false;
+var keyHeld_Decimal = false;
 
 var keyHeld_C = false;
 var keyHeld_V = false;
@@ -144,6 +159,52 @@ function setValuesForKey(evt, value) {
 			break;
 		case "Digit0" :
 			keyHeld_0 = value;
+			break;
+
+		case "Numpad1" :
+			keyHeld_Num1 = value;
+			break;
+		case "Numpad2" :
+			keyHeld_Num2 = value;
+			break;
+		case "Numpad3" :
+			keyHeld_Num3 = value;
+			break;
+		case "Numpad4" :
+			keyHeld_Num4 = value;
+			break;
+		case "Numpad5" :
+			keyHeld_Num5 = value;
+			break;
+		case "Numpad6" :
+			keyHeld_Num6 = value;
+			break;
+		case "Numpad7" :
+			keyHeld_Num7 = value;
+			break;
+		case "Numpad8" :
+			keyHeld_Num8 = value;
+			break;
+		case "Numpad9" :
+			keyHeld_Num9 = value;
+			break;
+		case "Numpad0" :
+			keyHeld_Num0 = value;
+			break;
+		case "NumpadDivide" :
+			keyHeld_Divide = value;
+			break;
+		case "NumpadMultiply" :
+			keyHeld_Multiply = value;
+			break;
+		case "NumpadSubtract" :
+			keyHeld_Subtract = value;
+			break;
+		case "NumpadAdd" :
+			keyHeld_Add = value;
+			break;
+		case "NumpadDecimal" :
+			keyHeld_Decimal = value;
 			break;
 		case "KeyC" :
 			keyHeld_C = value;

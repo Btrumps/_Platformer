@@ -7,32 +7,80 @@ function placeTilesOnButtonPress() {
 	mouseIndex = colRowToArrayIndex(mouseCol, mouseRow);
 
 	if (bgEnabled == false) {
+		if (keyHeld_Num1) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_SW;
+		}
+
+		if (keyHeld_Num2) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_S;
+		}
+
+		if (keyHeld_Num3) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_SE;
+		}
+
+		if (keyHeld_Num4) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_W;
+		}
+
+		if (keyHeld_Num5) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_BLANK;
+		}
+
+		if (keyHeld_Num6) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_E;
+		}
+
+		if (keyHeld_Num7) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_NW;
+		}
+
+		if (keyHeld_Num8) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_N;
+		}
+
+		if (keyHeld_Num9) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_NE;
+		}
+
+		if (keyHeld_Num0) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_HORIZONTAL_MIDDLE;
+		}
+
+		if (keyHeld_Decimal) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_VERTICAL_MIDDLE;
+		}
+
+		if (keyHeld_Divide) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_W_PILLAR;
+		}
+
+		if (keyHeld_Multiply) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_N_PILLAR;
+		}
+
+		if (keyHeld_Subtract) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_E_PILLAR;
+		}
+
+		if (keyHeld_Add) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_S_PILLAR;
+		}
+
 		if (keyHeld_1) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_LEFT;
+			levelGrid[mouseIndex] = LEVEL_SPIKE_N;
 		}
 
 		if (keyHeld_2) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_RIGHT;
+			levelGrid[mouseIndex] = LEVEL_SPIKE_S;
 		}
 
 		if (keyHeld_3) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_LEFT_DOWN;
+			levelGrid[mouseIndex] = LEVEL_SPIKE_W;
 		}
 
 		if (keyHeld_4) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_RIGHT_DOWN;
-		}
-
-		if (keyHeld_5) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_BOTH;
-		}
-
-		if (keyHeld_6) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_BOTH_DOWN;
-		}
-
-		if (keyHeld_Q) {
-			levelGrid[mouseIndex] = LEVEL_SPIKES;
+			levelGrid[mouseIndex] = LEVEL_SPIKE_E;
 		}
 
 		if (keyHeld_W) {
@@ -111,7 +159,7 @@ function showMapEditorGrid() {
 			var index = colRowToArrayIndex (eachCol, eachRow);
 
 
-			coloredOutlineRectCornerToCorner(topLeftX,topLeftY, bottomRightX, bottomRightY, 'black');
+			coloredOutlineRectCornerToCorner(topLeftX,topLeftY, bottomRightX, bottomRightY, 'white');
 
 		}
 	}

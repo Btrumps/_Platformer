@@ -210,7 +210,7 @@ function playerClass() {
 		if (this.distFrom(this.triggerX, this.triggerY) > PLAYER_WIDTH + 10) {
 			this.insideTrigger = false;
 			if (this.triggerType == LEVEL_SPIKE_TRIGGER) {
-				levelGrid[this.triggerIndex] = LEVEL_SPIKES;
+				levelGrid[this.triggerIndex] = LEVEL_SPIKE_N;
 			}
 
 			this.triggerType;
@@ -219,7 +219,11 @@ function playerClass() {
 			this.triggerY;
 		}
 
-		if (this.triggerType == LEVEL_SPIKES) {
+		if (this.triggerType == LEVEL_SPIKE_N ||
+			this.triggerType == LEVEL_SPIKE_S ||
+			this.triggerType == LEVEL_SPIKE_W ||
+			this.triggerType == LEVEL_SPIKE_E) {
+
 			this.killPlayer();
 			this.insideTrigger = false;
 		}
