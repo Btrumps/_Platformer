@@ -13,7 +13,7 @@ const GRAVITY = .9;
 const UPWARDS_GRAVITY = 0.5;
 
 const PLAYER_WIDTH = 16;
-const PLAYER_HEIGHT = 32;
+const PLAYER_HEIGHT = 24;
 
 const PLAYER_HITBOX_X_OFFSET = 6;
 const PLAYER_HITBOX_Y_OFFSET = 8;
@@ -29,6 +29,9 @@ const RIGHT_EDGE = 4;
 const LEFT_DIRECTION = 1;
 const RIGHT_DIRECTION = 2;
 
+const PLAYER_STATE_IDLE = 1;
+const PLAYER_STATE_RUNNING = 2;
+const PLAYER_STATE_JUMPING = 3;
 
 function playerClass() {
 	// TODO: Remove hardcoded values
@@ -38,6 +41,7 @@ function playerClass() {
 	this.velX = 0;
 	this.velY = 0;
 	this.direction;
+	this.currentMoveState;
 
 	// Colliders
 	this.leftEdge;
@@ -106,6 +110,14 @@ function playerClass() {
 			if ( this.velY > MAX_Y_VELOCITY) {
 				this.velY = MAX_Y_VELOCITY;
 			}
+		}
+
+		if (this.velX == 0 && this.velY == 0) {
+			this.currentMoveState = PLAYER_STATE_IDLE;
+		} else if (this.velY == 0) {
+			this.currentMoveState = PLAYER_STATE_RUNNING;
+		} else if (Math.abs(this.velY > 0)) {
+			this.currentMoveState = PLAYER_STATE_JUMPING;
 		}
 
 		this.velX *= PLAYER_VEL_X_DECAY;
@@ -262,11 +274,32 @@ function playerClass() {
 	}
 
 	this.draw = function() {
+		/*
 		colorRect(	this.x - PLAYER_WIDTH / 2,
 					this.y - PLAYER_HEIGHT / 2,
 					PLAYER_WIDTH,
 					PLAYER_HEIGHT,
 					'blue');
+		*/
+
+		if (this.direction == LEFT_DIRECTION) {
+			if (this.currentMoveState == PLATER_STATE_IDLE) {
+				playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLATER_STATE_RUNNING) {
+				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLATER_STATE_JUMPING) {
+				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			}
+
+		} else {
+			if (this.currentMoveState == PLATER_STATE_IDLE) {
+				playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLATER_STATE_RUNNING) {
+				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLATER_STATE_JUMPING) {
+				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			}
+		}
 
 		if (showHitbox) {
 			// this x and y point

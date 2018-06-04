@@ -17,6 +17,7 @@ window.onload = function() {
 
 	startScreenWithLoadingImagesText();
 	loadImages();
+	setupSpriteSheets();
 	
 }
 
@@ -43,6 +44,7 @@ function moveAll() {
 }
 
 function drawAll() {
+	updateAnimations();
 	colorRect(0,0, canvas.width,canvas.height, 'black', 1);
 	// drawBG();
 	drawLevel();
