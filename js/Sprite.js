@@ -55,6 +55,9 @@ function updateAnimations() {
   playerRunRightAnim.update();
   playerJumpLeftAnim.update();
   playerJumpRightAnim.update();
+  enterPortalAnim.update();
+  exitPortalAnim.update();
+  collectibleAnim.update();
 }
 
 function setupSpriteSheets() {
@@ -116,6 +119,36 @@ function setupSpriteSheets() {
       loop: true,
       numberOfFrames: 3,
       ticksPerFrame: 16,
+    });
+
+    enterPortalAnim = sprite({         //WORKER
+      context: canvasContext,
+      width: 128,
+      height: 32,
+      image: enterPortal,
+      loop: true,
+      numberOfFrames: 4,
+      ticksPerFrame: 10,
+    });
+
+    exitPortalAnim = sprite({         //WORKER
+      context: canvasContext,
+      width: 128,
+      height: 32,
+      image: exitPortal,
+      loop: true,
+      numberOfFrames: 4,
+      ticksPerFrame: 10,
+    });
+
+    collectibleAnim = sprite({         //WORKER
+      context: canvasContext,
+      width: 64,
+      height: 16,
+      image: collectibleImg,
+      loop: true,
+      numberOfFrames: 4,
+      ticksPerFrame: 8,
     });
 
 }

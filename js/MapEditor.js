@@ -1,4 +1,5 @@
 var mapEditorEnabled = false;
+var gridEnabled = false;
 var bgEnabled = false;
 
 function placeTilesOnButtonPress() {
@@ -149,19 +150,21 @@ function outputLevelToConsole() {
 }
 
 function showMapEditorGrid() {
+	if (gridEnabled) {
+		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
+			for (var eachCol = 0; eachCol < LEVEL_COLS; eachCol++) {
+				var topLeftX = eachCol * TILE_WIDTH;
+				var topLeftY = eachRow * TILE_HEIGHT;
+				var bottomRightX = topLeftX + TILE_WIDTH;
+				var bottomRightY = topLeftY + TILE_HEIGHT;
+				var index = colRowToArrayIndex (eachCol, eachRow);
 
-	for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
-		for (var eachCol = 0; eachCol < LEVEL_COLS; eachCol++) {
-			var topLeftX = eachCol * TILE_WIDTH;
-			var topLeftY = eachRow * TILE_HEIGHT;
-			var bottomRightX = topLeftX + TILE_WIDTH;
-			var bottomRightY = topLeftY + TILE_HEIGHT;
-			var index = colRowToArrayIndex (eachCol, eachRow);
 
+				coloredOutlineRectCornerToCorner(topLeftX,topLeftY, bottomRightX, bottomRightY, 'white');
 
-			coloredOutlineRectCornerToCorner(topLeftX,topLeftY, bottomRightX, bottomRightY, 'white');
-
+			}
 		}
 	}
+	
 
 }

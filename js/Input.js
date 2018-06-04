@@ -10,6 +10,7 @@ var keyHeld_E = false;
 var keyHeld_R = false;
 var keyHeld_T = false;
 var keyHeld_Y = false;
+var keyHeld_G = false;
 var keyHeld_1 = false;
 var keyHeld_2 = false;
 var keyHeld_3 = false;
@@ -100,6 +101,19 @@ function setValuesForKey(evt, value) {
 					console.log('BG Enabled');
 				} else {
 					console.log('BG Disabled');
+				}
+
+			}
+			break;
+		case "KeyG" :
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				gridEnabled = !gridEnabled;
+
+				if (mapEditorEnabled) {
+					console.log('Grid Enabled');
+				} else {
+					console.log('Grid Disabled');
 				}
 
 			}

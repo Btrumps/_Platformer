@@ -1,7 +1,5 @@
 const PLAYER_ACCELERATION = 5;
-const PLAYER_RUN_ACCELERATION = 3.5;
-const PLAYER_MAX_SPEED = 12;
-const PLAYER_RUN_MAX_SPEED = 17;
+const PLAYER_MAX_SPEED = 11;
 const PLAYER_VEL_X_DECAY = 0.6;
 
 const VARIABLE_JUMP_WINDOW = 6;
@@ -260,6 +258,7 @@ function playerClass() {
 				if (allTriggersArray[i].type == LEVEL_EXIT_PORTAL_1) {
 					this.x = allTriggersArray[i].centeredX;
 					this.y = allTriggersArray[i].centeredY;
+					this.velX *= -1; // reverses the direction we went into the portal
 					this.insideTrigger = false;
 				}
 			}
