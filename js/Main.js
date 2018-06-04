@@ -13,7 +13,7 @@ window.onload = function() {
 	document.addEventListener('keyup', keyUpHandler);
 	canvas.addEventListener('mousemove', mouseMoveHandler);
 
-	canvasContext.imageSmoothEnabled = false;
+	canvasContext.imageSmoothingEnabled = false;
 
 	startScreenWithLoadingImagesText();
 	loadImages();

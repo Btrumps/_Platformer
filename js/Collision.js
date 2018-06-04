@@ -7,17 +7,17 @@ function isObstacleAtPixel(x, y, whichEdge) {
 		var startX = x - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET;
 		var endX = x + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET;
 
-		hitboxArray.push(startX);
+		//hitboxArray.push(startX);
 		hitboxArray.push(x);
-		hitboxArray.push(endX);
+		//hitboxArray.push(endX);
 
 	} else if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {
 		var startY = y - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET;
 		var endY = y + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET;
 
-		hitboxArray.push(startY);
+		//hitboxArray.push(startY);
 		hitboxArray.push(y);
-		hitboxArray.push(endY);
+		//hitboxArray.push(endY);
 	}
 
 	for (var i = 0; i < obstacleTileArray.length; i++) {

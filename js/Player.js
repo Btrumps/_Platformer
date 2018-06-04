@@ -12,11 +12,12 @@ const MAX_Y_VELOCITY = 15;
 const GRAVITY = .9;
 const UPWARDS_GRAVITY = 0.5;
 
-const PLAYER_WIDTH = 16;
-const PLAYER_HEIGHT = 24;
+const PLAYER_WIDTH = 14;
+const PLAYER_HEIGHT = 22;
+const PLAYER_ANIM_Y_OFFSET = 0;
 
-const PLAYER_HITBOX_X_OFFSET = 6;
-const PLAYER_HITBOX_Y_OFFSET = 8;
+const PLAYER_HITBOX_X_OFFSET = 8;
+const PLAYER_HITBOX_Y_OFFSET = 10;
 const PLAYER_HITBOX_INNER_X_OFFSET = 2;
 const PLAYER_HITBOX_INNER_Y_OFFSET = 2;
 
@@ -38,6 +39,8 @@ function playerClass() {
 	// PlayerX/Y are in the center of the rect
 	this.x; 
 	this.y;
+	this.hitboxOffsetX;
+	this.hitboxOffsetY;
 	this.velX = 0;
 	this.velY = 0;
 	this.direction;
@@ -50,6 +53,7 @@ function playerClass() {
 	this.bottomEdge;
 
 	this.isGrounded = true;
+	this.hasResetJumpAnim = false;
 	this.variableJumpCounter = 0;
 
 	this.insideTrigger = false;
@@ -97,6 +101,12 @@ function playerClass() {
 		    Math.abs(this.velY - PLAYER_JUMP_SPEED) <= PLAYER_JUMP_MAX_SPEED &&
 			this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 
+			if (this.hasResetJumpAnim) {
+				playerJumpLeftAnim.reset();
+				playerJumpRightAnim.reset();
+				this.hasResetJumpAnim = false;
+			}
+
 			this.velY -= PLAYER_JUMP_SPEED;
 		}
 
@@ -112,12 +122,12 @@ function playerClass() {
 			}
 		}
 
-		if (this.velX == 0 && this.velY == 0) {
-			this.currentMoveState = PLAYER_STATE_IDLE;
-		} else if (this.velY == 0) {
-			this.currentMoveState = PLAYER_STATE_RUNNING;
-		} else if (Math.abs(this.velY > 0)) {
+		if (this.isGrounded == false) {
 			this.currentMoveState = PLAYER_STATE_JUMPING;
+		} else if (this.isGrounded && Math.abs(this.velX) > .2) {
+			this.currentMoveState = PLAYER_STATE_RUNNING;
+		} else {
+			this.currentMoveState = PLAYER_STATE_IDLE;
 		}
 
 		this.velX *= PLAYER_VEL_X_DECAY;
@@ -143,6 +153,11 @@ function playerClass() {
 		if (this.isGrounded) {
 			// reset double jump, variable jump height, etc
 			this.variableJumpCounter = 0;
+
+			if (this.hasResetJumpAnim == false) {
+			this.hasResetJumpAnim = true;
+			}
+		
 		}
 
 	}
@@ -207,10 +222,10 @@ function playerClass() {
 	}
 
 	this.recalculateCollisionEdges = function() {
-		this.topEdge = this.y - PLAYER_HEIGHT / 2 + PLAYER_HITBOX_INNER_X_OFFSET;
+		this.topEdge = this.y  - PLAYER_HEIGHT / 2 + PLAYER_HITBOX_INNER_X_OFFSET;
 		this.bottomEdge = this.y + PLAYER_HEIGHT / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
 		this.leftEdge = this.x - PLAYER_WIDTH / 2 + PLAYER_HITBOX_INNER_X_OFFSET;
-		this.rightEdge = this.x + PLAYER_WIDTH / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
+		this.rightEdge = this.x+ PLAYER_WIDTH / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
 	}
 
 	this.killPlayer = function() {
@@ -286,22 +301,24 @@ function playerClass() {
 			if (this.currentMoveState == PLAYER_STATE_IDLE) {
 				playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
-				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
 				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			}
 
 		} else {
 			if (this.currentMoveState == PLAYER_STATE_IDLE) {
-				playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2 - 2, this.y - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
-				playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
 				playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			}
 		}
 
 		if (showHitbox) {
+			var colorHere = 'blue';
+
 			// this x and y point
 			colorRect(	this.x - 1,
 						this.y - 1,
@@ -318,21 +335,21 @@ function playerClass() {
 						this.topEdge - 1,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// top edge left hitbox point
 			colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
 						this.topEdge - 1,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// top edge right hitbox point
 			colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
 						this.topEdge - 1,
 						2,
 						2,
-						'white');
+						colorHere);
 
 
 			// bottom edge center hitbox point
@@ -340,63 +357,63 @@ function playerClass() {
 						this.bottomEdge - 1,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// bottom edge left hitbox point
 			colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
 						this.bottomEdge - 1,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// bottom edge right hitbox point
 			colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
 						this.bottomEdge - 1 ,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// left edge center hitbox point
 			colorRect(	this.leftEdge - 1,
 						this.y - 1,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// left edge top hitbox point
 			colorRect(	this.leftEdge - 1,
 						this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// left edge bottom hitbox point
 			colorRect(	this.leftEdge - 1,
 						this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// right edge center hitbox point
 			colorRect(	this.rightEdge - 1,
 						this.y - 1,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// right edge top hitbox point
 			colorRect(	this.rightEdge - 1,
 						this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
 						2,
 						2,
-						'white');
+						colorHere);
 
 			// right edge bottom hitbox point
 			colorRect(	this.rightEdge - 1,
 						this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
 						2,
 						2,
-						'white');
+						colorHere);
 		}
 
 	}

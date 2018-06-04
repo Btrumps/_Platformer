@@ -41,7 +41,7 @@ function loadImages() {
 		{varName: playerRunLeft, theFile: "./images/player/player_runleft_anim.png"},
 		{varName: playerRunRight, theFile: "./images/player/player_runright_anim.png"},
 		{varName: playerJumpLeft, theFile: "./images/player/player_jumpleft_anim.png"},
-		{varName: playerJumpLeft, theFile: "./images/player/player_jumpright_anim.png"},
+		{varName: playerJumpRight, theFile: "./images/player/player_jumpright_anim.png"},
 		{levelType: LEVEL_PLATFORM_N, theFile: "./images/level_tiles/platform_N.png"},
 		{levelType: LEVEL_PLATFORM_S, theFile: "./images/level_tiles/platform_S.png"},
 		{levelType: LEVEL_PLATFORM_W, theFile: "./images/level_tiles/platform_W.png"},

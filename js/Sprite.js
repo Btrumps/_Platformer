@@ -85,7 +85,7 @@ function setupSpriteSheets() {
       image: playerRunLeft,
       loop: true,
       numberOfFrames: 8,
-      ticksPerFrame: 8,
+      ticksPerFrame: 2,
     });
 
     playerRunRightAnim = sprite({         //WORKER
@@ -95,27 +95,27 @@ function setupSpriteSheets() {
       image: playerRunRight,
       loop: true,
       numberOfFrames: 8,
-      ticksPerFrame: 8,
+      ticksPerFrame: 2,
     });
 
     playerJumpLeftAnim = sprite({         //WORKER
       context: canvasContext,
-      width: 64,
+      width: 48,
       height: 24,
       image: playerJumpLeft,
       loop: true,
-      numberOfFrames: 4,
-      ticksPerFrame: 8,
+      numberOfFrames: 3,
+      ticksPerFrame: 16,
     });
 
     playerJumpRightAnim = sprite({         //WORKER
       context: canvasContext,
-      width: 64,
+      width: 48,
       height: 24,
       image: playerJumpRight,
       loop: true,
-      numberOfFrames: 4,
-      ticksPerFrame: 8,
+      numberOfFrames: 3,
+      ticksPerFrame: 16,
     });
 
 }
