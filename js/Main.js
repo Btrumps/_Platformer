@@ -17,8 +17,7 @@ window.onload = function() {
 
 	startScreenWithLoadingImagesText();
 	loadImages();
-	setupSpriteSheets();
-	
+	setupSpriteSheets();	
 }
 
 function imagesDoneLoadingSoStartGame() {

@@ -283,21 +283,21 @@ function playerClass() {
 		*/
 
 		if (this.direction == LEFT_DIRECTION) {
-			if (this.currentMoveState == PLATER_STATE_IDLE) {
+			if (this.currentMoveState == PLAYER_STATE_IDLE) {
 				playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLATER_STATE_RUNNING) {
+			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
 				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLATER_STATE_JUMPING) {
+			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
 				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			}
 
 		} else {
-			if (this.currentMoveState == PLATER_STATE_IDLE) {
-				playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLATER_STATE_RUNNING) {
-				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLATER_STATE_JUMPING) {
-				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			if (this.currentMoveState == PLAYER_STATE_IDLE) {
+				playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
+				playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
+				playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			}
 		}
 
