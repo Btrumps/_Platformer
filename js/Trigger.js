@@ -14,8 +14,11 @@ function triggerClass(col, row, index, whichType) {
 	this.playerInside = false;
 
 	this.move = function() {
-
-		
+		if (this.index == player.currentIndex) {
+			this.playerInside = true;
+		} else {
+			this.playerInside = false;
+		}
 
 	}
 

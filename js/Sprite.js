@@ -58,10 +58,11 @@ function updateAnimations() {
   enterPortalAnim.update();
   exitPortalAnim.update();
   collectibleAnim.update();
+  bouncePadAnim.update();
 }
 
 function setupSpriteSheets() {
-    playerIdleLeftAnim = sprite({         //WORKER
+    playerIdleLeftAnim = sprite({ 
       context: canvasContext,
       width: 192,
       height: 24,
@@ -71,7 +72,7 @@ function setupSpriteSheets() {
       ticksPerFrame: 8,
     });
 
-    playerIdleRightAnim = sprite({         //WORKER
+    playerIdleRightAnim = sprite({ 
       context: canvasContext,
       width: 192,
       height: 24,
@@ -81,7 +82,7 @@ function setupSpriteSheets() {
       ticksPerFrame: 8,
     });
 
-    playerRunLeftAnim = sprite({         //WORKER
+    playerRunLeftAnim = sprite({
       context: canvasContext,
       width: 128,
       height: 24,
@@ -91,7 +92,7 @@ function setupSpriteSheets() {
       ticksPerFrame: 2,
     });
 
-    playerRunRightAnim = sprite({         //WORKER
+    playerRunRightAnim = sprite({
       context: canvasContext,
       width: 128,
       height: 24,
@@ -101,7 +102,7 @@ function setupSpriteSheets() {
       ticksPerFrame: 2,
     });
 
-    playerJumpLeftAnim = sprite({         //WORKER
+    playerJumpLeftAnim = sprite({
       context: canvasContext,
       width: 48,
       height: 24,
@@ -111,7 +112,7 @@ function setupSpriteSheets() {
       ticksPerFrame: 16,
     });
 
-    playerJumpRightAnim = sprite({         //WORKER
+    playerJumpRightAnim = sprite({
       context: canvasContext,
       width: 48,
       height: 24,
@@ -121,27 +122,27 @@ function setupSpriteSheets() {
       ticksPerFrame: 16,
     });
 
-    enterPortalAnim = sprite({         //WORKER
+    enterPortalAnim = sprite({
       context: canvasContext,
       width: 128,
       height: 32,
-      image: enterPortal,
+      image: enterPortalImg,
       loop: true,
       numberOfFrames: 4,
       ticksPerFrame: 10,
     });
 
-    exitPortalAnim = sprite({         //WORKER
+    exitPortalAnim = sprite({
       context: canvasContext,
       width: 128,
       height: 32,
-      image: exitPortal,
+      image: exitPortalImg,
       loop: true,
       numberOfFrames: 4,
       ticksPerFrame: 10,
     });
 
-    collectibleAnim = sprite({         //WORKER
+    collectibleAnim = sprite({
       context: canvasContext,
       width: 64,
       height: 16,
@@ -149,6 +150,16 @@ function setupSpriteSheets() {
       loop: true,
       numberOfFrames: 4,
       ticksPerFrame: 8,
+    });
+
+    bouncePadAnim = sprite({
+      context: canvasContext,
+      width: 128,
+      height: 16,
+      image: bouncePadImg,
+      loop: false,
+      numberOfFrames: 8,
+      ticksPerFrame: 4,
     });
 
 }

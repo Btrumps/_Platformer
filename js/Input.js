@@ -62,8 +62,14 @@ function setValuesForKey(evt, value) {
 		case "ArrowLeft" :
 			keyHeld_Left = value;
 			break;
+		case "KeyA" :
+			keyHeld_Left = value;
+			break;
 
 		case "ArrowRight" :
+			keyHeld_Right = value;
+			break;
+		case "KeyD" :
 			keyHeld_Right = value;
 			break;
 
@@ -71,9 +77,19 @@ function setValuesForKey(evt, value) {
 		case "ArrowUp" :
 			keyHeld_Jump = value;
 			break;
+		case "KeyW" :
+			keyHeld_Jump = value;
+			break;
 
 		case "KeyZ" :
 			keyHeld_Jump = value;
+			break;
+
+		case "KeyR" :
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				player.reset();
+			}
 			break;
 
 

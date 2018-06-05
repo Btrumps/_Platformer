@@ -10,10 +10,11 @@ var playerRunRight = document.createElement("img");
 var playerJumpLeft = document.createElement("img");
 var playerJumpRight = document.createElement("img");
 
-var enterPortal = document.createElement("img");
-var exitPortal = document.createElement("img");
+var enterPortalImg = document.createElement("img");
+var exitPortalImg = document.createElement("img");
 var collectibleImg = document.createElement("img");
-
+var bouncePadImg = document.createElement("img");
+var bouncePadPlaceholder = document.createElement("img");
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
@@ -45,9 +46,10 @@ function loadImages() {
 		{varName: playerRunRight, theFile: "./images/player/player_runright_anim.png"},
 		{varName: playerJumpLeft, theFile: "./images/player/player_jumpleft_anim.png"},
 		{varName: playerJumpRight, theFile: "./images/player/player_jumpright_anim.png"},
-		{varName: enterPortal, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
-		{varName: exitPortal, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
+		{varName: enterPortalImg, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
+		{varName: exitPortalImg, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleImg, theFile: "./images/level_obstacles/collectible_anim.png"},
+		{varName: bouncePadImg, theFile: "./images/level_obstacles/bounce_pad_anim.png"},
 		{levelType: LEVEL_PLATFORM_N, theFile: "./images/level_tiles/platform_N.png"},
 		{levelType: LEVEL_PLATFORM_S, theFile: "./images/level_tiles/platform_S.png"},
 		{levelType: LEVEL_PLATFORM_W, theFile: "./images/level_tiles/platform_W.png"},
@@ -63,6 +65,7 @@ function loadImages() {
 		{levelType: LEVEL_PLATFORM_BLANK, theFile: "./images/level_tiles/platform_blank.png"},
 		{levelType: LEVEL_PLATFORM_VERTICAL_MIDDLE, theFile: "./images/level_tiles/platform_vertical_middle.png"},
 		{levelType: LEVEL_PLATFORM_HORIZONTAL_MIDDLE, theFile: "./images/level_tiles/platform_horizontal_middle.png"},
+		{levelType: LEVEL_BOUNCE_PAD, theFile: "./images/level_obstacles/bounce_pad.png"},
 		{levelType: LEVEL_SPIKE_N, theFile: "./images/level_obstacles/spike_N.png"},
 		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S.png"},
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W.png"},

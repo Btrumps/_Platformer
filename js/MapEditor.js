@@ -84,26 +84,25 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_SPIKE_E;
 		}
 
-		if (keyHeld_W) {
+		if (keyHeld_5) {
 			levelGrid[mouseIndex] = LEVEL_SPIKE_TRIGGER;
 		}
 
-		if (keyHeld_E) {
+		if (keyHeld_6) {
 			levelGrid[mouseIndex] = LEVEL_ENTER_PORTAL_1;
 		}
 
-		if (keyHeld_R) {
+		if (keyHeld_7) {
 			levelGrid[mouseIndex] = LEVEL_EXIT_PORTAL_1;
 		}
 
-		if (keyHeld_T) {
+		if (keyHeld_8) {
 			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE;
 		}
 
-		if (keyHeld_Y) {
-			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE;
-		}		
-	
+		if (keyHeld_9) {
+			levelGrid[mouseIndex] = LEVEL_BOUNCE_PAD;
+		}
 
 		if (keyHeld_Minus) {
 			levelGrid[mouseIndex] = LEVEL_START;

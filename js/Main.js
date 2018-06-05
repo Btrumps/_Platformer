@@ -22,8 +22,7 @@ window.onload = function() {
 
 function imagesDoneLoadingSoStartGame() {
 	setInterval(updateAll, 1000 / FPS);
-	loadLevel(level1, level1BG);
-	player.reset();
+	loadLevel(currentLevel);
 }
 
 function updateAll() {

@@ -1,14 +1,15 @@
-const PLAYER_ACCELERATION = 5;
-const PLAYER_MAX_SPEED = 11;
+const PLAYER_ACCELERATION = 3.4;
+const PLAYER_MAX_SPEED = 10;
 const PLAYER_VEL_X_DECAY = 0.6;
 
 const VARIABLE_JUMP_WINDOW = 6;
-const PLAYER_JUMP_SPEED = 2.3;
-const PLAYER_JUMP_MAX_SPEED = 10.5;
+const PLAYER_JUMP_SPEED = 2;
+const PLAYER_JUMP_MAX_SPEED = 10;
 
 const MAX_Y_VELOCITY = 15;
 const GRAVITY = .9;
-const UPWARDS_GRAVITY = 0.5;
+const HOLDING_BUTTON_GRAVITY = 1.4;
+const FALLING_GRAVITY = 1.7;
 
 const PLAYER_WIDTH = 14;
 const PLAYER_HEIGHT = 22;
@@ -54,6 +55,7 @@ function playerClass() {
 	this.hasResetJumpAnim = false;
 	this.variableJumpCounter = 0;
 
+	this.currentIndex;
 	this.insideTrigger = false;
 	this.triggerType;
 	this.triggerIndex;
@@ -110,8 +112,10 @@ function playerClass() {
 
 
 		// if we are holding jump, we are affected by a different gravity on the upwards part of the jump
-		if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
-			this.velY += UPWARDS_GRAVITY;
+		if (this.velY > 0 && this.velY + FALLING_GRAVITY < MAX_Y_VELOCITY) {
+			this.velY += FALLING_GRAVITY;
+		} else if (this.velY < 0 && keyHeld_Jump == false) {
+			this.velY += HOLDING_BUTTON_GRAVITY;
 		} else {
 			this.velY += GRAVITY;
 
@@ -147,6 +151,8 @@ function playerClass() {
 		if (this.insideTrigger) {
 			this.insideTriggerCheck();
 		}
+
+		this.currentIndex = this.getCurrentPlayerIndex();
 
 		if (this.isGrounded) {
 			// reset double jump, variable jump height, etc
@@ -188,7 +194,7 @@ function playerClass() {
 		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE) ) {
 			var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
 			this.velX = 0;
-			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET;
+			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET + 2;
 			this.recalculateCollisionEdges();
 			
 		}
@@ -227,6 +233,8 @@ function playerClass() {
 	}
 
 	this.killPlayer = function() {
+		loadLevel(currentLevel);
+		player.reset();
 		console.log('you have died');
 	} 
 
@@ -273,11 +281,23 @@ function playerClass() {
 
 		if (this.triggerType == LEVEL_END) {
 			this.insideTrigger = false;
-			loadLevel(level1, level1BG);
-			this.reset();
-		}	
+			currentLevel++;
+			loadLevel(currentLevel);
+		}
+
+		if (this.triggerType == LEVEL_BOUNCE_PAD) {
+			this.velY = -MAX_Y_VELOCITY;
+		}
 
 
+	}
+
+
+	this.getCurrentPlayerIndex = function() {
+		var playerCol = Math.floor(this.x / TILE_WIDTH);
+		var playerRow = Math.floor(this.y / TILE_HEIGHT);
+
+		return colRowToArrayIndex(playerCol, playerRow);
 	}
 
 	this.distFrom = function(otherX, otherY) {
