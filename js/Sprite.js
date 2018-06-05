@@ -33,15 +33,16 @@ function sprite(options) {
     that.render = function(x, y) {
         // clear the canvas
         // context.clearRect(0,0, that.width, that.height);
+        var picWidth = Math.floor(that.width / numberOfFrames);
 
         that.context.drawImage(that.image, // source image
-                               frameIndex * that.width / numberOfFrames, // source x
+                               frameIndex * picWidth, // source x
                                0, // source y
-                               that.width / numberOfFrames, //source width
+                               picWidth, //source width
                                that.height, // source height
-                               x, // destination x
-                               y, // destination y
-                               that.width / numberOfFrames, // destination width
+                               Math.floor(x), // destination x
+                               Math.floor(y), // destination y
+                               picWidth, // destination width
                                that.height); // destination height
     }
 

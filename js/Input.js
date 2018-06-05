@@ -2,6 +2,7 @@ const KEY_HELD_TIME_MAX = 15;
 var keyHeld_Left = false; 
 var keyHeld_Right = false;
 var keyHeld_Jump = false;
+var keyHeld_Jump_Prev = false;
 var keyHeld_Run = false;
 
 var keyHeld_Q = false;

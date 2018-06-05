@@ -53,6 +53,8 @@ function playerClass() {
 	this.topEdge;
 	this.bottomEdge;
 
+	this.framesSinceLeftGround = 0;
+
 	this.isGrounded = true;
 	this.hasResetJumpAnim = false;
 	this.variableJumpCounter = 0;
@@ -86,17 +88,27 @@ function playerClass() {
 	}
 
 	this.move = function() {
+
+		var jumpJustPressed = (keyHeld_Jump_Prev == false && keyHeld_Jump);
+		var jumpJustReleased = (keyHeld_Jump_Prev && keyHeld_Jump == false);
+		keyHeld_Jump_Prev = keyHeld_Jump;
 		
-		if (keyHeld_Left &&
-		    Math.abs(this.velX - PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
+
+
+		if (keyHeld_Left) {
 			
 			this.velX -= PLAYER_ACCELERATION;
 		}
 
-		if (keyHeld_Right &&
-		    Math.abs(this.velX + PLAYER_ACCELERATION) <= PLAYER_MAX_SPEED) {
+		if (keyHeld_Right) {
 
 			this.velX += PLAYER_ACCELERATION;
+		}
+
+		if (this.velX > PLAYER_MAX_SPEED) {
+			this.velX = PLAYER_MAX_SPEED;
+		} else if (Math.abs(this.velX) > PLAYER_MAX_SPEED) {
+			this.velX = -PLAYER_MAX_SPEED;
 		}
 
 		// this.velY < 1 stops the player from jumping while falling down
@@ -111,7 +123,7 @@ function playerClass() {
 				this.hasResetJumpAnim = false;
 			}
 
-			this.velY -= PLAYER_JUMP_SPEED;
+			this.velY = -8;
 		}
 
 
@@ -128,6 +140,8 @@ function playerClass() {
 			}
 		}
 
+
+
 		if (this.isGrounded == false) {
 			this.currentMoveState = PLAYER_STATE_JUMPING;
 		} else if (this.isGrounded && Math.abs(this.velX) > .2) {
@@ -138,7 +152,7 @@ function playerClass() {
 
 		this.velX *= PLAYER_VEL_X_DECAY;
 
-		
+		// dash implement here...
 
 		if (this.velX < 0) {
 			this.direction = LEFT_DIRECTION;
@@ -161,11 +175,13 @@ function playerClass() {
 		if (this.isGrounded) {
 			// reset double jump, variable jump height, etc
 			this.variableJumpCounter = 0;
+			this.framesSinceLeftGround = 0;
 
 			if (this.hasResetJumpAnim == false) {
-			this.hasResetJumpAnim = true;
+				this.hasResetJumpAnim = true;
 			}
-		
+		} else {
+			this.framesSinceLeftGround++;
 		}
 
 	}

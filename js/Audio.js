@@ -1,5 +1,5 @@
 var audioFormat;
-var musicEnabled = true;
+var musicEnabled = false;
 var firstSong;
 
 
@@ -13,7 +13,7 @@ function setFormat() {
 	}
 }
 
-function playBGMMusic() {
+function playBGM() {
 	if (musicEnabled && currentLevel < 3) {
 		firstSong.play();
 	} else {

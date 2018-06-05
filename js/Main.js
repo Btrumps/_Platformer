@@ -41,7 +41,7 @@ function moveAll() {
 		allTriggersArray[i].move();
 	}
 
-	playBGMMusic();
+	playBGM();
 }
 
 function drawAll() {
