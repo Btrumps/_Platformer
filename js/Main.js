@@ -17,6 +17,7 @@ window.onload = function() {
 
 	startScreenWithLoadingImagesText();
 	loadImages();
+	loadSounds();
 	setupSpriteSheets();	
 }
 
@@ -39,6 +40,8 @@ function moveAll() {
 	for (var i = 0; i < allTriggersArray.length; i++) {
 		allTriggersArray[i].move();
 	}
+
+	playBGMMusic();
 }
 
 function drawAll() {

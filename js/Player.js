@@ -33,6 +33,8 @@ const PLAYER_STATE_IDLE = 1;
 const PLAYER_STATE_RUNNING = 2;
 const PLAYER_STATE_JUMPING = 3;
 
+var totalCollectibles = 0;
+
 function playerClass() {
 	// TODO: Remove hardcoded values
 	// PlayerX/Y are in the center of the rect
@@ -62,7 +64,7 @@ function playerClass() {
 	this.triggerX;
 	this.triggerY;
 
-	this.collectiblesObtained = 0;
+	this.collectibleObtained = false;
 
 	this.reset = function() {
 		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
@@ -79,6 +81,8 @@ function playerClass() {
 
 			}
 		}
+
+		collectibleObtained = false;
 	}
 
 	this.move = function() {
@@ -273,7 +277,7 @@ function playerClass() {
 		}
 
 		if (this.triggerType == LEVEL_COLLECTIBLE) {
-			this.collectiblesObtained++;
+			this.collectibleObtained = true;
 			levelGrid[this.triggerIndex] = 0;
 			this.insideTrigger = false;
 
@@ -282,6 +286,9 @@ function playerClass() {
 		if (this.triggerType == LEVEL_END) {
 			this.insideTrigger = false;
 			currentLevel++;
+			if (this.collectibleObtained) {
+				totalCollectibles++;
+			}
 			loadLevel(currentLevel);
 		}
 
