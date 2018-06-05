@@ -23,7 +23,7 @@ window.onload = function() {
 
 function imagesDoneLoadingSoStartGame() {
 	setInterval(updateAll, 1000 / FPS);
-	loadLevel(currentLevel);
+	loadLevel(currentLevel); // should be set to current level to start the first level
 }
 
 function updateAll() {
