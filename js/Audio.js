@@ -1,5 +1,5 @@
 var audioFormat;
-var musicEnabled = false;
+var musicEnabled = true;
 var firstSong;
 
 
@@ -15,6 +15,7 @@ function setFormat() {
 
 function playBGM() {
 	if (musicEnabled && currentLevel < 3) {
+		firstSong.volume = 0.8;
 		firstSong.play();
 	} else {
 		firstSong.pause();
