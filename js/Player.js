@@ -309,7 +309,11 @@ function playerClass() {
 		}
 
 		if (this.triggerType == LEVEL_BOUNCE_PAD) {
-			this.velY = -MAX_Y_VELOCITY;
+			if (this.y < this.triggerY) {
+				this.y = this.triggerY - TILE_HEIGHT;
+				this.velY = -MAX_Y_VELOCITY;
+				this.insideTrigger = false;
+			}
 		}
 
 
