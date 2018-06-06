@@ -1,6 +1,8 @@
 const KEY_HELD_TIME_MAX = 15;
 var keyHeld_Left = false; 
 var keyHeld_Right = false;
+var keyHeld_DashLeft = false; 
+var keyHeld_DashRight = false;
 var keyHeld_Jump = false;
 var keyHeld_Jump_Prev = false;
 var keyHeld_Run = false;
@@ -61,14 +63,14 @@ function setValuesForKey(evt, value) {
 	switch (evt.code) {
 
 		case "ArrowLeft" :
-			keyHeld_Left = value;
+			keyHeld_DashLeft = value;
 			break;
 		case "KeyA" :
 			keyHeld_Left = value;
 			break;
 
 		case "ArrowRight" :
-			keyHeld_Right = value;
+			keyHeld_DashRight = value;
 			break;
 		case "KeyD" :
 			keyHeld_Right = value;

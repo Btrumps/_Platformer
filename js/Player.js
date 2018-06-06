@@ -2,9 +2,11 @@ const PLAYER_ACCELERATION = 3.4;
 const PLAYER_MAX_SPEED = 10;
 const PLAYER_VEL_X_DECAY = 0.6;
 
-const PLAYER_JUMP_SPEED = 2;
+const PLAYER_JUMP_SPEED = 8.5;
 const PLAYER_JUMP_MAX_SPEED = 10;
 const VARIABLE_JUMP_WINDOW = 6;
+const MAX_DASH_FRAMES = 5;
+const GROUNDED_DASH_COOLDOWN = 10;
 
 const MAX_Y_VELOCITY = 15;
 const GRAVITY = .9;
@@ -32,8 +34,8 @@ const RIGHT_DIRECTION = 2;
 const PLAYER_STATE_IDLE = 1;
 const PLAYER_STATE_RUNNING = 2;
 const PLAYER_STATE_JUMPING = 3;
-
-var totalCollectibles = 0;
+const PLAYER_STATE_DASHING = 4;
+const PLAYER_STATE_FALLING = 5;
 
 function playerClass() {
 	// TODO: Remove hardcoded values
@@ -55,6 +57,11 @@ function playerClass() {
 	this.edgeArray = [this.leftEdge, this.rightEdge, this.topEdge, this.bottomEdge];
 
 	this.framesSinceLeftGround = 0;
+
+	this.dashesLeft = 1;
+	this.maxDashLimit = 1;
+	this.dashFrameCounter = 0;
+	this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 
 	this.isGrounded = true;
 	this.hasResetJumpAnim = false;
@@ -97,34 +104,30 @@ function playerClass() {
 
 
 		if (keyHeld_Left) {
-			
 			this.velX -= PLAYER_ACCELERATION;
 		}
 
 		if (keyHeld_Right) {
-
 			this.velX += PLAYER_ACCELERATION;
 		}
 
 		if (this.velX > PLAYER_MAX_SPEED) {
+
 			this.velX = PLAYER_MAX_SPEED;
+
 		} else if (Math.abs(this.velX) > PLAYER_MAX_SPEED) {
+
 			this.velX = -PLAYER_MAX_SPEED;
 		}
 
-		// this.velY < 1 stops the player from jumping while falling down
-		if (keyHeld_Jump &&
-			this.velY < 1 &&
-		    Math.abs(this.velY - PLAYER_JUMP_SPEED) <= PLAYER_JUMP_MAX_SPEED &&
-			this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
-
-			if (this.hasResetJumpAnim) {
+		if (keyHeld_Jump && this.framesSinceLeftGround < 3 && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
+			
+			if (jumpJustPressed) {
 				playerJumpLeftAnim.reset();
 				playerJumpRightAnim.reset();
-				this.hasResetJumpAnim = false;
 			}
 
-			this.velY = -8;
+			this.velY = -PLAYER_JUMP_SPEED;
 		}
 
 
@@ -141,19 +144,66 @@ function playerClass() {
 			}
 		}
 
-
-
-		if (this.isGrounded == false) {
-			this.currentMoveState = PLAYER_STATE_JUMPING;
-		} else if (this.isGrounded && Math.abs(this.velX) > .2) {
-			this.currentMoveState = PLAYER_STATE_RUNNING;
-		} else {
-			this.currentMoveState = PLAYER_STATE_IDLE;
-		}
-
 		this.velX *= PLAYER_VEL_X_DECAY;
 
 		// dash implement here...
+		if (keyHeld_DashRight &&
+			this.dashesLeft >= this.maxDashLimit &&
+			this.currentMoveState != PLAYER_STATE_DASHING) {
+
+			if (this.isGrounded && this.dashCooldownCounter < GROUNDED_DASH_COOLDOWN) {
+				// nothing should happen, as we are still waiting for cooldown
+			} else {
+				this.dashFrameCounter = 0;
+				this.dashCooldownCounter = 0;
+				this.currentMoveState = PLAYER_STATE_DASHING;
+				this.direction = RIGHT_DIRECTION;
+				this.dashesLeft--;
+
+
+				if (this.isGrounded == false) {
+					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
+				}
+			}
+		}
+
+		if (keyHeld_DashLeft &&
+			this.dashesLeft >= this.maxDashLimit &&
+			this.currentMoveState != PLAYER_STATE_DASHING) {
+
+			if (this.isGrounded && this.dashCooldownCounter < GROUNDED_DASH_COOLDOWN) {
+				// nothing should happen, as we are still waiting for cooldown
+			} else {
+				this.dashFrameCounter = 0;
+				this.dashCooldownCounter = 0;
+				this.currentMoveState = PLAYER_STATE_DASHING;
+				this.direction = LEFT_DIRECTION;
+				this.dashesLeft--;
+
+				if (this.isGrounded == false) {
+					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
+				}
+			}			
+		}
+
+		if (this.currentMoveState == PLAYER_STATE_DASHING) {
+
+			if (this.dashFrameCounter < MAX_DASH_FRAMES) {
+				this.dashFrameCounter++;
+				if (this.direction == RIGHT_DIRECTION) {
+					this.velX = 10;
+					this.velY = 0;
+				} else {
+					this.velX = -10;
+					this.velY = 0;
+				}
+				
+			} else {
+				// this NEEDS to be set to a diff state or we'll never leave dashing state
+				// this gets overwritten down at the end of move()
+				this.currentMoveState = undefined;
+			}
+		}
 
 		if (this.velX < 0) {
 			this.direction = LEFT_DIRECTION;
@@ -173,18 +223,32 @@ function playerClass() {
 
 		this.currentIndex = this.getCurrentPlayerIndex();
 
-		if (this.isGrounded) {
-			// reset double jump, variable jump height, etc
+		if (this.isGrounded && this.currentMoveState != PLAYER_STATE_DASHING) {
 			this.variableJumpCounter = 0;
 			this.framesSinceLeftGround = 0;
-
-			if (this.hasResetJumpAnim == false) {
-				this.hasResetJumpAnim = true;
-			}
+			this.dashesLeft = this.maxDashLimit;
+			this.dashCooldownCounter++; // if we decide to allow more dashes in the future, we need to change the cooldown to 0
 		} else {
 			this.framesSinceLeftGround++;
 		}
 
+		if (this.currentMoveState != PLAYER_STATE_DASHING) {
+			if (this.isGrounded == false && this.velY < 0) {
+				
+				this.currentMoveState = PLAYER_STATE_JUMPING;
+
+			} else if (	this.isGrounded == false && this.velY > 0) {
+
+				this.currentMoveState = PLAYER_STATE_FALLING;
+
+			} else if (this.isGrounded && Math.abs(this.velX) > .25) {
+
+				this.currentMoveState = PLAYER_STATE_RUNNING;
+
+			} else {
+				this.currentMoveState = PLAYER_STATE_IDLE;
+			}
+		}
 	}
 
 
@@ -255,7 +319,8 @@ function playerClass() {
 
 	this.killPlayer = function() {
 		loadLevel(currentLevel);
-		player.reset();
+		this.reset();
+		totalDeaths++;
 		console.log('you have died');
 	} 
 
@@ -497,6 +562,12 @@ function playerClass() {
 				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
 				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
+				canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
+				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2); // TODO : CHANGE TO FALLING ANIM
+			} else {
+				console.log('no animation available for this playerState! add it to player.draw()!');
 			}
 
 		} else {
@@ -506,6 +577,12 @@ function playerClass() {
 				playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
 				playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
+				canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+			} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
+				playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2); // TODO : CHANGE TO FALLING ANIM
+			} else {
+				console.log('no animation available for this playerState! add it to player.draw()!');
 			}
 		}
 

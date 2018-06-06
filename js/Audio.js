@@ -1,5 +1,5 @@
 var audioFormat;
-var musicEnabled = true;
+var musicEnabled = false;
 var firstSong;
 
 
