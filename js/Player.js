@@ -2,9 +2,9 @@ const PLAYER_ACCELERATION = 3.4;
 const PLAYER_MAX_SPEED = 10;
 const PLAYER_VEL_X_DECAY = 0.6;
 
-const VARIABLE_JUMP_WINDOW = 6;
 const PLAYER_JUMP_SPEED = 2;
 const PLAYER_JUMP_MAX_SPEED = 10;
+const VARIABLE_JUMP_WINDOW = 6;
 
 const MAX_Y_VELOCITY = 15;
 const GRAVITY = .9;
@@ -52,6 +52,7 @@ function playerClass() {
 	this.rightEdge;
 	this.topEdge;
 	this.bottomEdge;
+	this.edgeArray = [this.leftEdge, this.rightEdge, this.topEdge, this.bottomEdge];
 
 	this.framesSinceLeftGround = 0;
 
@@ -272,14 +273,7 @@ function playerClass() {
 			this.triggerY;
 		}
 
-		if (this.triggerType == LEVEL_SPIKE_N ||
-			this.triggerType == LEVEL_SPIKE_S ||
-			this.triggerType == LEVEL_SPIKE_W ||
-			this.triggerType == LEVEL_SPIKE_E) {
-
-			this.killPlayer();
-			this.insideTrigger = false;
-		}
+		this.spikeTriggerCollisions();
 
 		if (this.triggerType == LEVEL_ENTER_PORTAL_1) {
 			for (var i = 0; i < allTriggersArray.length; i ++) {
@@ -317,6 +311,159 @@ function playerClass() {
 		}
 
 
+	}
+
+	this.spikeTriggerCollisions = function() {
+		/*
+		if (this.triggerType == LEVEL_SPIKE_N ||
+			this.triggerType == LEVEL_SPIKE_S ||
+			this.triggerType == LEVEL_SPIKE_W ||
+			this.triggerType == LEVEL_SPIKE_E) {
+
+			this.killPlayer();
+			this.insideTrigger = false;
+		}
+		*/
+
+		if (this.triggerType == LEVEL_SPIKE_N) {
+			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
+			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
+
+			// these offsets are for collisions, normally, this.x/y refers to player's center
+			var playerYOffset = 7;
+
+			playerXArray = [this.leftEdge + PLAYER_HITBOX_INNER_X_OFFSET,
+							this.rightEdge - PLAYER_HITBOX_INNER_X_OFFSET,
+							this.x]
+			var playerYInsideTrigger = this.y + playerYOffset - triggerTopY;
+
+			for (var i = 0; i < playerXArray.length; i++) {
+				var playerXInsideTrigger = playerXArray[i] - triggerLeftX;
+
+				if (playerXInsideTrigger < 8) {
+					if ((playerXInsideTrigger * 2) + playerYInsideTrigger > 16 && playerXInsideTrigger > 0) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
+						this.killPlayer();
+						return;
+					}
+				} else {
+					playerXInsideTrigger -= TILE_WIDTH / 2;
+					if (playerXInsideTrigger * 2 < playerYInsideTrigger && playerXInsideTrigger > 0) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
+						this.killPlayer();
+						return;
+					}
+				}
+			}
+			
+		}
+
+		if (this.triggerType == LEVEL_SPIKE_S) {
+			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
+			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
+
+			// these offsets are for collisions, normally, this.x/y refers to player's center
+			var playerYOffset = 6;
+
+			playerXArray = [this.leftEdge + PLAYER_HITBOX_INNER_X_OFFSET,
+							this.rightEdge - PLAYER_HITBOX_INNER_X_OFFSET,
+							this.x]
+			var playerYInsideTrigger = this.y - playerYOffset - triggerTopY;
+
+			for (var i = 0; i < playerXArray.length; i++) {
+				var playerXInsideTrigger = playerXArray[i] - triggerLeftX;
+
+				if (playerXInsideTrigger < 8) {
+					// adds offset for left-side cases on the right hitbox
+					if (playerXInsideTrigger * 2 > playerYInsideTrigger && playerXInsideTrigger > 0) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
+						this.killPlayer();
+						return;
+					}
+				} else {
+					playerXInsideTrigger -= TILE_WIDTH / 2;
+					if ((playerXInsideTrigger * 2) + playerYInsideTrigger < 16 && playerXInsideTrigger > 0) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
+						this.killPlayer();
+						return;
+					}
+				}
+			}
+			
+		}
+
+		if (this.triggerType == LEVEL_SPIKE_W) {
+			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
+			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
+
+			// these offsets are for collisions, normally, this.x/y refers to player's center
+			var playerXOffset = 4;
+
+			playerYArray = [this.topEdge + PLAYER_HITBOX_INNER_Y_OFFSET + 4,
+							this.bottomEdge - PLAYER_HITBOX_INNER_Y_OFFSET - 4,
+							this.y]
+			var playerXInsideTrigger = this.x + playerXOffset - triggerLeftX;
+
+			for (var i = 0; i < playerYArray.length; i++) {
+				var playerYInsideTrigger = playerYArray[i] - triggerTopY;
+
+				if (playerYInsideTrigger < 8) {
+					if (i == 1) {
+						playerYInsideTrigger -= 2;
+					}
+					if ((playerYInsideTrigger * 2) + playerXInsideTrigger > 16 && playerYInsideTrigger > 0) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'top');
+						this.killPlayer();
+						return;
+					}
+				} else {
+					playerYInsideTrigger -= TILE_HEIGHT / 2;
+					if (playerYInsideTrigger * 2 < playerXInsideTrigger && playerYInsideTrigger > 0) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'bottom');
+						this.killPlayer();
+						return;
+					}
+				}
+			}
+		}
+
+		if (this.triggerType == LEVEL_SPIKE_E) {
+			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
+			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
+
+			// these offsets are for collisions, normally, this.x/y refers to player's center
+			var playerXOffset = 3;
+
+			playerYArray = [this.topEdge + PLAYER_HITBOX_INNER_Y_OFFSET + 4,
+							this.bottomEdge - PLAYER_HITBOX_INNER_Y_OFFSET - 4,
+							this.y]
+
+			var playerXInsideTrigger = this.x - playerXOffset - triggerLeftX;
+
+			for (var i = 0; i < playerYArray.length; i++) {
+				var playerYInsideTrigger = playerYArray[i] - triggerTopY;
+
+				if (playerYInsideTrigger < 8) {
+					if (i == 1) {
+						playerYInsideTrigger -= 2;
+					}
+					if (playerYInsideTrigger * 2 > playerXInsideTrigger && playerYInsideTrigger > 0) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'top');
+						this.killPlayer();
+						return;
+					}
+				} else {
+					playerYInsideTrigger -= TILE_WIDTH / 2;
+					// we say < 16 because that stops the bottom edge from being checked
+					if ((playerYInsideTrigger * 2) + playerXInsideTrigger < 16 && playerYInsideTrigger > 0 && playerYInsideTrigger < 16) {
+						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'bottom');
+						this.killPlayer();
+						return;
+					}
+				}
+			}
+			
+		}
 	}
 
 

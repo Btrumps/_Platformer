@@ -40,8 +40,11 @@ function moveAll() {
 	for (var i = 0; i < allTriggersArray.length; i++) {
 		allTriggersArray[i].move();
 	}
-
-	playBGM();
+	
+	if (musicEnabled) {
+		playBGM(currentLevel);
+	}
+	
 }
 
 function drawAll() {
