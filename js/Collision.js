@@ -15,9 +15,9 @@ function isObstacleAtPixel(x, y, whichEdge) {
 		var startY = y - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET;
 		var endY = y + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET;
 
-		//hitboxArray.push(startY);
+		hitboxArray.push(startY);
 		hitboxArray.push(y);
-		//hitboxArray.push(endY);
+		hitboxArray.push(endY);
 	}
 
 	for (var i = 0; i < obstacleTileArray.length; i++) {

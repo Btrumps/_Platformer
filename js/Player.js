@@ -18,7 +18,7 @@ const PLAYER_HEIGHT = 22;
 const PLAYER_ANIM_Y_OFFSET = 0;
 
 const PLAYER_HITBOX_X_OFFSET = 8;
-const PLAYER_HITBOX_Y_OFFSET = 10;
+const PLAYER_HITBOX_Y_OFFSET = 6;
 const PLAYER_HITBOX_INNER_X_OFFSET = 2;
 const PLAYER_HITBOX_INNER_Y_OFFSET = 2;
 
@@ -587,7 +587,7 @@ function playerClass() {
 		}
 
 		if (showHitbox) {
-			var colorHere = 'blue';
+			var colorHere = 'yellow';
 
 			// this x and y point
 			colorRect(	this.x - 1,
