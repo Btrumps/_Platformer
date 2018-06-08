@@ -28,8 +28,10 @@ const BOTTOM_EDGE = 2;
 const LEFT_EDGE = 3;
 const RIGHT_EDGE = 4;
 
-const LEFT_DIRECTION = 1;
-const RIGHT_DIRECTION = 2;
+const DIRECTION_LEFT = 1;
+const DIRECTION_RIGHT = 2;
+const DIRECTION_UP = 3;
+const DIRECTION_DOWN = 4;
 
 const PLAYER_STATE_IDLE = 1;
 const PLAYER_STATE_RUNNING = 2;
@@ -157,7 +159,7 @@ function playerClass() {
 				this.dashFrameCounter = 0;
 				this.dashCooldownCounter = 0;
 				this.currentMoveState = PLAYER_STATE_DASHING;
-				this.direction = RIGHT_DIRECTION;
+				this.direction = DIRECTION_RIGHT;
 				this.dashesLeft--;
 
 
@@ -177,7 +179,26 @@ function playerClass() {
 				this.dashFrameCounter = 0;
 				this.dashCooldownCounter = 0;
 				this.currentMoveState = PLAYER_STATE_DASHING;
-				this.direction = LEFT_DIRECTION;
+				this.direction = DIRECTION_LEFT;
+				this.dashesLeft--;
+
+				if (this.isGrounded == false) {
+					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
+				}
+			}			
+		}
+
+		if (keyHeld_DashUp &&
+			this.dashesLeft >= this.maxDashLimit &&
+			this.currentMoveState != PLAYER_STATE_DASHING) {
+
+			if (this.isGrounded && this.dashCooldownCounter < GROUNDED_DASH_COOLDOWN) {
+				// nothing should happen, as we are still waiting for cooldown
+			} else {
+				this.dashFrameCounter = 0;
+				this.dashCooldownCounter = 0;
+				this.currentMoveState = PLAYER_STATE_DASHING;
+				this.direction = DIRECTION_UP;
 				this.dashesLeft--;
 
 				if (this.isGrounded == false) {
@@ -190,12 +211,15 @@ function playerClass() {
 
 			if (this.dashFrameCounter < MAX_DASH_FRAMES) {
 				this.dashFrameCounter++;
-				if (this.direction == RIGHT_DIRECTION) {
+				if (this.direction == DIRECTION_RIGHT) {
 					this.velX = 10;
 					this.velY = 0;
-				} else {
+				} else if (this.direction == DIRECTION_LEFT) {
 					this.velX = -10;
 					this.velY = 0;
+				} else if (this.direction == DIRECTION_UP) {
+					this.velX = 0;
+					this.velY = -10;
 				}
 				
 			} else {
@@ -205,10 +229,10 @@ function playerClass() {
 			}
 		}
 
-		if (this.velX < 0) {
-			this.direction = LEFT_DIRECTION;
-		} else {
-			this.direction = RIGHT_DIRECTION;
+		if (this.velX <= 0 && this.currentMoveState != PLAYER_STATE_DASHING) {
+			this.direction = DIRECTION_LEFT;
+		} else if (this.velX > 0 && this.currentMoveState != PLAYER_STATE_DASHING) {
+			this.direction = DIRECTION_RIGHT;
 		}
 
 		this.x += this.velX;
@@ -237,7 +261,7 @@ function playerClass() {
 				
 				this.currentMoveState = PLAYER_STATE_JUMPING;
 
-			} else if (	this.isGrounded == false && this.velY > 0) {
+			} else if (	this.isGrounded == false && this.velY > 2) {
 
 				this.currentMoveState = PLAYER_STATE_FALLING;
 
@@ -299,7 +323,7 @@ function playerClass() {
 				rightEdgeCol = LEVEL_COLS - 1;
 			}
 			this.velX = 0;
-			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
+			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 1;
 			this.recalculateCollisionEdges();
 			
 		}
@@ -336,6 +360,7 @@ function playerClass() {
 		console.log('you have died');
 	} 
 
+	// NEED TO SET INSIDE TRIGGER TO FALSE TO AVOID MULTIPLE TRIGGER CALLS
 	this.insideTriggerCheck = function() {
 
 		if (this.distFrom(this.triggerX, this.triggerY) > PLAYER_WIDTH + 10) {
@@ -385,6 +410,14 @@ function playerClass() {
 				this.velY = -MAX_Y_VELOCITY;
 				this.insideTrigger = false;
 			}
+		}
+
+		if (this.triggerType == LEVEL_DASH_POWERUP) {
+			this.dashesLeft++;
+			console.log(this.dashesLeft);
+			this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
+			levelGrid[this.triggerIndex] = 0;
+			this.insideTrigger = false;
 		}
 
 
@@ -567,7 +600,7 @@ function playerClass() {
 					'blue');
 		*/
 
-		if (this.direction == LEFT_DIRECTION) {
+		if (this.direction == DIRECTION_LEFT) {
 			if (this.currentMoveState == PLAYER_STATE_IDLE) {
 				playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
@@ -577,12 +610,12 @@ function playerClass() {
 			} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
 				canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2); // TODO : CHANGE TO FALLING ANIM
+				canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			} else {
 				console.log('no animation available for this playerState! add it to player.draw()!');
 			}
 
-		} else {
+		} else if (this.direction == DIRECTION_RIGHT){
 			if (this.currentMoveState == PLAYER_STATE_IDLE) {
 				playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2 - 2, this.y - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
@@ -592,10 +625,12 @@ function playerClass() {
 			} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
 				canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-				playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2); // TODO : CHANGE TO FALLING ANIM
+				canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			} else {
 				console.log('no animation available for this playerState! add it to player.draw()!');
 			}
+		} else if (this.direction == DIRECTION_UP) {
+			canvasContext.drawImage(playerDashUpImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 		}
 
 		if (showHitbox) {

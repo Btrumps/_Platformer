@@ -104,6 +104,11 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_BOUNCE_PAD;
 		}
 
+		if (keyHeld_0) {
+			levelGrid[mouseIndex] = LEVEL_DASH_POWERUP;
+		}
+
+
 		if (keyHeld_Minus) {
 			levelGrid[mouseIndex] = LEVEL_START;
 		}

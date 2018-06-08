@@ -3,6 +3,8 @@ var keyHeld_Left = false;
 var keyHeld_Right = false;
 var keyHeld_DashLeft = false; 
 var keyHeld_DashRight = false;
+var keyHeld_DashUp = false; 
+var keyHeld_DashDown = false;
 var keyHeld_Jump = false;
 var keyHeld_Jump_Prev = false;
 var keyHeld_Run = false;
@@ -78,10 +80,14 @@ function setValuesForKey(evt, value) {
 
 
 		case "ArrowUp" :
-			keyHeld_Jump = value;
+			keyHeld_DashUp = value;
 			break;
 		case "KeyW" :
 			keyHeld_Jump = value;
+			break;
+
+		case "ArrowDown" :
+			keyHeld_DashDown = value;
 			break;
 
 		case "KeyZ" :

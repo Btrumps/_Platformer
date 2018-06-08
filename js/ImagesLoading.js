@@ -11,12 +11,13 @@ var playerJumpLeft = document.createElement("img");
 var playerJumpRight = document.createElement("img");
 var playerDashLeftImg = document.createElement("img");
 var playerDashRightImg = document.createElement("img");
+var playerDashUpImg = document.createElement("img");
+var playerFallingImg = document.createElement("img");
 
 var enterPortalImg = document.createElement("img");
 var exitPortalImg = document.createElement("img");
 var collectibleImg = document.createElement("img");
 var bouncePadImg = document.createElement("img");
-var bouncePadPlaceholder = document.createElement("img");
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
@@ -50,6 +51,8 @@ function loadImages() {
 		{varName: playerJumpRight, theFile: "./images/player/player_jumpright_anim.png"},
 		{varName: playerDashLeftImg, theFile: "./images/player/player_dashleft.png"},
 		{varName: playerDashRightImg, theFile: "./images/player/player_dashright.png"},
+		{varName: playerDashUpImg, theFile: "./images/player/player_dashup.png"},
+		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
 		{varName: enterPortalImg, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalImg, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleImg, theFile: "./images/level_obstacles/collectible_anim.png"},
@@ -74,7 +77,8 @@ function loadImages() {
 		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S.png"},
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W.png"},
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E.png"},
-		{levelType: LEVEL_SPIKE_TRIGGER, theFile: "./images/level_obstacles/spike_trigger.png"}
+		{levelType: LEVEL_SPIKE_TRIGGER, theFile: "./images/level_obstacles/spike_trigger.png"},
+		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"}
 		/*
 		{bgType: BG_BRICK_1, theFile: "./images/bg_brick_1.png"},
 		{bgType: BG_BRICK_2, theFile: "./images/bg_brick_2.png"},
