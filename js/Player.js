@@ -306,34 +306,61 @@ function playerClass() {
 			this.variableJumpCounter++;
 		}
 
-		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE) ) {
-			var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
-			if (leftEdgeCol == LEVEL_COLS) {
-				leftEdgeCol = LEVEL_COLS - 1;
+		// if moving left, we will check the left edge first and vice versa
+		// this is important, when we dash towards the right into a wall
+		if (this.direction != DIRECTION_RIGHT) {
+			if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE)) {
+				var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
+				if (leftEdgeCol == LEVEL_COLS) {
+					leftEdgeCol = LEVEL_COLS - 1;
+				}
+				this.velX = 0
+				this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET + 2;
+				this.recalculateCollisionEdges();
+				
 			}
-			this.velX = 0;
-			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET + 2;
-			this.recalculateCollisionEdges();
-			
-		}
 
-		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
-			var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
-			if (rightEdgeCol == LEVEL_COLS) {
-				rightEdgeCol = LEVEL_COLS - 1;
-			}
-			this.velX = 0;
-
-			if (this.currentMoveState == PLAYER_STATE_DASHING) {
-				// stops player from going through wall
+			if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
+				var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
+				if (rightEdgeCol == LEVEL_COLS) {
+					rightEdgeCol = LEVEL_COLS - 1;
+				}
+				this.velX = 0;
 				this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 2;
-			} else {
-				this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
+				this.recalculateCollisionEdges();
+				
+			}
+		} else {
+			if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
+				var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
+				if (rightEdgeCol == LEVEL_COLS) {
+					rightEdgeCol = LEVEL_COLS - 1;
+				}
+				this.velX = 0;
+				if (this.currentMoveState == PLAYER_STATE_DASHING) {
+					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 2;
+				} else {
+					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
+				}
+				
+				this.recalculateCollisionEdges();
+				
 			}
 
-			this.recalculateCollisionEdges();
-			
+			if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE)) {
+				var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
+				if (leftEdgeCol == LEVEL_COLS) {
+					leftEdgeCol = LEVEL_COLS - 1;
+				}
+				this.velX = 0
+				this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET + 2;
+				this.recalculateCollisionEdges();
+				
+			}
 		}
+
+
+		
 
 	}
 
