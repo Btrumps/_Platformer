@@ -258,6 +258,9 @@ function playerClass() {
 
 		if (this.isGrounded == false && ( this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
+			if (topEdgeRow == LEVEL_ROWS) {
+				topEdgeRow = LEVEL_ROWS - 1;
+			}
 			this.velY = 0;
 			this.y = (topEdgeRow * TILE_HEIGHT) + TILE_HEIGHT + PLAYER_HEIGHT / 2 - PLAYER_HITBOX_INNER_Y_OFFSET;
 			this.recalculateCollisionEdges();
@@ -266,6 +269,9 @@ function playerClass() {
 
 		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) ) {
 			var bottomEdgeRow = Math.floor(this.bottomEdge / TILE_HEIGHT);
+			if (bottomEdgeRow == LEVEL_ROWS) {
+				bottomEdgeRow = LEVEL_ROWS - 1;
+			}
 			this.velY = 0;
 			this.y = (bottomEdgeRow * TILE_HEIGHT) - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_INNER_Y_OFFSET;
 			this.recalculateCollisionEdges();
@@ -278,6 +284,9 @@ function playerClass() {
 
 		if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE) ) {
 			var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
+			if (leftEdgeCol == LEVEL_COLS) {
+				leftEdgeCol = LEVEL_COLS - 1;
+			}
 			this.velX = 0;
 			this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET + 2;
 			this.recalculateCollisionEdges();
@@ -286,6 +295,9 @@ function playerClass() {
 
 		if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
 			var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
+			if (rightEdgeCol == LEVEL_COLS) {
+				rightEdgeCol = LEVEL_COLS - 1;
+			}
 			this.velX = 0;
 			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
 			this.recalculateCollisionEdges();
