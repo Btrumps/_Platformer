@@ -323,7 +323,14 @@ function playerClass() {
 				rightEdgeCol = LEVEL_COLS - 1;
 			}
 			this.velX = 0;
-			this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 1;
+
+			if (this.currentMoveState == PLAYER_STATE_DASHING) {
+				// stops player from going through wall
+				this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 2;
+			} else {
+				this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
+			}
+
 			this.recalculateCollisionEdges();
 			
 		}
