@@ -1,17 +1,16 @@
-const PLAYER_ACCELERATION = 3.4;
-const PLAYER_MAX_SPEED = 10;
-const PLAYER_VEL_X_DECAY = 0.6;
+const PLAYER_ACCELERATION = 3;
+const PLAYER_MAX_SPEED = 12;
+const PLAYER_VEL_X_DECAY = 0.65;
 
-const PLAYER_JUMP_SPEED = 8.5;
+const PLAYER_JUMP_SPEED = 6;
 const PLAYER_JUMP_MAX_SPEED = 10;
-const VARIABLE_JUMP_WINDOW = 6;
+const VARIABLE_JUMP_WINDOW = 8;
 const MAX_DASH_FRAMES = 5;
 const GROUNDED_DASH_COOLDOWN = 10;
 
 const MAX_Y_VELOCITY = 15;
-const GRAVITY = .9;
-const HOLDING_BUTTON_GRAVITY = 1.4;
-const FALLING_GRAVITY = 1.7;
+const GRAVITY = .8;
+const FALLING_GRAVITY = 1.6;
 
 const PLAYER_WIDTH = 14;
 const PLAYER_HEIGHT = 22;
@@ -122,28 +121,25 @@ function playerClass() {
 			this.velX = -PLAYER_MAX_SPEED;
 		}
 
-		if (keyHeld_Jump && this.framesSinceLeftGround < 3 && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
+		if (jumpJustPressed && this.framesSinceLeftGround < 4) {
+			playerJumpLeftAnim.reset();
+			playerJumpRightAnim.reset();
 			
-			if (jumpJustPressed) {
-				playerJumpLeftAnim.reset();
-				playerJumpRightAnim.reset();
-			}
 
+			this.velY = -PLAYER_JUMP_SPEED;
+		} else if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 			this.velY = -PLAYER_JUMP_SPEED;
 		}
 
-
 		// if we are holding jump, we are affected by a different gravity on the upwards part of the jump
-		if (this.velY > 0 && this.velY + FALLING_GRAVITY < MAX_Y_VELOCITY) {
+		if (this.velY > 2) {
 			this.velY += FALLING_GRAVITY;
-		} else if (this.velY < 0 && keyHeld_Jump == false) {
-			this.velY += HOLDING_BUTTON_GRAVITY;
 		} else {
-			this.velY += GRAVITY;
+			this.velY += GRAVITY;			
+		}
 
-			if ( this.velY > MAX_Y_VELOCITY) {
-				this.velY = MAX_Y_VELOCITY;
-			}
+		if ( this.velY > MAX_Y_VELOCITY) {
+			this.velY = MAX_Y_VELOCITY;
 		}
 
 		this.velX *= PLAYER_VEL_X_DECAY;
@@ -219,7 +215,7 @@ function playerClass() {
 					this.velY = 0;
 				} else if (this.direction == DIRECTION_UP) {
 					this.velX = 0;
-					this.velY = -10;
+					this.velY = -8;
 				}
 				
 			} else {
@@ -251,9 +247,10 @@ function playerClass() {
 			this.variableJumpCounter = 0;
 			this.framesSinceLeftGround = 0;
 			this.dashesLeft = this.maxDashLimit;
-			this.dashCooldownCounter++; // if we decide to allow more dashes in the future, we need to change the cooldown to 0
+			this.dashCooldownCounter++;
 		} else {
 			this.framesSinceLeftGround++;
+			this.variableJumpCounter++;
 		}
 
 		if (this.currentMoveState != PLAYER_STATE_DASHING) {
@@ -303,7 +300,6 @@ function playerClass() {
 
 		} else if (isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false)  {
 			this.isGrounded = false;
-			this.variableJumpCounter++;
 		}
 
 		// if moving left, we will check the left edge first and vice versa
@@ -338,7 +334,7 @@ function playerClass() {
 				}
 				this.velX = 0;
 				if (this.currentMoveState == PLAYER_STATE_DASHING) {
-					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 2;
+					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 	2;
 				} else {
 					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
 				}
@@ -447,8 +443,9 @@ function playerClass() {
 		}
 
 		if (this.triggerType == LEVEL_DASH_POWERUP) {
-			this.dashesLeft++;
-			console.log(this.dashesLeft);
+			if (this.dashesLeft < this.maxDashLimit) {
+				this.dashesLeft++;
+			}
 			this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 			levelGrid[this.triggerIndex] = 0;
 			this.insideTrigger = false;
