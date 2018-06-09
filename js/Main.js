@@ -54,6 +54,11 @@ function drawAll() {
 	drawLevel();
 	player.draw();
 
+	for (var i = 0; i < allTriggersArray.length; i++) {
+		allTriggersArray[i].draw();
+	}
+
+
 	if (mapEditorEnabled) {
 		showMapEditorGrid();
 	}

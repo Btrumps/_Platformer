@@ -17,7 +17,6 @@ var playerFallingImg = document.createElement("img");
 var enterPortalImg = document.createElement("img");
 var exitPortalImg = document.createElement("img");
 var collectibleImg = document.createElement("img");
-var bouncePadImg = document.createElement("img");
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
@@ -56,7 +55,6 @@ function loadImages() {
 		{varName: enterPortalImg, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalImg, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleImg, theFile: "./images/level_obstacles/collectible_anim.png"},
-		{varName: bouncePadImg, theFile: "./images/level_obstacles/bounce_pad_anim.png"},
 		{levelType: LEVEL_PLATFORM_N, theFile: "./images/level_tiles/platform_N.png"},
 		{levelType: LEVEL_PLATFORM_S, theFile: "./images/level_tiles/platform_S.png"},
 		{levelType: LEVEL_PLATFORM_W, theFile: "./images/level_tiles/platform_W.png"},
@@ -72,11 +70,11 @@ function loadImages() {
 		{levelType: LEVEL_PLATFORM_BLANK, theFile: "./images/level_tiles/platform_blank.png"},
 		{levelType: LEVEL_PLATFORM_VERTICAL_MIDDLE, theFile: "./images/level_tiles/platform_vertical_middle.png"},
 		{levelType: LEVEL_PLATFORM_HORIZONTAL_MIDDLE, theFile: "./images/level_tiles/platform_horizontal_middle.png"},
-		{levelType: LEVEL_BOUNCE_PAD, theFile: "./images/level_obstacles/bounce_pad.png"},
 		{levelType: LEVEL_SPIKE_N, theFile: "./images/level_obstacles/spike_N.png"},
 		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S.png"},
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W.png"},
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E.png"},
+		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
 		{levelType: LEVEL_SPIKE_TRIGGER, theFile: "./images/level_obstacles/spike_trigger.png"},
 		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"}
 		/*

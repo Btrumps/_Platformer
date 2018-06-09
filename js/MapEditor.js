@@ -101,7 +101,7 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_9) {
-			levelGrid[mouseIndex] = LEVEL_BOUNCE_PAD;
+			levelGrid[mouseIndex] = LEVEL_SPIKE_S_FALLING;
 		}
 
 		if (keyHeld_0) {
@@ -153,6 +153,21 @@ function outputLevelToConsole() {
 	
 }
 
+function saveLevelInSession(whichLevel) {
+	if (whichLevel == 1) {
+		level1 = levelGrid.slice();
+		console.log('level1 saved successfully!');
+	} else if (whichLevel == 2) {
+		level2 = levelGrid.slice();
+		console.log('level2 saved successfully!');
+	} else if (whichLevel == 3) {
+		level3 = levelGrid.slice();
+		console.log('level3 saved successfully!');
+	} else {
+		console.log('cannot save level, add it to saveLevelInSession()!');
+	}
+}
+
 function showMapEditorGrid() {
 	if (gridEnabled) {
 		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
@@ -169,6 +184,4 @@ function showMapEditorGrid() {
 			}
 		}
 	}
-	
-
 }

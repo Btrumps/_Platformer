@@ -59,7 +59,6 @@ function updateAnimations() {
   enterPortalAnim.update();
   exitPortalAnim.update();
   collectibleAnim.update();
-  bouncePadAnim.update();
 }
 
 function setupSpriteSheets() {
@@ -152,15 +151,4 @@ function setupSpriteSheets() {
       numberOfFrames: 4,
       ticksPerFrame: 8,
     });
-
-    bouncePadAnim = sprite({
-      context: canvasContext,
-      width: 128,
-      height: 16,
-      image: bouncePadImg,
-      loop: false,
-      numberOfFrames: 8,
-      ticksPerFrame: 4,
-    });
-
 }

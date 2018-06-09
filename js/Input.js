@@ -97,7 +97,7 @@ function setValuesForKey(evt, value) {
 		case "KeyR" :
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
-				player.reset();
+				loadLevel(currentLevel);
 			}
 			break;
 
@@ -164,7 +164,10 @@ function setValuesForKey(evt, value) {
 			keyHeld_R = value;
 			break;
 		case "KeyT" :
-			keyHeld_T = value;
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				saveLevelInSession(currentLevel);
+			}
 			break;
 		case "KeyY" :
 			keyHeld_Y = value;

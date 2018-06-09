@@ -434,14 +434,6 @@ function playerClass() {
 			loadLevel(currentLevel);
 		}
 
-		if (this.triggerType == LEVEL_BOUNCE_PAD) {
-			if (this.y < this.triggerY) {
-				this.y = this.triggerY - TILE_HEIGHT;
-				this.velY = -MAX_Y_VELOCITY;
-				this.insideTrigger = false;
-			}
-		}
-
 		if (this.triggerType == LEVEL_DASH_POWERUP) {
 			if (this.dashesLeft < this.maxDashLimit) {
 				this.dashesLeft++;
