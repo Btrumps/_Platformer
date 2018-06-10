@@ -1,6 +1,9 @@
 const MAX_FALLING_SPIKE_TRIGGER_RANGE = 125;
 const FALL_SPEED = 4;
 
+const POWERUP_COOLDOWN_MAX = 60; // 2 sec
+const FORGIVENESS_PIXELS = 8;
+
 var allTriggersArray = [];
 
 function triggerClass(col, row, index, whichType) {
@@ -16,7 +19,8 @@ function triggerClass(col, row, index, whichType) {
 	this.index = index;
 	this.type = whichType;
 
-	this.playerInside = false;
+	this.powerupCooldown = 0;
+	this.powerupCooldownStarted = false;
 
 	this.fallTrigger = false;
 	this.collider = true;
@@ -37,7 +41,8 @@ function triggerClass(col, row, index, whichType) {
 			levelGrid[this.index] = 0;
 			this.y += FALL_SPEED;
 
-			if (this.y > player.y + PLAYER_HEIGHT / 2) {
+			// turns off the death collider after it passes the player
+			if (this.y > player.y + PLAYER_HEIGHT / 2 - FORGIVENESS_PIXELS) {
 				this.collider = false;
 			} else {
 				this.collider = true;
@@ -47,8 +52,8 @@ function triggerClass(col, row, index, whichType) {
 				// these offsets are for collisions, normally, this.x/y refers to player's center
 				var playerYOffset = 6;
 
-				playerXArray = [player.leftEdge + PLAYER_HITBOX_INNER_X_OFFSET,
-								player.rightEdge - PLAYER_HITBOX_INNER_X_OFFSET,
+				playerXArray = [player.leftEdge + PLAYER_HITBOX_INNER_X_OFFSET + 2,
+								player.rightEdge - PLAYER_HITBOX_INNER_X_OFFSET - 2,
 								player.x]
 				var playerYInsideTrigger = player.y - playerYOffset - this.y;
 
@@ -59,12 +64,14 @@ function triggerClass(col, row, index, whichType) {
 						// adds offset for left-side cases on the right hitbox
 						if (playerXInsideTrigger * 2 > playerYInsideTrigger && playerXInsideTrigger > 0) {
 							player.killPlayer();
+							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
 							return;
 						}
 					} else {
 						playerXInsideTrigger -= TILE_WIDTH / 2;
 						if ((playerXInsideTrigger * 2) + playerYInsideTrigger < 16 && playerXInsideTrigger > 0) {
 							player.killPlayer();
+							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
 							return;
 						}
 					}
@@ -76,6 +83,18 @@ function triggerClass(col, row, index, whichType) {
 			this.fallTrigger = false;
 			this.collider = false;
 		}
+
+		// this only occurs if the player picks up a powerup. once the timer is up, the powerup respawns
+		if (this.powerupCooldownStarted) {
+			if (this.powerupCooldown < POWERUP_COOLDOWN_MAX) {
+				this.powerupCooldown++;
+			} else {
+				levelGrid[this.index] = LEVEL_DASH_POWERUP;
+				this.powerupCooldownStarted = false;
+				this.powerupCooldown = 0;
+			}
+		}
+		
 	}
 
 	this.draw = function() {

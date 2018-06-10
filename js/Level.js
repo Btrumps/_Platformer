@@ -10,7 +10,7 @@ var level2 = [5,2,2,2,0,0,0,2,2,2,2,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,
 var level1BG = [];
 var level2BG = [];
 
-var levelTest = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,5,5,5,5,null,null,null,null,5,5,null,null,null,null,3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,null,0,3,21,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,null,6,23,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,null,3,23,null,null,null,null,0,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,6,23,null,null,null,null,null,22,null,null,null,0,null,null,null,null,null,null,null,null,4,5,null,null,null,2,2,2,2,2,2,2,3,23,null,null,null,null,null,22,null,0,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,21,21,21,21,21,21,21,null,null,null,25,null,null,22,0,0,null,0,0,0,null,null,null,null,null,null,4,5,null,null,6,23,0,null,null,null,null,null,null,null,null,null,null,null,22,7,8,8,8,8,8,8,8,9,null,null,null,null,4,5,null,null,6,23,0,25,null,null,0,null,25,null,null,null,null,null,22,4,5,5,5,5,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,null,0,0,0,null,null,null,null,null,null,22,4,5,5,5,null,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,0,null,0,null,null,null,null,null,null,null,22,4,5,5,5,5,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,0,null,null,14,14,14,14,14,14,14,14,4,5,5,5,5,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,null,null,null,10,20,20,20,20,20,20,20,2,2,2,2,2,2,2,2,3,null,null,null,null,4,5,null,null,6,23,0,25,null,null,null,null,null,null,null,0,null,0,0,0,0,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,0,0,0,null,null,null,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,0,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,0,0,null,0,null,7,8,9,null,null,0,null,null,null,null,null,null,null,null,null,10,12,null,null,null,null,4,5,null,null,6,23,0,0,null,0,0,4,5,6,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,2,2,3,23,0,25,null,null,0,4,5,6,null,null,null,null,10,12,null,null,null,null,null,null,null,null,null,null,null,null,4,6,null,null,null,null,null,null,null,null,0,1,2,3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,6,null,null,null,null,null,null,null,0,0,0,null,null,0,0,0,0,0,null,null,null,null,10,12,null,null,null,null,null,null,null,4,6,null,null,null,null,null,2,2,2,2,0,0,0,0,null,null,0,null,0,null,null,null,null,null,null,null,null,null,null,null,null,4,3,null,null,null,null,null,24,24,24,24,7,8,9,null,null,null,null,null,null,0,null,0,null,null,null,null,null,null,null,null,null,4,null,null,null,0,null,0,0,0,0,0,4,5,6,0,0,0,10,12,null,null,null,0,0,0,0,0,0,0,0,0,null,4,500,null,null,null,null,null,null,null,null,null,4,5,6,null,null,null,null,null,null,null,null,null,0,0,null,null,null,0,0,0,null,4,null,null,null,null,0,0,0,0,0,null,4,5,6,0,null,null,null,null,null,null,0,null,null,null,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,5,5,5,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0];
+var levelTest = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,5,5,5,5,5,null,null,null,null,5,5,null,null,null,null,3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,null,0,3,21,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,null,6,23,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,null,3,23,null,null,null,null,0,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,null,null,null,null,null,null,null,null,6,23,null,null,null,null,null,22,null,null,null,0,null,null,null,null,null,null,null,null,4,5,null,null,null,2,2,2,2,2,2,2,3,23,null,null,null,null,null,22,null,0,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,21,21,21,21,21,21,21,null,null,null,25,null,null,22,0,0,null,0,0,0,null,null,null,null,null,null,4,5,null,null,6,23,0,null,null,null,null,null,null,null,null,null,null,null,22,7,8,8,8,8,8,8,8,9,null,null,null,null,4,5,null,null,6,23,0,25,null,null,0,null,25,null,null,null,null,null,22,4,5,5,5,5,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,null,0,0,0,null,null,null,null,null,null,22,4,5,5,5,null,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,0,null,0,null,null,null,null,null,null,null,22,4,5,5,5,5,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,0,null,null,14,14,14,14,14,14,14,14,4,5,5,5,5,5,5,5,6,null,null,null,null,4,5,null,null,6,23,0,null,null,null,null,10,20,20,20,20,20,20,20,2,2,2,2,2,2,2,2,3,null,null,null,null,4,5,null,null,6,23,0,25,null,null,null,null,null,null,null,0,null,0,0,0,0,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,0,0,0,null,null,null,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,0,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,null,null,6,23,0,0,null,0,null,7,8,9,null,null,0,null,null,null,null,null,null,null,null,null,10,12,null,null,null,null,4,5,null,null,6,23,0,0,null,0,0,4,5,6,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,5,2,2,3,23,0,25,null,null,0,4,5,6,null,null,null,null,10,12,null,null,null,null,null,null,null,null,null,null,null,null,4,6,null,null,null,null,null,null,null,null,0,1,2,3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,6,null,24,null,24,null,24,null,24,0,0,null,null,0,0,0,0,0,null,null,null,null,10,12,null,null,null,null,null,null,null,4,6,null,null,null,null,null,0,0,0,0,0,0,0,0,null,null,0,null,0,null,null,null,null,null,null,null,null,null,null,null,null,4,3,null,null,null,null,null,0,0,0,0,7,8,9,null,null,null,null,null,null,0,null,0,null,null,null,null,null,null,null,null,null,4,null,null,null,0,null,0,0,0,0,0,4,5,6,0,0,0,10,12,null,null,null,0,0,0,0,0,0,0,0,0,null,4,500,null,null,0,0,0,0,0,null,null,4,5,6,null,null,null,null,null,null,null,null,null,0,0,null,null,null,0,0,0,null,4,null,null,0,0,0,0,0,0,0,null,4,5,6,0,null,null,null,null,null,null,0,null,null,null,0,0,0,0,0,0,0,4,8,8,8,8,8,8,8,8,8,8,5,5,5,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,0];
 var bgTest = [];
 
 var levelList
@@ -45,7 +45,6 @@ var levelGrid = [];
 	const LEVEL_SPIKE_S = 21;
 	const LEVEL_SPIKE_W = 22;
 	const LEVEL_SPIKE_E = 23;
-	const LEVEL_SPIKE_TRIGGER = 15;
 	const LEVEL_ENTER_PORTAL_1 = 16;
 	const LEVEL_EXIT_PORTAL_1 = 17;
 	const LEVEL_COLLECTIBLE = 18;
@@ -69,12 +68,11 @@ var obstacleTileArray = [	LEVEL_PLATFORM_SW,
 							LEVEL_PLATFORM_VERTICAL_MIDDLE,
 							LEVEL_PLATFORM_HORIZONTAL_MIDDLE];
 
-var triggerTileArray = [LEVEL_SPIKE_S_FALLING,
+var triggerTileArray = [LEVEL_SPIKE_W,
+						LEVEL_SPIKE_E,
 						LEVEL_SPIKE_N,
 						LEVEL_SPIKE_S,
-						LEVEL_SPIKE_W,
-						LEVEL_SPIKE_E,
-						LEVEL_SPIKE_TRIGGER,
+						LEVEL_SPIKE_S_FALLING,
 						LEVEL_ENTER_PORTAL_1,
 						LEVEL_EXIT_PORTAL_1,
 						LEVEL_COLLECTIBLE,
@@ -243,10 +241,6 @@ function drawLevel() {
 					break;
 
 				case LEVEL_SPIKE_E:
-					canvasContext.drawImage(useImg, tileX, tileY);
-					break;
-
-				case LEVEL_SPIKE_TRIGGER:
 					canvasContext.drawImage(useImg, tileX, tileY);
 					break;
 

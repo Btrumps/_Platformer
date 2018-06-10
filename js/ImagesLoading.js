@@ -70,12 +70,11 @@ function loadImages() {
 		{levelType: LEVEL_PLATFORM_BLANK, theFile: "./images/level_tiles/platform_blank.png"},
 		{levelType: LEVEL_PLATFORM_VERTICAL_MIDDLE, theFile: "./images/level_tiles/platform_vertical_middle.png"},
 		{levelType: LEVEL_PLATFORM_HORIZONTAL_MIDDLE, theFile: "./images/level_tiles/platform_horizontal_middle.png"},
-		{levelType: LEVEL_SPIKE_N, theFile: "./images/level_obstacles/spike_N.png"},
-		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S.png"},
-		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W.png"},
-		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E.png"},
-		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
-		{levelType: LEVEL_SPIKE_TRIGGER, theFile: "./images/level_obstacles/spike_trigger.png"},
+		{levelType: LEVEL_SPIKE_N, theFile: "./images/level_obstacles/spike_N2.png"},
+		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S2.png"},
+		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W2.png"},
+		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E2.png"},
+		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S2.png"},
 		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"}
 		/*
 		{bgType: BG_BRICK_1, theFile: "./images/bg_brick_1.png"},

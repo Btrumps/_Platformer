@@ -85,7 +85,7 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_5) {
-			levelGrid[mouseIndex] = LEVEL_SPIKE_TRIGGER;
+			
 		}
 
 		if (keyHeld_6) {

@@ -67,6 +67,17 @@ function isTriggerAtPixel(x, y, whichEdge) {
 					var triggerIndex = returnIndexAtPixel(hitboxArray[j], y);
 					var triggerCoord = indexToCenteredXY(triggerIndex);
 
+					var foundTriggerAlready = false;
+					for (var i = 0; i < player.triggerArray.length; i++) {
+						if (player.triggerArray[i].index == triggerIndex) {
+							foundTriggerAlready = true;
+						}
+					}
+					
+					if (player.triggerArray.length == 0 || foundTriggerAlready == false) {
+						player.triggerArray.push({index : triggerIndex, type: triggerType, x: triggerCoord.x, y: triggerCoord.y});
+					}
+
 					player.triggerIndex = triggerIndex;
 					player.triggerType = triggerType;
 					player.triggerX = triggerCoord.x;
@@ -80,6 +91,17 @@ function isTriggerAtPixel(x, y, whichEdge) {
 					var triggerType = triggerTileArray[i];
 					var triggerIndex = returnIndexAtPixel(x, hitboxArray[j]);
 					var triggerCoord = indexToCenteredXY(triggerIndex);
+
+					var foundTriggerAlready = false;
+					for (var i = 0; i < player.triggerArray.length; i++) {
+						if (player.triggerArray[i].index == triggerIndex) {
+							foundTriggerAlready = true;
+						}
+					}
+					
+					if (player.triggerArray.length == 0 || foundTriggerAlready == false) {
+						player.triggerArray.push({index : triggerIndex, type: triggerType, x: triggerCoord.x, y: triggerCoord.y});
+					}
 
 					player.triggerIndex = triggerIndex;
 					player.triggerType = triggerType;
