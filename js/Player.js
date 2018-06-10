@@ -158,7 +158,7 @@ function playerClass() {
 		this.y += this.velY;
 
 		this.wallCollisionChecks();
-		this.triggerCollisionChecks();
+		this.checkForTriggersAndAddToArray();
 
 		if (this.triggerArray.length > 0) {
 			this.insideTriggerCheck();
@@ -364,20 +364,11 @@ function playerClass() {
 
 	}
 
-	this.triggerCollisionChecks = function() {
-		this.recalculateCollisionEdges();
-
-
-		if (isTriggerAtPixel(this.x, this.topEdge, TOP_EDGE)) {
-			this.insideTrigger = true;
-		} else if (isTriggerAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE)) {
-			this.insideTrigger = true;
-		} else if (isTriggerAtPixel(this.leftEdge, this.y, LEFT_EDGE)) {
-			this.insideTrigger = true;
-		} else if (isTriggerAtPixel(this.rightEdge, this.y, RIGHT_EDGE)) {
-			this.insideTrigger = true;
-		}
-
+	this.checkForTriggersAndAddToArray = function() {	
+		isTriggerAtPixel(this.x, this.topEdge, TOP_EDGE);
+		isTriggerAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE);
+		isTriggerAtPixel(this.leftEdge, this.y, LEFT_EDGE);
+		isTriggerAtPixel(this.rightEdge, this.y, RIGHT_EDGE);
 	}
 
 	this.recalculateCollisionEdges = function() {

@@ -41,21 +41,23 @@ function isObstacleAtPixel(x, y, whichEdge) {
 function isTriggerAtPixel(x, y, whichEdge) {
 	var hitboxArray = [];
 
+	player.recalculateCollisionEdges();
+
 	if (whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) {
 		var startX = x - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET;
 		var endX = x + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET;
 
-		//hitboxArray.push(startX);
+		hitboxArray.push(startX);
 		hitboxArray.push(x);
-		//hitboxArray.push(endX);
+		hitboxArray.push(endX);
 
 	} else if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {
 		var startY = y - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET;
 		var endY = y + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET;
 
-		//hitboxArray.push(startY);
+		hitboxArray.push(startY);
 		hitboxArray.push(y);
-		//hitboxArray.push(endY);
+		hitboxArray.push(endY);
 	}
 
 	for (var i = 0; i < triggerTileArray.length; i++) {
@@ -73,17 +75,12 @@ function isTriggerAtPixel(x, y, whichEdge) {
 							foundTriggerAlready = true;
 						}
 					}
-					
+
 					if (player.triggerArray.length == 0 || foundTriggerAlready == false) {
 						player.triggerArray.push({index : triggerIndex, type: triggerType, x: triggerCoord.x, y: triggerCoord.y});
 					}
 
-					player.triggerIndex = triggerIndex;
-					player.triggerType = triggerType;
-					player.triggerX = triggerCoord.x;
-					player.triggerY = triggerCoord.y;
-
-					return true;
+					return;
 				}
 			}
 			if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {
@@ -103,16 +100,9 @@ function isTriggerAtPixel(x, y, whichEdge) {
 						player.triggerArray.push({index : triggerIndex, type: triggerType, x: triggerCoord.x, y: triggerCoord.y});
 					}
 
-					player.triggerIndex = triggerIndex;
-					player.triggerType = triggerType;
-					player.triggerX = triggerCoord.x;
-					player.triggerY = triggerCoord.y;
-
-					return true;
+					return;
 				}
 			}
 		}
 	}
-
-	return false;
 }
