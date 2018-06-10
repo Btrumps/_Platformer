@@ -6,7 +6,7 @@ const PLAYER_JUMP_SPEED = 6;
 const PLAYER_JUMP_MAX_SPEED = 10;
 const VARIABLE_JUMP_WINDOW = 8;
 const MAX_DASH_FRAMES = 5;
-const GROUNDED_DASH_COOLDOWN = 10;
+const GROUNDED_DASH_COOLDOWN = 5;
 
 const MAX_Y_VELOCITY = 15;
 const GRAVITY = .8;
@@ -551,6 +551,7 @@ function playerClass() {
 					totalCollectibles++;
 				}
 				loadLevel(currentLevel);
+				break;
 			}
 
 			if (this.triggerArray[i].type == LEVEL_DASH_POWERUP) {
