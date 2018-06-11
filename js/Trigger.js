@@ -112,5 +112,4 @@ function triggerClass(col, row, index, whichType) {
 		return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 	}
 
-
 }

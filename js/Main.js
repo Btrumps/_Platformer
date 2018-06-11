@@ -62,6 +62,8 @@ function drawAll() {
 	if (mapEditorEnabled) {
 		showMapEditorGrid();
 	}
+
+	showLevelText();
 }
 
 function startScreenWithLoadingImagesText() {

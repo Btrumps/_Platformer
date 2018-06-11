@@ -1,3 +1,5 @@
+const FONT_LEVEL_NAME = '8pt Retro';
+
 function colorRect (topLeftX, topLeftY, boxWidth, boxHeight, fillColor, opacity) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.globalAlpha = opacity;
@@ -14,7 +16,8 @@ function coloredOutlineRectCornerToCorner (corner1X, corner1Y, corner2X, corner2
 	canvasContext.stroke();
 }
 
-function colorText (showWords, textX, textY, fillColor) {
+function colorText (showWords, textX, textY, fillColor, fontName) {
+	canvasContext.font = fontName;
 	canvasContext.fillStyle = fillColor;
 	canvasContext.fillText(showWords, textX, textY);
 }
