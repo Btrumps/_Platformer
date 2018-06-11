@@ -8,7 +8,7 @@ const VARIABLE_JUMP_WINDOW = 8;
 const MAX_DASH_FRAMES = 5;
 const GROUNDED_DASH_COOLDOWN = 5;
 
-const MAX_Y_VELOCITY = 12;
+const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
 const FALLING_GRAVITY = 1.6;
 
