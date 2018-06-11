@@ -89,7 +89,7 @@ function setupSpriteSheets() {
       image: playerRunLeft,
       loop: true,
       numberOfFrames: 8,
-      ticksPerFrame: 2,
+      ticksPerFrame: 1,
     });
 
     playerRunRightAnim = sprite({
@@ -99,7 +99,7 @@ function setupSpriteSheets() {
       image: playerRunRight,
       loop: true,
       numberOfFrames: 8,
-      ticksPerFrame: 2,
+      ticksPerFrame: 1,
     });
 
     playerJumpLeftAnim = sprite({

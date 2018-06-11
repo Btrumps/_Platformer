@@ -26,6 +26,7 @@ var keyHeld_7 = false;
 var keyHeld_8 = false;
 var keyHeld_9 = false;
 var keyHeld_0 = false;
+var keyHeld_Delete = false;
 var keyHeld_Num1 = false;
 var keyHeld_Num2 = false;
 var keyHeld_Num3 = false;
@@ -117,19 +118,6 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 
-		case "KeyN" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-				keyHeld_Timer = 0;
-				bgEnabled = !bgEnabled;
-
-				if (mapEditorEnabled) {
-					console.log('BG Enabled');
-				} else {
-					console.log('BG Disabled');
-				}
-
-			}
-			break;
 		case "KeyG" :
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
@@ -247,6 +235,9 @@ function setValuesForKey(evt, value) {
 			break;
 		case "NumpadDecimal" :
 			keyHeld_Decimal = value;
+			break;
+		case "Delete" :
+			keyHeld_Delete = value;
 			break;
 		case "KeyC" :
 			keyHeld_C = value;
