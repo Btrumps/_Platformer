@@ -7,12 +7,15 @@ const PLAYER_JUMP_MAX_SPEED = 10;
 const VARIABLE_JUMP_WINDOW = 8;
 const MAX_DASH_FRAMES = 5;
 const GROUNDED_DASH_COOLDOWN = 5;
+const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 4;
 
 const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
-const FALLING_GRAVITY = 1.6;
+const FALLING_GRAVITY = 1.2;
 
 const COLLECTIBLE_MAX_TIME_TO_HOLD = 120; // 4 sec
+
+const MAX_DEATH_TIME = 30;
 
 const PLAYER_WIDTH = 14;
 const PLAYER_HEIGHT = 22;
@@ -77,6 +80,9 @@ function playerClass() {
 
 	this.dashTrail = [];
 
+	this.deathAnimationStarted = false;
+	this.deathTimer = 0;
+
 	this.collectibleObtained = false;
 	this.startCollectibleTimer = false;
 	this.collectibleIncrementTimer = 0;
@@ -108,6 +114,18 @@ function playerClass() {
 
 	this.move = function() {
 
+		if (this.deathAnimationStarted) {
+			if (this.deathTimer < MAX_DEATH_TIME) {
+				this.deathTimer++;
+				return;
+			} else {
+				this.deathAnimationStarted = false;
+				this.deathTimer = 0;
+				this.playerDiedSoResetLevel();
+			}
+			
+		}
+
 		var jumpJustPressed = (keyHeld_Jump_Prev == false && keyHeld_Jump);
 		var jumpJustReleased = (keyHeld_Jump_Prev && keyHeld_Jump == false);
 		keyHeld_Jump_Prev = keyHeld_Jump;
@@ -131,7 +149,7 @@ function playerClass() {
 			this.velX = -PLAYER_MAX_SPEED;
 		}
 
-		if (jumpJustPressed && this.framesSinceLeftGround < 4) {
+		if (jumpJustPressed && this.framesSinceLeftGround < MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
 			playerJumpLeftAnim.reset();
 			playerJumpRightAnim.reset();
 			
@@ -383,10 +401,7 @@ function playerClass() {
 				this.recalculateCollisionEdges();
 				
 			}
-		}
-
-
-		
+		}		
 
 	}
 
@@ -404,12 +419,11 @@ function playerClass() {
 		this.rightEdge = this.x+ PLAYER_WIDTH / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
 	}
 
-	this.killPlayer = function() {
+	this.playerDiedSoResetLevel = function() {
 		loadLevel(currentLevel);
 		this.reset();
 		totalDeaths++;
-		console.log('you have died');
-	} 
+	}
 
 	// NEED TO SET INSIDE TRIGGER TO FALSE TO AVOID MULTIPLE TRIGGER CALLS
 	this.insideTriggerCheck = function() {
@@ -433,15 +447,13 @@ function playerClass() {
 
 					if (playerXInsideTrigger < 8) {
 						if ((playerXInsideTrigger * 2) + playerYInsideTrigger > 16 && playerXInsideTrigger > 0) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					} else {
 						playerXInsideTrigger -= TILE_WIDTH / 2;
 						if (playerXInsideTrigger * 2 < playerYInsideTrigger && playerXInsideTrigger > 0) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					}
@@ -467,15 +479,13 @@ function playerClass() {
 					if (playerXInsideTrigger < 8) {
 						// adds offset for left-side cases on the right hitbox
 						if (playerXInsideTrigger * 2 > playerYInsideTrigger && playerXInsideTrigger > 0) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					} else {
 						playerXInsideTrigger -= TILE_WIDTH / 2;
 						if ((playerXInsideTrigger * 2) + playerYInsideTrigger < 16 && playerXInsideTrigger > 0) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					}
@@ -503,15 +513,13 @@ function playerClass() {
 							playerYInsideTrigger -= 2;
 						}
 						if ((playerYInsideTrigger * 2) + playerXInsideTrigger > 16 && playerYInsideTrigger > 0) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'top');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					} else {
 						playerYInsideTrigger -= TILE_HEIGHT / 2;
 						if (playerYInsideTrigger * 2 < playerXInsideTrigger && playerYInsideTrigger > 0) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'bottom');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					}
@@ -539,16 +547,14 @@ function playerClass() {
 							playerYInsideTrigger -= 2;
 						}
 						if (playerYInsideTrigger * 2 > playerXInsideTrigger && playerYInsideTrigger > 0) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'top');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					} else {
 						playerYInsideTrigger -= TILE_WIDTH / 2;
 						// we say < 16 because that stops the bottom edge from being checked
 						if ((playerYInsideTrigger * 2) + playerXInsideTrigger < 16 && playerYInsideTrigger > 0 && playerYInsideTrigger < 16) {
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'bottom');
-							this.killPlayer();
+							this.deathAnimationStarted = true;
 							return;
 						}
 					}
@@ -562,6 +568,7 @@ function playerClass() {
 						this.x = allTriggersArray[j].centeredX;
 						this.y = allTriggersArray[j].centeredY;
 						this.velX *= -1; // reverses the direction we went into the portal
+						this.collectibleObtained = true;
 					}
 				}
 			}
@@ -573,7 +580,7 @@ function playerClass() {
 
 			if (this.triggerArray[i].type == LEVEL_END) {
 				currentLevel++;
-				if (this.collectibleObtained) {
+				if (this.collectibleObtained || this.startCollectibleTimer) {
 					totalCollectibles++;
 					this.collectibleObtained = false;
 				}
@@ -608,150 +615,6 @@ function playerClass() {
 			this.collectibleObtained = true;
 		}
 	}
-
-	this.spikeTriggerCollisions = function() {
-
-		if (this.triggerType == LEVEL_SPIKE_N) {
-			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
-			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
-
-			// these offsets are for collisions, normally, this.x/y refers to player's center
-			var playerYOffset = 7;
-
-			playerXArray = [this.leftEdge + PLAYER_HITBOX_INNER_X_OFFSET,
-							this.rightEdge - PLAYER_HITBOX_INNER_X_OFFSET,
-							this.x]
-			var playerYInsideTrigger = this.y + playerYOffset - triggerTopY;
-
-			for (var i = 0; i < playerXArray.length; i++) {
-				var playerXInsideTrigger = playerXArray[i] - triggerLeftX;
-
-				if (playerXInsideTrigger < 8) {
-					if ((playerXInsideTrigger * 2) + playerYInsideTrigger > 16 && playerXInsideTrigger > 0) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
-						this.killPlayer();
-						return;
-					}
-				} else {
-					playerXInsideTrigger -= TILE_WIDTH / 2;
-					if (playerXInsideTrigger * 2 < playerYInsideTrigger && playerXInsideTrigger > 0) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
-						this.killPlayer();
-						return;
-					}
-				}
-			}
-			
-		}
-
-		if (this.triggerType == LEVEL_SPIKE_S) {
-			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
-			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
-
-			// these offsets are for collisions, normally, this.x/y refers to player's center
-			var playerYOffset = 6;
-
-			playerXArray = [this.leftEdge + PLAYER_HITBOX_INNER_X_OFFSET,
-							this.rightEdge - PLAYER_HITBOX_INNER_X_OFFSET,
-							this.x]
-			var playerYInsideTrigger = this.y - playerYOffset - triggerTopY;
-
-			for (var i = 0; i < playerXArray.length; i++) {
-				var playerXInsideTrigger = playerXArray[i] - triggerLeftX;
-
-				if (playerXInsideTrigger < 8) {
-					// adds offset for left-side cases on the right hitbox
-					if (playerXInsideTrigger * 2 > playerYInsideTrigger && playerXInsideTrigger > 0) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
-						this.killPlayer();
-						return;
-					}
-				} else {
-					playerXInsideTrigger -= TILE_WIDTH / 2;
-					if ((playerXInsideTrigger * 2) + playerYInsideTrigger < 16 && playerXInsideTrigger > 0) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
-						this.killPlayer();
-						return;
-					}
-				}
-			}
-			
-		}
-
-		if (this.triggerType == LEVEL_SPIKE_W) {
-			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
-			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
-
-			// these offsets are for collisions, normally, this.x/y refers to player's center
-			var playerXOffset = 5;
-
-			playerYArray = [this.topEdge + PLAYER_HITBOX_INNER_Y_OFFSET + 2,
-							this.bottomEdge - PLAYER_HITBOX_INNER_Y_OFFSET - 2,
-							this.y]
-			var playerXInsideTrigger = this.x + playerXOffset - triggerLeftX;
-
-			for (var i = 0; i < playerYArray.length; i++) {
-				var playerYInsideTrigger = playerYArray[i] - triggerTopY;
-
-				if (playerYInsideTrigger < 8) {
-					if (i == 1) {
-						playerYInsideTrigger -= 2;
-					}
-					if ((playerYInsideTrigger * 2) + playerXInsideTrigger > 16 && playerYInsideTrigger > 0) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'top');
-						this.killPlayer();
-						return;
-					}
-				} else {
-					playerYInsideTrigger -= TILE_HEIGHT / 2;
-					if (playerYInsideTrigger * 2 < playerXInsideTrigger && playerYInsideTrigger > 0) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'bottom');
-						this.killPlayer();
-						return;
-					}
-				}
-			}
-		}
-
-		if (this.triggerType == LEVEL_SPIKE_E) {
-			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
-			var triggerTopY = this.triggerY - TILE_HEIGHT / 2;
-
-			// these offsets are for collisions, normally, this.x/y refers to player's center
-			var playerXOffset = 3;
-
-			playerYArray = [this.topEdge + PLAYER_HITBOX_INNER_Y_OFFSET + 2,
-							this.bottomEdge - PLAYER_HITBOX_INNER_Y_OFFSET - 2,
-							this.y]
-
-			var playerXInsideTrigger = this.x - playerXOffset - triggerLeftX;
-
-			for (var i = 0; i < playerYArray.length; i++) {
-				var playerYInsideTrigger = playerYArray[i] - triggerTopY;
-
-				if (playerYInsideTrigger < 8) {
-					if (i == 1) {
-						//playerYInsideTrigger -= 2;
-					}
-					if (playerYInsideTrigger * 2 > playerXInsideTrigger && playerYInsideTrigger > 0) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'top');
-						this.killPlayer();
-						return;
-					}
-				} else {
-					playerYInsideTrigger -= TILE_WIDTH / 2;
-					// we say < 16 because that stops the bottom edge from being checked
-					if ((playerYInsideTrigger * 2) + playerXInsideTrigger < 16 && playerYInsideTrigger > 0 && playerYInsideTrigger < 16) {
-						console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'bottom');
-						this.killPlayer();
-						return;
-					}
-				}
-			}
-			
-		}
-	}
-
 
 	this.getCurrentPlayerIndex = function() {
 		var playerCol = Math.floor(this.x / TILE_WIDTH);
@@ -801,48 +664,52 @@ function playerClass() {
 	}
 
 	this.draw = function() {
-		/*
-		colorRect(	this.x - PLAYER_WIDTH / 2,
-					this.y - PLAYER_HEIGHT / 2,
-					PLAYER_WIDTH,
-					PLAYER_HEIGHT,
-					'blue');
-		*/
 
-		if (this.direction == DIRECTION_LEFT) {
-			if (this.currentMoveState == PLAYER_STATE_IDLE) {
-				playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
-				playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
-				playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
-				canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-				canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+		if (this.deathAnimationStarted) {
+			if (this.direction == DIRECTION_LEFT) {
+				playerDeathLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				playerDeathLeftAnim.update();
 			} else {
-				console.log('no animation available for this playerState! add it to player.draw()!');
+				playerDeathRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				playerDeathRightAnim.update();
 			}
 
-		} else if (this.direction == DIRECTION_RIGHT){
-			if (this.currentMoveState == PLAYER_STATE_IDLE) {
-				playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2 - 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
-				playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
-				playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
-				canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-				canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-			} else {
-				console.log('no animation available for this playerState! add it to player.draw()!');
+		} else {
+			if (this.direction == DIRECTION_LEFT) {
+				if (this.currentMoveState == PLAYER_STATE_IDLE) {
+					playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
+					playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
+					playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
+					canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
+					canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				} else {
+					console.log('no animation available for this playerState! add it to player.draw()!');
+				}
+
+			} else if (this.direction == DIRECTION_RIGHT){
+				if (this.currentMoveState == PLAYER_STATE_IDLE) {
+					playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2 - 2, this.y - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
+					playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
+					playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
+					canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
+					canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+				} else {
+					console.log('no animation available for this playerState! add it to player.draw()!');
+				}
+			} else if (this.direction == DIRECTION_UP) {
+				canvasContext.drawImage(playerDashUpImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 			}
-		} else if (this.direction == DIRECTION_UP) {
-			canvasContext.drawImage(playerDashUpImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+
+			this.drawDashTrail();
 		}
-
-		this.drawDashTrail();
 
 		if (showHitbox) {
 			var colorHere = 'yellow';

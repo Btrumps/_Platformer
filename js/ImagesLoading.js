@@ -9,14 +9,17 @@ var playerRunLeft = document.createElement("img");
 var playerRunRight = document.createElement("img");
 var playerJumpLeft = document.createElement("img");
 var playerJumpRight = document.createElement("img");
+var playerDeathLeft = document.createElement("img");
+var playerDeathRight = document.createElement("img");
 var playerDashLeftImg = document.createElement("img");
 var playerDashRightImg = document.createElement("img");
 var playerDashUpImg = document.createElement("img");
 var playerFallingImg = document.createElement("img");
 
-var enterPortalImg = document.createElement("img");
-var exitPortalImg = document.createElement("img");
-var collectibleImg = document.createElement("img");
+var enterPortalAnim = document.createElement("img");
+var exitPortalAnim = document.createElement("img");
+var collectibleAnim = document.createElement("img");
+var collectibleObtainedAnim = document.createElement("img");
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
@@ -48,13 +51,16 @@ function loadImages() {
 		{varName: playerRunRight, theFile: "./images/player/player_runright_anim.png"},
 		{varName: playerJumpLeft, theFile: "./images/player/player_jumpleft_anim.png"},
 		{varName: playerJumpRight, theFile: "./images/player/player_jumpright_anim.png"},
+		{varName: playerDeathLeft, theFile: "./images/player/player_deathleft_anim.png"},
+		{varName: playerDeathRight, theFile: "./images/player/player_deathright_anim.png"},
 		{varName: playerDashLeftImg, theFile: "./images/player/player_dashleft.png"},
 		{varName: playerDashRightImg, theFile: "./images/player/player_dashright.png"},
 		{varName: playerDashUpImg, theFile: "./images/player/player_dashup.png"},
 		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
-		{varName: enterPortalImg, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
-		{varName: exitPortalImg, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
-		{varName: collectibleImg, theFile: "./images/level_obstacles/collectible_anim.png"},
+		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
+		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
+		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},
+		{varName: collectibleObtainedAnim, theFile: "./images/level_obstacles/collectible_obtained_anim.png"},
 		{levelType: LEVEL_PLATFORM_N, theFile: "./images/level_tiles/platform_N.png"},
 		{levelType: LEVEL_PLATFORM_S, theFile: "./images/level_tiles/platform_S.png"},
 		{levelType: LEVEL_PLATFORM_W, theFile: "./images/level_tiles/platform_W.png"},

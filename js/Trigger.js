@@ -1,5 +1,7 @@
 const MAX_FALLING_SPIKE_TRIGGER_RANGE = 125;
 const FALL_SPEED = 4;
+const COLLECTIBLE_SPEED = 0.1;
+const COLLECTIBLE_MAX_DIST_FROM_PLAYER = 25;
 
 const POWERUP_COOLDOWN_MAX = 60; // 2 sec
 const FORGIVENESS_PIXELS = 8;
@@ -21,6 +23,8 @@ function triggerClass(col, row, index, whichType) {
 
 	this.powerupCooldown = 0;
 	this.powerupCooldownStarted = false;
+
+	this.collectiblePickedUp = false;
 
 	this.fallTrigger = false;
 	this.collider = true;
@@ -63,14 +67,14 @@ function triggerClass(col, row, index, whichType) {
 					if (playerXInsideTrigger < 8) {
 						// adds offset for left-side cases on the right hitbox
 						if (playerXInsideTrigger * 2 > playerYInsideTrigger && playerXInsideTrigger > 0) {
-							player.killPlayer();
+							player.deathAnimationStarted = true;
 							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
 							return;
 						}
 					} else {
 						playerXInsideTrigger -= TILE_WIDTH / 2;
 						if ((playerXInsideTrigger * 2) + playerYInsideTrigger < 16 && playerXInsideTrigger > 0) {
-							player.killPlayer();
+							player.deathAnimationStarted = true;
 							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
 							return;
 						}
@@ -94,6 +98,29 @@ function triggerClass(col, row, index, whichType) {
 				this.powerupCooldown = 0;
 			}
 		}
+
+
+		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.collectibleObtained == false) {
+			var deltaX = player.x - this.centeredX;
+			var deltaY = player.y - this.centeredY;
+			var distanceFromPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
+			// the farther the collectible is from the player, the faster it will travel
+			var speed = COLLECTIBLE_SPEED * distanceFromPlayer;
+
+			var moveX = speed * deltaX/distanceFromPlayer;
+			var moveY = speed * deltaY/distanceFromPlayer;
+
+			if (distanceFromPlayer > COLLECTIBLE_MAX_DIST_FROM_PLAYER) {
+
+				this.centeredX += moveX;
+				this.centeredY += moveY;
+
+				this.x = this.centeredX - TILE_WIDTH / 2;
+				this.y = this.centeredY - TILE_HEIGHT / 2;
+
+			}
+		}
 		
 	}
 
@@ -103,13 +130,14 @@ function triggerClass(col, row, index, whichType) {
 				canvasContext.drawImage(levelPics[LEVEL_SPIKE_S_FALLING], this.x, this.y);
 			}
 		}
+
+		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.collectibleObtained == false) {
+			collectibleAnim.render(this.x, this.y);
+		}
+
+		if (this.type == LEVEL_COLLECTIBLE && player.collectibleObtained) {
+			collectibleObtainedAnim.render(this.x, this.y);
+			collectibleObtainedAnim.update();
+		}
 	}
-
-	this.distFrom = function(otherX, otherY) {
-		deltaX = otherX - this.centeredX;
-		deltaY = otherY - this.centeredY;
-
-		return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-	}
-
 }

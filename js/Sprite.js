@@ -56,6 +56,7 @@ function updateAnimations() {
   playerRunRightAnim.update();
   playerJumpLeftAnim.update();
   playerJumpRightAnim.update();
+
   enterPortalAnim.update();
   exitPortalAnim.update();
   collectibleAnim.update();
@@ -122,11 +123,31 @@ function setupSpriteSheets() {
       ticksPerFrame: 16,
     });
 
+    playerDeathLeftAnim = sprite({
+      context: canvasContext,
+      width: 128,
+      height: 24,
+      image: playerDeathLeft,
+      loop: false,
+      numberOfFrames: 8,
+      ticksPerFrame: 1,
+    });
+
+    playerDeathRightAnim = sprite({
+      context: canvasContext,
+      width: 128,
+      height: 24,
+      image: playerDeathRight,
+      loop: false,
+      numberOfFrames: 8,
+      ticksPerFrame: 1,
+    });
+
     enterPortalAnim = sprite({
       context: canvasContext,
       width: 128,
       height: 32,
-      image: enterPortalImg,
+      image: enterPortalAnim,
       loop: true,
       numberOfFrames: 4,
       ticksPerFrame: 8,
@@ -136,7 +157,7 @@ function setupSpriteSheets() {
       context: canvasContext,
       width: 128,
       height: 32,
-      image: exitPortalImg,
+      image: exitPortalAnim,
       loop: true,
       numberOfFrames: 4,
       ticksPerFrame: 8,
@@ -146,9 +167,19 @@ function setupSpriteSheets() {
       context: canvasContext,
       width: 64,
       height: 16,
-      image: collectibleImg,
+      image: collectibleAnim,
       loop: true,
       numberOfFrames: 4,
       ticksPerFrame: 6,
+    });
+
+    collectibleObtainedAnim = sprite({
+      context: canvasContext,
+      width: 176,
+      height: 16,
+      image: collectibleObtainedAnim,
+      loop: false,
+      numberOfFrames: 11,
+      ticksPerFrame: 1,
     });
 }

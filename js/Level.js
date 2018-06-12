@@ -99,6 +99,9 @@ function loadLevel(whichLevel) {
 		levelGrid = levelTest.slice();
 	}
 	player.reset();
+	playerDeathLeftAnim.reset();
+	playerDeathRightAnim.reset();
+	collectibleObtainedAnim.reset();
 	getTriggersAndAddToArray();
 }
 
