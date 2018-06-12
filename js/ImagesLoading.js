@@ -76,11 +76,6 @@ function loadImages() {
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E2.png"},
 		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
 		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"}
-		/*
-		{bgType: BG_BRICK_1, theFile: "./images/bg_brick_1.png"},
-		{bgType: BG_BRICK_2, theFile: "./images/bg_brick_2.png"},
-		{bgType: BG_BRICK_3, theFile: "./images/bg_brick_3.png"},
-		*/
 		];
 
 	picsToLoad = imageList.length;
