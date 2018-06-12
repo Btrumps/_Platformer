@@ -66,14 +66,20 @@ function setValuesForKey(evt, value) {
 	switch (evt.code) {
 
 		case "ArrowLeft" :
-			keyHeld_DashLeft = value;
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				keyHeld_DashLeft = true;
+			}
 			break;
 		case "KeyA" :
 			keyHeld_Left = value;
 			break;
 
 		case "ArrowRight" :
-			keyHeld_DashRight = value;
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				keyHeld_DashRight = true;
+			}
 			break;
 		case "KeyD" :
 			keyHeld_Right = value;
@@ -81,14 +87,13 @@ function setValuesForKey(evt, value) {
 
 
 		case "ArrowUp" :
-			keyHeld_DashUp = value;
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				keyHeld_DashUp = true;
+			}
 			break;
 		case "KeyW" :
 			keyHeld_Jump = value;
-			break;
-
-		case "ArrowDown" :
-			keyHeld_DashDown = value;
 			break;
 
 		case "KeyZ" :
@@ -254,7 +259,7 @@ function setValuesForKey(evt, value) {
 function mouseMoveHandler(evt) {
 	var rect = canvas.getBoundingClientRect();
 
-	mouseX = evt.clientX - rect.left;
-	mouseY = evt.clientY - rect.top;
+	mouseX = (evt.clientX - rect.left) / PIXEL_SCALE_UP;
+	mouseY = (evt.clientY - rect.top) / PIXEL_SCALE_UP;
 
 }

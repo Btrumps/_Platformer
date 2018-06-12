@@ -145,7 +145,13 @@ function saveLevelInSession(whichLevel) {
 		console.log('level5 saved successfully!');
 	} else if (whichLevel == 6) {
 		level6 = levelGrid.slice();
-		console.log('level5 saved successfully!');
+		console.log('level6 saved successfully!');
+	} else if (whichLevel == 7) {
+		level7 = levelGrid.slice();
+		console.log('level7 saved successfully!');
+	} else if (whichLevel == 8) {
+		level8 = levelGrid.slice();
+		console.log('level8 saved successfully!');
 	} else {
 		console.log('cannot save level, add it to saveLevelInSession()!');
 	}

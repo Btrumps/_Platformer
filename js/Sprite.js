@@ -129,7 +129,7 @@ function setupSpriteSheets() {
       image: enterPortalImg,
       loop: true,
       numberOfFrames: 4,
-      ticksPerFrame: 10,
+      ticksPerFrame: 8,
     });
 
     exitPortalAnim = sprite({
@@ -139,7 +139,7 @@ function setupSpriteSheets() {
       image: exitPortalImg,
       loop: true,
       numberOfFrames: 4,
-      ticksPerFrame: 10,
+      ticksPerFrame: 8,
     });
 
     collectibleAnim = sprite({
@@ -149,6 +149,6 @@ function setupSpriteSheets() {
       image: collectibleImg,
       loop: true,
       numberOfFrames: 4,
-      ticksPerFrame: 8,
+      ticksPerFrame: 6,
     });
 }

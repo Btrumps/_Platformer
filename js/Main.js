@@ -1,19 +1,42 @@
 const CANVAS_WIDTH = 512;
 const CANVAS_HEIGHT = 448;
+const PIXEL_SCALE_UP = 2;
 const FPS = 30;
 
 var canvas, canvasContext;
+var scaledCanvas, scaledContext;
+
 var player = new playerClass();
 
 window.onload = function() {
-	canvas = document.getElementById('gameCanvas');
+	scaledCanvas = document.getElementById('gameCanvas');
+	canvas = document.createElement('canvas');
+	
+	
+	// Sizing game canvas for pixel doubling
+	canvas.width = TILE_WIDTH * LEVEL_COLS;
+	canvas.height = TILE_HEIGHT * LEVEL_ROWS;
+	scaledCanvas.width = PIXEL_SCALE_UP * scaledCanvas.width;
+	scaledCanvas.height = PIXEL_SCALE_UP * scaledCanvas.height;
+
 	canvasContext = canvas.getContext('2d');
+	scaledContext = scaledCanvas.getContext('2d');
+	scaledContext.fillStyle = 'black';
+
+	// Helps it not blur from the scaling
+	scaledContext.mozImageSmoothingEnabled = false;
+	scaledContext.imageSmoothingEnabled = false;
+	scaledContext.msSmoothingEnabled = false;
+	canvasContext.mozImageSmoothingEnabled = false;
+	canvasContext.imageSmoothingEnabled = false;
+	canvasContext.msSmoothingEnabled = false;
+
 
 	document.addEventListener('keydown', keyDownHandler);
 	document.addEventListener('keyup', keyUpHandler);
-	canvas.addEventListener('mousemove', mouseMoveHandler);
+	scaledCanvas.addEventListener('mousemove', mouseMoveHandler);
 
-	canvasContext.imageSmoothingEnabled = false;
+	
 
 	startScreenWithLoadingImagesText();
 	loadImages();
@@ -62,6 +85,9 @@ function drawAll() {
 	if (mapEditorEnabled) {
 		showMapEditorGrid();
 	}
+
+	scaledContext.drawImage(canvas, 0,0, canvas.width,canvas.height,
+	                        		0,0, scaledCanvas.width, scaledCanvas.height);
 
 	showLevelText();
 }

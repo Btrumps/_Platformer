@@ -12,6 +12,8 @@ const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
 const FALLING_GRAVITY = 1.6;
 
+const COLLECTIBLE_MAX_TIME_TO_HOLD = 120; // 4 sec
+
 const PLAYER_WIDTH = 14;
 const PLAYER_HEIGHT = 22;
 const PLAYER_ANIM_Y_OFFSET = 0;
@@ -72,12 +74,12 @@ function playerClass() {
 
 	this.triggerArray = [];
 	this.insideTrigger = false;
-	this.triggerType;
-	this.triggerIndex;
-	this.triggerX;
-	this.triggerY;
+
+	this.dashTrail = [];
 
 	this.collectibleObtained = false;
+	this.startCollectibleTimer = false;
+	this.collectibleIncrementTimer = 0;
 
 	this.reset = function() {
 		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
@@ -92,10 +94,16 @@ function playerClass() {
 					this.y = startY;
 				}
 
+				if (this.collectibleObtained && levelGrid[index] == LEVEL_COLLECTIBLE) {
+					levelGrid[index] = 0;
+				}
+
 			}
 		}
 
-		collectibleObtained = false;
+		this.startCollectibleTimer = false;
+		this.collectibleIncrementTimer = 0;
+
 	}
 
 	this.move = function() {
@@ -154,15 +162,22 @@ function playerClass() {
 			this.direction = DIRECTION_RIGHT;
 		}
 
+		// adds previous position for the dash trail
+		if (this.currentMoveState == PLAYER_STATE_DASHING) {
+			this.dashTrail.push({x: this.x - PLAYER_WIDTH /2, y: this.y - PLAYER_HEIGHT / 2});
+		} else {
+			this.dashTrail = [];
+
+			// set these values to false when not dashing
+			// this stops the player from accidentally dashing when holding down the arrows
+			// requires the player to lift up the key for every dash
+			keyHeld_DashLeft = false;
+			keyHeld_DashRight = false;
+			keyHeld_DashUp = false;
+		}
+
 		this.x += this.velX;
 		this.y += this.velY;
-
-		this.wallCollisionChecks();
-		this.checkForTriggersAndAddToArray();
-
-		if (this.triggerArray.length > 0) {
-			this.insideTriggerCheck();
-		}
 
 		this.currentIndex = this.getCurrentPlayerIndex();
 
@@ -192,6 +207,17 @@ function playerClass() {
 			} else {
 				this.currentMoveState = PLAYER_STATE_IDLE;
 			}
+		}
+
+		this.wallCollisionChecks();
+		this.checkForTriggersAndAddToArray();
+
+		if (this.triggerArray.length > 0) {
+			this.insideTriggerCheck();
+		}
+
+		if (this.startCollectibleTimer) {
+			this.updateCollectibleTimer();
 		}
 	}
 
@@ -302,7 +328,7 @@ function playerClass() {
 			this.recalculateCollisionEdges();
 			this.isGrounded = true;
 
-		} else if (isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false)  {
+		} else if (isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false && this.currentMoveState != PLAYER_STATE_DASHING)  {
 			this.isGrounded = false;
 		}
 
@@ -541,14 +567,15 @@ function playerClass() {
 			}
 
 			if (this.triggerArray[i].type == LEVEL_COLLECTIBLE) {
-				this.collectibleObtained = true;
 				levelGrid[this.triggerArray[i].index] = 0;
+				this.startCollectibleTimer = true;
 			}
 
 			if (this.triggerArray[i].type == LEVEL_END) {
 				currentLevel++;
 				if (this.collectibleObtained) {
 					totalCollectibles++;
+					this.collectibleObtained = false;
 				}
 				loadLevel(currentLevel);
 				break;
@@ -574,17 +601,15 @@ function playerClass() {
 
 	}
 
-	this.spikeTriggerCollisions = function() {
-		/*
-		if (this.triggerType == LEVEL_SPIKE_N ||
-			this.triggerType == LEVEL_SPIKE_S ||
-			this.triggerType == LEVEL_SPIKE_W ||
-			this.triggerType == LEVEL_SPIKE_E) {
-
-			this.killPlayer();
-			this.insideTrigger = false;
+	this.updateCollectibleTimer = function() {
+		if (this.collectibleIncrementTimer < COLLECTIBLE_MAX_TIME_TO_HOLD) {
+			this.collectibleIncrementTimer++;
+		} else {
+			this.collectibleObtained = true;
 		}
-		*/
+	}
+
+	this.spikeTriggerCollisions = function() {
 
 		if (this.triggerType == LEVEL_SPIKE_N) {
 			var triggerLeftX = this.triggerX - TILE_WIDTH / 2;
@@ -742,6 +767,39 @@ function playerClass() {
 		return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 	}
 
+	this.drawDashTrail = function() {
+		var opacityChange = 0.2;
+
+		if (this.dashTrail.length > 2) {
+			this.dashTrail.shift();
+		}
+
+		if (this.currentMoveState == PLAYER_STATE_DASHING && this.direction == DIRECTION_LEFT) {
+			for (var i = 0; i < this.dashTrail.length; i++) {
+				canvasContext.globalAlpha = i * opacityChange + 0.2;
+				canvasContext.drawImage(playerDashLeftImg, this.dashTrail[i].x, this.dashTrail[i].y);
+				canvasContext.globalAlpha = 1.0;
+			}
+			
+		} else if (this.currentMoveState == PLAYER_STATE_DASHING && this.direction == DIRECTION_RIGHT) {
+			
+			for (var i = 0; i < this.dashTrail.length; i++) {
+				canvasContext.globalAlpha = i * opacityChange + 0.2;
+				canvasContext.drawImage(playerDashRightImg, this.dashTrail[i].x, this.dashTrail[i].y);
+				canvasContext.globalAlpha = 1.0;
+			}
+		}  else if (this.currentMoveState == PLAYER_STATE_DASHING && this.direction == DIRECTION_UP) {
+			
+			for (var i = 0; i < this.dashTrail.length; i++) {
+				canvasContext.globalAlpha = i * opacityChange + 0.2;
+				canvasContext.drawImage(playerDashUpImg, this.dashTrail[i].x, this.dashTrail[i].y);
+				canvasContext.globalAlpha = 1.0;
+			}
+		}
+
+		
+	}
+
 	this.draw = function() {
 		/*
 		colorRect(	this.x - PLAYER_WIDTH / 2,
@@ -783,6 +841,8 @@ function playerClass() {
 		} else if (this.direction == DIRECTION_UP) {
 			canvasContext.drawImage(playerDashUpImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 		}
+
+		this.drawDashTrail();
 
 		if (showHitbox) {
 			var colorHere = 'yellow';
