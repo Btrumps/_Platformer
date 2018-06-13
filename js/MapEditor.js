@@ -106,6 +106,9 @@ function placeTilesOnButtonPress() {
 		levelGrid[mouseIndex] = LEVEL_DASH_POWERUP;
 	}
 
+	if (keyHeld_Q) {
+		levelGrid[mouseIndex] = LEVEL_SHOOTER_W;
+	}
 
 	if (keyHeld_Minus) {
 		levelGrid[mouseIndex] = LEVEL_START;
@@ -121,10 +124,24 @@ function placeTilesOnButtonPress() {
 
 }
 
-function outputLevelToConsole() {
-	var levelData = JSON.stringify(levelGrid);
+// can be declared var or const
+const copyToClipboard = str => {
+  var textElement = document.createElement('textarea');
+  textElement.value = str;
+  textElement.setAttribute('readonly', '');
+  textElement.style.position = 'absolute';
+  textElement.style.left = '-9999px';
+  document.body.appendChild(textElement);
+  textElement.select();
+  document.execCommand('copy');
+  document.body.removeChild(textElement);
+};
 
-	console.log(levelData);
+function outputLevelToConsole() {
+
+	var levelData = JSON.stringify(levelGrid);
+	copyToClipboard(levelData);
+	//console.log(levelData);
 }
 
 function saveLevelInSession(whichLevel) {

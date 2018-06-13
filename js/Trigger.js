@@ -30,6 +30,59 @@ function triggerClass(col, row, index, whichType) {
 	this.collider = true;
 
 	this.move = function() {
+		this.fallingSpikeHandling();
+		this.powerupHandling();
+		this.collectibleHandling();
+		this.shooterHandling();
+		
+	}
+
+	this.shooterHandling = function() {
+		if (this.type == LEVEL_SHOOTER_W) {
+
+		}
+	}
+
+	this.powerupHandling = function() {
+		if (this.type == LEVEL_DASH_POWERUP) {
+			// this only occurs if the player picks up a powerup. once the timer is up, the powerup respawns
+			if (this.powerupCooldownStarted) {
+				if (this.powerupCooldown < POWERUP_COOLDOWN_MAX) {
+					this.powerupCooldown++;
+				} else {
+					levelGrid[this.index] = LEVEL_DASH_POWERUP;
+					this.powerupCooldownStarted = false;
+					this.powerupCooldown = 0;
+				}
+			}
+		}
+	}
+
+	this.collectibleHandling = function () {
+		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.collectibleObtained == false) {
+			var deltaX = player.x - this.centeredX;
+			var deltaY = player.y - this.centeredY;
+			var distanceFromPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
+			// the farther the collectible is from the player, the faster it will travel
+			var speed = COLLECTIBLE_SPEED * distanceFromPlayer;
+
+			var moveX = speed * deltaX/distanceFromPlayer;
+			var moveY = speed * deltaY/distanceFromPlayer;
+
+			if (distanceFromPlayer > COLLECTIBLE_MAX_DIST_FROM_PLAYER) {
+
+				this.centeredX += moveX;
+				this.centeredY += moveY;
+
+				this.x = this.centeredX - TILE_WIDTH / 2;
+				this.y = this.centeredY - TILE_HEIGHT / 2;
+
+			}
+		}
+	}
+
+	this.fallingSpikeHandling = function() {
 		if (this.type == LEVEL_SPIKE_S_FALLING) {
 			if (player.x > this.x &&
 				player.x < this.x + TILE_WIDTH &&
@@ -87,41 +140,6 @@ function triggerClass(col, row, index, whichType) {
 			this.fallTrigger = false;
 			this.collider = false;
 		}
-
-		// this only occurs if the player picks up a powerup. once the timer is up, the powerup respawns
-		if (this.powerupCooldownStarted) {
-			if (this.powerupCooldown < POWERUP_COOLDOWN_MAX) {
-				this.powerupCooldown++;
-			} else {
-				levelGrid[this.index] = LEVEL_DASH_POWERUP;
-				this.powerupCooldownStarted = false;
-				this.powerupCooldown = 0;
-			}
-		}
-
-
-		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.collectibleObtained == false) {
-			var deltaX = player.x - this.centeredX;
-			var deltaY = player.y - this.centeredY;
-			var distanceFromPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-
-			// the farther the collectible is from the player, the faster it will travel
-			var speed = COLLECTIBLE_SPEED * distanceFromPlayer;
-
-			var moveX = speed * deltaX/distanceFromPlayer;
-			var moveY = speed * deltaY/distanceFromPlayer;
-
-			if (distanceFromPlayer > COLLECTIBLE_MAX_DIST_FROM_PLAYER) {
-
-				this.centeredX += moveX;
-				this.centeredY += moveY;
-
-				this.x = this.centeredX - TILE_WIDTH / 2;
-				this.y = this.centeredY - TILE_HEIGHT / 2;
-
-			}
-		}
-		
 	}
 
 	this.draw = function() {

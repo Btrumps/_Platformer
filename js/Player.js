@@ -113,6 +113,10 @@ function playerClass() {
 	}
 
 	this.move = function() {
+		var jumpJustPressed = (keyHeld_Jump_Prev == false && keyHeld_Jump);
+		var jumpJustReleased = (keyHeld_Jump_Prev && keyHeld_Jump == false);
+		keyHeld_Jump_Prev = keyHeld_Jump;
+
 
 		if (this.deathAnimationStarted) {
 			if (this.deathTimer < MAX_DEATH_TIME) {
@@ -126,12 +130,6 @@ function playerClass() {
 			
 		}
 
-		var jumpJustPressed = (keyHeld_Jump_Prev == false && keyHeld_Jump);
-		var jumpJustReleased = (keyHeld_Jump_Prev && keyHeld_Jump == false);
-		keyHeld_Jump_Prev = keyHeld_Jump;
-		
-
-
 		if (keyHeld_Left) {
 			this.velX -= PLAYER_ACCELERATION;
 		}
@@ -141,27 +139,30 @@ function playerClass() {
 		}
 
 		if (this.velX > PLAYER_MAX_SPEED) {
-
 			this.velX = PLAYER_MAX_SPEED;
 
 		} else if (Math.abs(this.velX) > PLAYER_MAX_SPEED) {
-
 			this.velX = -PLAYER_MAX_SPEED;
 		}
 
 		if (jumpJustPressed && this.framesSinceLeftGround < MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
 			playerJumpLeftAnim.reset();
 			playerJumpRightAnim.reset();
-			
-
 			this.velY = -PLAYER_JUMP_SPEED;
+
 		} else if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 			this.velY = -PLAYER_JUMP_SPEED;
+		}
+
+		// stops the player from jumping twice in the air if they double tap the button
+		if (jumpJustReleased) {
+			this.variableJumpCounter = VARIABLE_JUMP_WINDOW + 1;
 		}
 
 		// if we are holding jump, we are affected by a different gravity on the upwards part of the jump
 		if (this.velY > 2) {
 			this.velY += FALLING_GRAVITY;
+
 		} else {
 			this.velY += GRAVITY;			
 		}
@@ -176,6 +177,7 @@ function playerClass() {
 
 		if (this.velX <= 0 && this.currentMoveState != PLAYER_STATE_DASHING) {
 			this.direction = DIRECTION_LEFT;
+
 		} else if (this.velX > 0 && this.currentMoveState != PLAYER_STATE_DASHING) {
 			this.direction = DIRECTION_RIGHT;
 		}
@@ -183,6 +185,7 @@ function playerClass() {
 		// adds previous position for the dash trail
 		if (this.currentMoveState == PLAYER_STATE_DASHING) {
 			this.dashTrail.push({x: this.x - PLAYER_WIDTH /2, y: this.y - PLAYER_HEIGHT / 2});
+
 		} else {
 			this.dashTrail = [];
 
@@ -204,6 +207,7 @@ function playerClass() {
 			this.framesSinceLeftGround = 0;
 			this.dashesLeft = this.maxDashLimit;
 			this.dashCooldownCounter++;
+
 		} else {
 			this.framesSinceLeftGround++;
 			this.variableJumpCounter++;
@@ -709,107 +713,7 @@ function playerClass() {
 			}
 
 			this.drawDashTrail();
+			
 		}
-
-		if (showHitbox) {
-			var colorHere = 'yellow';
-
-			// this x and y point
-			colorRect(	this.x - 1,
-						this.y - 1,
-						2,
-						2,
-						'white');
-
-			// hit box point
-
-
-		
-			// top edge center hitbox point
-			colorRect(	this.x - 1,
-						this.topEdge - 1,
-						2,
-						2,
-						colorHere);
-
-			// top edge left hitbox point
-			colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
-						this.topEdge - 1,
-						2,
-						2,
-						colorHere);
-
-			// top edge right hitbox point
-			colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
-						this.topEdge - 1,
-						2,
-						2,
-						colorHere);
-
-
-			// bottom edge center hitbox point
-			colorRect(	this.x - 1,
-						this.bottomEdge - 1,
-						2,
-						2,
-						colorHere);
-
-			// bottom edge left hitbox point
-			colorRect(	this.x - 1 - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET,
-						this.bottomEdge - 1,
-						2,
-						2,
-						colorHere);
-
-			// bottom edge right hitbox point
-			colorRect(	this.x - 1 + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET,
-						this.bottomEdge - 1 ,
-						2,
-						2,
-						colorHere);
-
-			// left edge center hitbox point
-			colorRect(	this.leftEdge - 1,
-						this.y - 1,
-						2,
-						2,
-						colorHere);
-
-			// left edge top hitbox point
-			colorRect(	this.leftEdge - 1,
-						this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
-						2,
-						2,
-						colorHere);
-
-			// left edge bottom hitbox point
-			colorRect(	this.leftEdge - 1,
-						this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
-						2,
-						2,
-						colorHere);
-
-			// right edge center hitbox point
-			colorRect(	this.rightEdge - 1,
-						this.y - 1,
-						2,
-						2,
-						colorHere);
-
-			// right edge top hitbox point
-			colorRect(	this.rightEdge - 1,
-						this.y - 1 - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_Y_OFFSET,
-						2,
-						2,
-						colorHere);
-
-			// right edge bottom hitbox point
-			colorRect(	this.rightEdge - 1,
-						this.y - 1 + (PLAYER_HEIGHT / 2) - PLAYER_HITBOX_Y_OFFSET,
-						2,
-						2,
-						colorHere);
-		}
-
 	}
 }
