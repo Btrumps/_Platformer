@@ -72,7 +72,9 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 		case "KeyA" :
-			keyHeld_Left = value;
+			if (mapEditorEnabled == false) {
+				keyHeld_Left = value;
+			}
 			break;
 
 		case "ArrowRight" :
@@ -82,7 +84,9 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 		case "KeyD" :
-			keyHeld_Right = value;
+			if (mapEditorEnabled == false) {
+				keyHeld_Right = value;
+			}
 			break;
 
 
@@ -93,7 +97,10 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 		case "KeyW" :
-			keyHeld_Jump = value;
+			if (mapEditorEnabled == false) {
+				keyHeld_Jump = value;
+			}
+			keyHeld_W = value;
 			break;
 
 		case "KeyZ" :
@@ -146,9 +153,6 @@ function setValuesForKey(evt, value) {
 
 		case "KeyQ" :
 			keyHeld_Q = value;
-			break;
-		case "KeyW" :
-			keyHeld_W = value;
 			break;
 		case "KeyE" :
 			keyHeld_E = value;

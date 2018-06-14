@@ -63,6 +63,10 @@ function moveAll() {
 	for (var i = 0; i < allTriggersArray.length; i++) {
 		allTriggersArray[i].move();
 	}
+
+	for (var i = 0; i < projectileArray.length; i++) {
+		projectileArray[i].move();
+	}
 	
 	if (musicEnabled) {
 		playBGM(currentLevel);
@@ -79,6 +83,10 @@ function drawAll() {
 
 	for (var i = 0; i < allTriggersArray.length; i++) {
 		allTriggersArray[i].draw();
+	}
+
+	for (var i = 0; i < projectileArray.length; i++) {
+		projectileArray[i].draw();
 	}
 
 

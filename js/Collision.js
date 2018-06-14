@@ -106,3 +106,28 @@ function isTriggerAtPixel(x, y, whichEdge) {
 		}
 	}
 }
+
+function isProjectileKillingPlayer(x, y) {
+
+	player.recalculateCollisionEdges();
+
+	// these small values push the hitbox in on the player
+	var startX = x - (PLAYER_WIDTH / 2) + 1;
+	var endX = x + (PLAYER_WIDTH / 2) - 1;
+
+	var startY = y - (PLAYER_HEIGHT / 2) + 2;
+	var endY = y + (PLAYER_HEIGHT / 2) - 2;
+	
+	for (var i = 0; i < projectileArray.length; i++) {
+
+		if (projectileArray[i].x > startX &&
+			projectileArray[i].x < endX &&
+			projectileArray[i].y > startY &&
+			projectileArray[i].y < endY) {
+			
+			return true;
+		}
+
+	}
+		return false;
+}

@@ -6,7 +6,10 @@ const COLLECTIBLE_MAX_DIST_FROM_PLAYER = 25;
 const POWERUP_COOLDOWN_MAX = 60; // 2 sec
 const FORGIVENESS_PIXELS = 8;
 
+const PROJECTILE_INTERVAL = 60;
+
 var allTriggersArray = [];
+var projectileArray = [];
 
 function triggerClass(col, row, index, whichType) {
 
@@ -29,11 +32,54 @@ function triggerClass(col, row, index, whichType) {
 	this.fallTrigger = false;
 	this.collider = true;
 
+	this.shotTimer = 0;
+	this.projectileInterval = PROJECTILE_INTERVAL;
+
 	this.move = function() {
 		this.fallingSpikeHandling();
 		this.powerupHandling();
 		this.collectibleHandling();
 		this.shooterHandling();
+
+		if (this.type == LEVEL_SHOOTER_W) {
+			if (this.shotTimer > this.projectileInterval) {
+				this.shotTimer = 0;
+				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_LEFT);
+				projectileArray.push(projectile);
+			} else {
+				this.shotTimer++;
+			}
+		}
+
+		if (this.type == LEVEL_SHOOTER_E) {
+			if (this.shotTimer > this.projectileInterval) {
+				this.shotTimer = 0;
+				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_RIGHT);
+				projectileArray.push(projectile);
+			} else {
+				this.shotTimer++;
+			}
+		}
+
+		if (this.type == LEVEL_SHOOTER_N) {
+			if (this.shotTimer > this.projectileInterval) {
+				this.shotTimer = 0;
+				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_UP);
+				projectileArray.push(projectile);
+			} else {
+				this.shotTimer++;
+			}
+		}
+
+		if (this.type == LEVEL_SHOOTER_S) {
+			if (this.shotTimer > this.projectileInterval) {
+				this.shotTimer = 0;
+				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_DOWN);
+				projectileArray.push(projectile);
+			} else {
+				this.shotTimer++;
+			}
+		}
 		
 	}
 

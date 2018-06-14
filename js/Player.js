@@ -238,6 +238,11 @@ function playerClass() {
 			this.insideTriggerCheck();
 		}
 
+		if (isProjectileKillingPlayer(this.x, this.y)) {
+			this.deathAnimationStarted = true;
+		}
+		
+
 		if (this.startCollectibleTimer) {
 			this.updateCollectibleTimer();
 		}
