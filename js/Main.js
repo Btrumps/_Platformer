@@ -98,6 +98,10 @@ function drawAll() {
 	                        		0,0, scaledCanvas.width, scaledCanvas.height);
 
 	showLevelText();
+
+	for (var i = 0; i < allTriggersArray.length; i++) {
+		allTriggersArray[i].drawText();
+	}
 }
 
 function startScreenWithLoadingImagesText() {

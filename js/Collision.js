@@ -24,6 +24,31 @@ function isObstacleAtPixel(x, y, whichEdge) {
 		for (var j = 0; j < hitboxArray.length; j++) {
 			if (whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) {
 				if (returnTileTypeAtPixel(hitboxArray[j], y) == obstacleTileArray[i]) {
+					
+					if ((obstacleTileArray[i] == LEVEL_FALLING_PLATFORM_W ||
+					    obstacleTileArray[i] == LEVEL_FALLING_PLATFORM_E) &&
+					    whichEdge == BOTTOM_EDGE) {
+						for (var k = 0; k < allTriggersArray.length; k++) {
+							if (allTriggersArray[k].type == LEVEL_FALLING_PLATFORM_W ||
+							    allTriggersArray[k].type == LEVEL_FALLING_PLATFORM_E) {
+								
+								if (allTriggersArray[k].index == returnIndexAtPixel(hitboxArray[j], y)) { 
+									allTriggersArray[k].fallTimerStarted = true;
+
+									for (var j = k - 1; j <= k + 1; j++) {
+										if (j < allTriggersArray.length) {
+											if (allTriggersArray[j].type == LEVEL_FALLING_PLATFORM_W ||
+											    allTriggersArray[j].type == LEVEL_FALLING_PLATFORM_E) {
+												allTriggersArray[j].fallTimerStarted = true;
+											}
+										}
+									}
+								}
+
+							}
+						}
+					}
+
 					return true;
 				}
 			}

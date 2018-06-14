@@ -9,6 +9,8 @@ var keyHeld_Jump = false;
 var keyHeld_Jump_Prev = false;
 var keyHeld_Run = false;
 
+var keyHeld_A = false;
+var keyHeld_S = false;
 var keyHeld_Q = false;
 var keyHeld_W = false;
 var keyHeld_E = false;
@@ -75,6 +77,7 @@ function setValuesForKey(evt, value) {
 			if (mapEditorEnabled == false) {
 				keyHeld_Left = value;
 			}
+			keyHeld_A = value;
 			break;
 
 		case "ArrowRight" :
@@ -159,6 +162,9 @@ function setValuesForKey(evt, value) {
 			break;
 		case "KeyR" :
 			keyHeld_R = value;
+			break;
+		case "KeyS" :
+			keyHeld_S = value;
 			break;
 		case "KeyT" :
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {

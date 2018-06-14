@@ -8,6 +8,9 @@ const FORGIVENESS_PIXELS = 8;
 
 const PROJECTILE_INTERVAL = 60;
 
+const PLATFORM_FALL_MAX = 30;
+const PLATFORM_RESPAWN_MAX = 60;
+
 var allTriggersArray = [];
 var projectileArray = [];
 
@@ -24,23 +27,80 @@ function triggerClass(col, row, index, whichType) {
 	this.index = index;
 	this.type = whichType;
 
+	// powerups
 	this.powerupCooldown = 0;
 	this.powerupCooldownStarted = false;
 
+	// collectibles
 	this.collectiblePickedUp = false;
 
+	// falling spikes
 	this.fallTrigger = false;
 	this.collider = true;
 
+	// shooting blocks
 	this.shotTimer = 0;
 	this.projectileInterval = PROJECTILE_INTERVAL;
+
+	// falling platforms
+	this.fallTimer = 0;
+	this.maxTimeTilFall = PLATFORM_FALL_MAX;
+	this.fallTimerStarted = false;
+	this.startRespawnTimer = false;
+	this.respawnTimer = 0;
+	this.maxTimeTilRespawn = PLATFORM_RESPAWN_MAX;
 
 	this.move = function() {
 		this.fallingSpikeHandling();
 		this.powerupHandling();
 		this.collectibleHandling();
 		this.shooterHandling();
+		this.fallingPlatformHandling();	
+	}
 
+	this.fallingPlatformHandling = function() {
+		if (this.type == LEVEL_FALLING_PLATFORM_W ||
+		    this.type == LEVEL_FALLING_PLATFORM_E) {
+
+			if (this.startRespawnTimer) {
+				if (this.respawnTimer < this.maxTimeTilRespawn) {
+					this.respawnTimer++;
+				} else {
+					this.startRespawnTimer = false;
+					this.respawnTimer = 0;
+					levelGrid[this.index] = this.type;
+				}
+			}
+
+			if (this.fallTimerStarted && this.startRespawnTimer == false) {
+				
+				if (this.startRespawnTimer == false && this.fallTimer == 0) {
+					var thisIndexInAllTriggers = allTriggersArray.indexOf(this);
+					// check for platforms next to it and start their timers as well
+					for (var i = thisIndexInAllTriggers - 1; i <= thisIndexInAllTriggers + 1; i++) {
+						if (i < allTriggersArray.length) {
+							if (allTriggersArray[i].type == LEVEL_FALLING_PLATFORM_W ||
+							    allTriggersArray[i].type == LEVEL_FALLING_PLATFORM_E) {
+								allTriggersArray[i].fallTimerStarted = true;
+							}
+						}
+					}
+				}
+				
+
+				if (this.fallTimer > this.maxTimeTilFall) {
+					levelGrid[this.index] = 0;
+					this.fallTimerStarted = false;
+					this.fallTimer = 0;
+					this.startRespawnTimer = true;
+				} else if (this.fallTimerStarted && this.fallTimer <= this.maxTimeTilFall) {
+					this.fallTimer++;
+				}
+			}
+		}	
+	}
+
+	this.shooterHandling = function() {
 		if (this.type == LEVEL_SHOOTER_W) {
 			if (this.shotTimer > this.projectileInterval) {
 				this.shotTimer = 0;
@@ -79,13 +139,6 @@ function triggerClass(col, row, index, whichType) {
 			} else {
 				this.shotTimer++;
 			}
-		}
-		
-	}
-
-	this.shooterHandling = function() {
-		if (this.type == LEVEL_SHOOTER_W) {
-
 		}
 	}
 
@@ -202,6 +255,16 @@ function triggerClass(col, row, index, whichType) {
 		if (this.type == LEVEL_COLLECTIBLE && player.collectibleObtained) {
 			collectibleObtainedAnim.render(this.x, this.y);
 			collectibleObtainedAnim.update();
+		}
+	}
+
+	this.drawText = function() {
+		if ((this.type == LEVEL_FALLING_PLATFORM_W ||
+		    this.type == LEVEL_FALLING_PLATFORM_E) &&
+		    this.fallTimerStarted &&
+		    this.fallTimer < this.maxTimeTilFall) {
+			// countdown timer
+			colorText(Math.round((this.maxTimeTilFall - this.fallTimer) / 30) + 1, (this.centeredX - 1.5) * PIXEL_SCALE_UP, (this.centeredY + 1.5) * PIXEL_SCALE_UP, 'white', FONT_LEVEL_PLATFORM);
 		}
 	}
 }

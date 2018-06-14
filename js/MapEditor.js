@@ -82,8 +82,12 @@ function placeTilesOnButtonPress() {
 		levelGrid[mouseIndex] = LEVEL_SPIKE_E;
 	}
 
-	if (keyHeld_5) {
-		
+	if (keyHeld_A) {
+		levelGrid[mouseIndex] = LEVEL_FALLING_PLATFORM_W;
+	}
+
+	if (keyHeld_S) {
+		levelGrid[mouseIndex] = LEVEL_FALLING_PLATFORM_E;
 	}
 
 	if (keyHeld_6) {
@@ -107,19 +111,19 @@ function placeTilesOnButtonPress() {
 	}
 
 	if (keyHeld_Q) {
-		levelGrid[mouseIndex] = LEVEL_SHOOTER_W;
-	}
-
-	if (keyHeld_W) {
-		levelGrid[mouseIndex] = LEVEL_SHOOTER_E;
-	}
-
-	if (keyHeld_E) {
 		levelGrid[mouseIndex] = LEVEL_SHOOTER_N;
 	}
 
-	if (keyHeld_Y) {
+	if (keyHeld_W) {
 		levelGrid[mouseIndex] = LEVEL_SHOOTER_S;
+	}
+
+	if (keyHeld_E) {
+		levelGrid[mouseIndex] = LEVEL_SHOOTER_E;
+	}
+
+	if (keyHeld_Y) {
+		levelGrid[mouseIndex] = LEVEL_SHOOTER_W;
 	}
 
 	if (keyHeld_Minus) {

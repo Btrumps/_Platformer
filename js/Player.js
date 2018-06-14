@@ -439,6 +439,11 @@ function playerClass() {
 
 		for (var i = 0; i < this.triggerArray.length; i++) {
 
+			if (this.triggerArray[i].type == LEVEL_FALLING_PLATFORM_W ||
+			    this.triggerArray[i].type == LEVEL_FALLING_PLATFORM_E) {
+				this.triggerArray[i].fallTimerStarted = true;
+			}
+
 			if (this.triggerArray[i].type == LEVEL_SPIKE_N) {
 				var triggerLeftX = this.triggerArray[i].x - TILE_WIDTH / 2;
 				var triggerTopY = this.triggerArray[i].y - TILE_HEIGHT / 2;
