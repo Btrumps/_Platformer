@@ -6,6 +6,10 @@ const FPS = 30;
 var canvas, canvasContext;
 var scaledCanvas, scaledContext;
 
+var fadeTimer = 0;
+var maxFadeInTime = 1 * FPS;
+var maxFadeOutTime = 1 * FPS;
+
 var player = new playerClass();
 
 window.onload = function() {
@@ -92,6 +96,17 @@ function drawAll() {
 
 	if (mapEditorEnabled) {
 		showMapEditorGrid();
+	}
+
+	if (fadeTimer > 0) {
+		fadeTimer--;
+		colorRect(0,0, canvas.width, canvas.height, 'black', fadeTimer/maxFadeInTime);
+	} else if (fadeTimer < 0) {
+		fadeTimer--;
+		colorRect(0,0, canvas.width, canvas.height, 'black', Math.abs(fadeTimer)/maxFadeOutTime);
+		if (fadeTimer == -maxFadeOutTime) {
+			fadeTimer = maxFadeInTime;
+		}
 	}
 
 	scaledContext.drawImage(canvas, 0,0, canvas.width,canvas.height,

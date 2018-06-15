@@ -80,6 +80,7 @@ function playerClass() {
 
 	this.dashTrail = [];
 
+	this.fadeOutStarted = false;
 	this.deathAnimationStarted = false;
 	this.deathTimer = 0;
 
@@ -119,11 +120,18 @@ function playerClass() {
 
 
 		if (this.deathAnimationStarted) {
+			
+			if (this.fadeOutStarted == false) {
+				fadeTimer = -1;
+				this.fadeOutStarted = true;
+			}
+
 			if (this.deathTimer < MAX_DEATH_TIME) {
 				this.deathTimer++;
 				return;
 			} else {
 				this.deathAnimationStarted = false;
+				this.fadeOutStarted = false;
 				this.deathTimer = 0;
 				this.playerDiedSoResetLevel();
 			}
@@ -246,6 +254,7 @@ function playerClass() {
 		if (this.startCollectibleTimer) {
 			this.updateCollectibleTimer();
 		}
+
 	}
 
 	this.dashHandling = function() {
@@ -334,29 +343,45 @@ function playerClass() {
 		
 		this.recalculateCollisionEdges();
 
+		// if we are grounded, we don't check top collisions
+		// this was coded in as a work around earlier in the project
+		// in the future, should 100% not be included in top edge collision checks
 		if (this.isGrounded == false && ( this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
 			if (topEdgeRow == LEVEL_ROWS) {
 				topEdgeRow = LEVEL_ROWS - 1;
 			}
-			this.velY = 0;
-			this.y = (topEdgeRow * TILE_HEIGHT) + TILE_HEIGHT + PLAYER_HEIGHT / 2 - PLAYER_HITBOX_INNER_Y_OFFSET;
-			this.recalculateCollisionEdges();
+
+			// if we are going too fast when we check for collisions when dashing left/right,
+			// it will think there is a platform above us, and try to snap the player down
+			// this could send us through the level 
+			if (this.currentMoveState != PLAYER_STATE_DASHING || this.direction == DIRECTION_UP) {
+				this.velY = 0;
+				this.y = (topEdgeRow * TILE_HEIGHT) + TILE_HEIGHT + PLAYER_HEIGHT / 2 - PLAYER_HITBOX_INNER_Y_OFFSET;
+			}
 			
+			this.recalculateCollisionEdges();
 		}
 
-		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) ) {
+		// if we are going too fast when we check for collisions when dashing left/right,
+		// it will think there is a platform below us, and consider us grounded
+		// the effect allows the player to dash at a wall in the air infinitely
+		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) && (this.currentMoveState != PLAYER_STATE_DASHING && this.direction != DIRECTION_UP)) {
 			var bottomEdgeRow = Math.floor(this.bottomEdge / TILE_HEIGHT);
 			if (bottomEdgeRow == LEVEL_ROWS) {
 				bottomEdgeRow = LEVEL_ROWS - 1;
 			}
 			this.velY = 0;
 			this.y = (bottomEdgeRow * TILE_HEIGHT) - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_INNER_Y_OFFSET;
-			this.recalculateCollisionEdges();
-			this.isGrounded = true;
+			this.isGrounded = true;	
 
-		} else if (isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false && this.currentMoveState != PLAYER_STATE_DASHING)  {
-			this.isGrounded = false;
+		} else if (	isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false)  {
+			// if we don't check up, no top edge collisions will occur when we dash into a platform above us
+			if (this.currentMoveState != PLAYER_STATE_DASHING || this.direction == DIRECTION_UP) {
+				this.isGrounded = false;
+			}
+
+			this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 		}
 
 		// if moving left, we will check the left edge first and vice versa
@@ -391,7 +416,7 @@ function playerClass() {
 				}
 				this.velX = 0;
 				if (this.currentMoveState == PLAYER_STATE_DASHING) {
-					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 	2;
+					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 2;
 				} else {
 					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET;
 				}

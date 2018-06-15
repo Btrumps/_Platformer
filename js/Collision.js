@@ -72,8 +72,8 @@ function isTriggerAtPixel(x, y, whichEdge) {
 		var startX = x - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_X_OFFSET;
 		var endX = x + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_X_OFFSET;
 
-		hitboxArray.push(startX);
 		hitboxArray.push(x);
+		hitboxArray.push(startX);
 		hitboxArray.push(endX);
 
 	} else if (whichEdge == LEFT_EDGE || whichEdge == RIGHT_EDGE) {

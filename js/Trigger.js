@@ -220,14 +220,12 @@ function triggerClass(col, row, index, whichType) {
 						// adds offset for left-side cases on the right hitbox
 						if (playerXInsideTrigger * 2 > playerYInsideTrigger && playerXInsideTrigger > 0) {
 							player.deathAnimationStarted = true;
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'left');
 							return;
 						}
 					} else {
 						playerXInsideTrigger -= TILE_WIDTH / 2;
 						if ((playerXInsideTrigger * 2) + playerYInsideTrigger < 16 && playerXInsideTrigger > 0) {
 							player.deathAnimationStarted = true;
-							console.log(playerXInsideTrigger + ',' + playerYInsideTrigger + 'right');
 							return;
 						}
 					}
