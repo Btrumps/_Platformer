@@ -43,6 +43,26 @@ function loadImageForBGCode(bgCode, fileName) {
 	beginLoadingImage(bgPics[bgCode], fileName);
 }
 
+function playerBlueImageSwap() {
+	if (player.dashesLeft > 0) {
+		playerIdleLeft.src =  "./images/player/player_idleleft_blue_anim.png";
+		playerIdleRight.src =  "./images/player/player_idleright_blue_anim.png";
+		playerJumpLeft.src =  "./images/player/player_jumpleft_blue_anim.png";
+		playerJumpRight.src =  "./images/player/player_jumpright_blue_anim.png";
+		playerRunLeft.src =  "./images/player/player_runleft_blue_anim.png";
+		playerRunRight.src =  "./images/player/player_runright_blue_anim.png";
+		playerFallingImg.src =  "./images/player/player_blue_falling.png";
+	} else if (player.dashesLeft <= 0) {
+		playerIdleLeft.src =  "./images/player/player_idleleft_anim.png";
+		playerIdleRight.src =  "./images/player/player_idleright_anim.png";
+		playerJumpLeft.src =  "./images/player/player_jumpleft_anim.png";
+		playerJumpRight.src =  "./images/player/player_jumpright_anim.png";
+		playerRunLeft.src =  "./images/player/player_runleft_anim.png";
+		playerRunRight.src =  "./images/player/player_runright_anim.png";
+		playerFallingImg.src =  "./images/player/player_falling.png";
+	}
+}
+
 function loadImages() {
 	var imageList = [
 		{varName: playerIdleLeft, theFile: "./images/player/player_idleleft_anim.png"},

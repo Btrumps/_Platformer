@@ -137,8 +137,8 @@ function isProjectileKillingPlayer(x, y) {
 	player.recalculateCollisionEdges();
 
 	// these small values push the hitbox in on the player
-	var startX = x - (PLAYER_WIDTH / 2) + 1;
-	var endX = x + (PLAYER_WIDTH / 2) - 1;
+	var startX = x - (PLAYER_WIDTH / 2);
+	var endX = x + (PLAYER_WIDTH / 2);
 
 	var startY = y - (PLAYER_HEIGHT / 2) + 2;
 	var endY = y + (PLAYER_HEIGHT / 2) - 2;

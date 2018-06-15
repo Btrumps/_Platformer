@@ -54,8 +54,6 @@ function updateAnimations() {
   playerIdleRightAnim.update();
   playerRunLeftAnim.update();
   playerRunRightAnim.update();
-  playerJumpLeftAnim.update();
-  playerJumpRightAnim.update();
 
   enterPortalAnim.update();
   exitPortalAnim.update();
@@ -105,22 +103,22 @@ function setupSpriteSheets() {
 
     playerJumpLeftAnim = sprite({
       context: canvasContext,
-      width: 48,
+      width: 32,
       height: 24,
       image: playerJumpLeft,
-      loop: true,
-      numberOfFrames: 3,
-      ticksPerFrame: 16,
+      loop: false,
+      numberOfFrames: 2,
+      ticksPerFrame: 20,
     });
 
     playerJumpRightAnim = sprite({
       context: canvasContext,
-      width: 48,
+      width: 32,
       height: 24,
       image: playerJumpRight,
-      loop: true,
-      numberOfFrames: 3,
-      ticksPerFrame: 16,
+      loop: false,
+      numberOfFrames: 2,
+      ticksPerFrame: 20,
     });
 
     playerDeathLeftAnim = sprite({

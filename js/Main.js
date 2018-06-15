@@ -80,6 +80,7 @@ function moveAll() {
 
 function drawAll() {
 	updateAnimations();
+	playerBlueImageSwap();
 	colorRect(0,0, canvas.width,canvas.height, 'black', 1);
 	// drawBG();
 	drawLevel();
