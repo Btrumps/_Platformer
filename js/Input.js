@@ -11,6 +11,7 @@ var keyHeld_Run = false;
 
 var keyHeld_A = false;
 var keyHeld_S = false;
+var keyHeld_D = false;
 var keyHeld_Q = false;
 var keyHeld_W = false;
 var keyHeld_E = false;
@@ -90,6 +91,7 @@ function setValuesForKey(evt, value) {
 			if (mapEditorEnabled == false) {
 				keyHeld_Right = value;
 			}
+			keyHeld_D = value;
 			break;
 
 
@@ -132,6 +134,21 @@ function setValuesForKey(evt, value) {
 
 			}
 			break;
+
+		case "KeyN" :
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				helpBGEnabled = !helpBGEnabled;
+
+				if (helpBGEnabled) {
+					console.log('BG Enabled');
+				} else {
+					console.log('BG Disabled');
+				}
+
+			}
+			break;
+
 
 		case "KeyG" :
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {

@@ -1,5 +1,5 @@
 var levelPics = [];
-var bgPics = [];
+var helpPics = [];
 
 var picsToLoad = 0;
 
@@ -38,29 +38,9 @@ function loadImageForLevelCode(levelCode, fileName) {
 	beginLoadingImage(levelPics[levelCode], fileName);
 }
 
-function loadImageForBGCode(bgCode, fileName) {
-	bgPics[bgCode] = document.createElement("img");
-	beginLoadingImage(bgPics[bgCode], fileName);
-}
-
-function playerBlueImageSwap() {
-	if (player.dashesLeft > 0) {
-		playerIdleLeft.src =  "./images/player/player_idleleft_blue_anim.png";
-		playerIdleRight.src =  "./images/player/player_idleright_blue_anim.png";
-		playerJumpLeft.src =  "./images/player/player_jumpleft_blue_anim.png";
-		playerJumpRight.src =  "./images/player/player_jumpright_blue_anim.png";
-		playerRunLeft.src =  "./images/player/player_runleft_blue_anim.png";
-		playerRunRight.src =  "./images/player/player_runright_blue_anim.png";
-		playerFallingImg.src =  "./images/player/player_blue_falling.png";
-	} else if (player.dashesLeft <= 0) {
-		playerIdleLeft.src =  "./images/player/player_idleleft_anim.png";
-		playerIdleRight.src =  "./images/player/player_idleright_anim.png";
-		playerJumpLeft.src =  "./images/player/player_jumpleft_anim.png";
-		playerJumpRight.src =  "./images/player/player_jumpright_anim.png";
-		playerRunLeft.src =  "./images/player/player_runleft_anim.png";
-		playerRunRight.src =  "./images/player/player_runright_anim.png";
-		playerFallingImg.src =  "./images/player/player_falling.png";
-	}
+function loadImageForHelpCode(helpCode, fileName) {
+	helpPics[helpCode] = document.createElement("img");
+	beginLoadingImage(helpPics[helpCode], fileName);
 }
 
 function loadImages() {
@@ -101,7 +81,27 @@ function loadImages() {
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W2.png"},
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E2.png"},
 		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
-		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"}
+		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"},
+		{helpType: LEVEL_HELP_A_KEY, theFile: "./images/level_help/level_a_key.png"},
+		{helpType: LEVEL_HELP_ARROW_DOWN, theFile: "./images/level_help/level_arrow_down.png"},
+		{helpType: LEVEL_HELP_ARROW_LEFT, theFile: "./images/level_help/level_arrow_left.png"},
+		{helpType: LEVEL_HELP_ARROW_RIGHT, theFile: "./images/level_help/level_arrow_right.png"},
+		{helpType: LEVEL_HELP_ARROW_UP, theFile: "./images/level_help/level_arrow_up.png"},
+		{helpType: LEVEL_HELP_D_KEY, theFile: "./images/level_help/level_d_key.png"},
+		{helpType: LEVEL_HELP_DA, theFile: "./images/level_help/level_da.png"},
+		{helpType: LEVEL_HELP_HORIZONTAL_LINE, theFile: "./images/level_help/level_horizontal_line.png"},
+		{helpType: LEVEL_HELP_JU, theFile: "./images/level_help/level_ju.png"},
+		{helpType: LEVEL_HELP_LEFT_ARROWKEY, theFile: "./images/level_help/level_left_arrowkey.png"},
+		{helpType: LEVEL_HELP_MO, theFile: "./images/level_help/level_mo.png"},
+		{helpType: LEVEL_HELP_MP, theFile: "./images/level_help/level_mp.png"},
+		{helpType: LEVEL_HELP_RIGHT_ARROWKEY, theFile: "./images/level_help/level_right_arrowkey.png"},
+		{helpType: LEVEL_HELP_S_KEY, theFile: "./images/level_help/level_s_key.png"},
+		{helpType: LEVEL_HELP_SH, theFile: "./images/level_help/level_sh.png"},
+		{helpType: LEVEL_HELP_TO, theFile: "./images/level_help/level_to.png"},
+		{helpType: LEVEL_HELP_UP_ARROWKEY, theFile: "./images/level_help/level_up_arrowkey.png"},
+		{helpType: LEVEL_HELP_VE, theFile: "./images/level_help/level_ve.png"},
+		{helpType: LEVEL_HELP_VERTICAL_LINE, theFile: "./images/level_help/level_vertical_line.png"},
+		{helpType: LEVEL_HELP_W_KEY, theFile: "./images/level_help/level_w_key.png"},
 		];
 
 	picsToLoad = imageList.length;
@@ -112,8 +112,28 @@ function loadImages() {
 		} else if (imageList[i].levelType != undefined) {
 			loadImageForLevelCode( imageList[i].levelType, imageList[i].theFile );
 		} else {
-			loadImageForBGCode( imageList[i].bgType, imageList[i].theFile )
+			loadImageForHelpCode( imageList[i].helpType, imageList[i].theFile )
 		}
 
+	}
+}
+
+function playerBlueImageSwap() {
+	if (player.dashesLeft > 0) {
+		playerIdleLeft.src =  "./images/player/player_idleleft_blue_anim.png";
+		playerIdleRight.src =  "./images/player/player_idleright_blue_anim.png";
+		playerJumpLeft.src =  "./images/player/player_jumpleft_blue_anim.png";
+		playerJumpRight.src =  "./images/player/player_jumpright_blue_anim.png";
+		playerRunLeft.src =  "./images/player/player_runleft_blue_anim.png";
+		playerRunRight.src =  "./images/player/player_runright_blue_anim.png";
+		playerFallingImg.src =  "./images/player/player_blue_falling.png";
+	} else if (player.dashesLeft <= 0) {
+		playerIdleLeft.src =  "./images/player/player_idleleft_anim.png";
+		playerIdleRight.src =  "./images/player/player_idleright_anim.png";
+		playerJumpLeft.src =  "./images/player/player_jumpleft_anim.png";
+		playerJumpRight.src =  "./images/player/player_jumpright_anim.png";
+		playerRunLeft.src =  "./images/player/player_runleft_anim.png";
+		playerRunRight.src =  "./images/player/player_runright_anim.png";
+		playerFallingImg.src =  "./images/player/player_falling.png";
 	}
 }
