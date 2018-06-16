@@ -126,7 +126,7 @@ function playerBlueImageSwap() {
 		playerJumpRight.src =  "./images/player/player_jumpright_blue_anim.png";
 		playerRunLeft.src =  "./images/player/player_runleft_blue_anim.png";
 		playerRunRight.src =  "./images/player/player_runright_blue_anim.png";
-		playerFallingImg.src =  "./images/player/player_blue_falling.png";
+		playerFallingImg.src =  "./images/player/player_falling_blue.png";
 	} else if (player.dashesLeft <= 0) {
 		playerIdleLeft.src =  "./images/player/player_idleleft_anim.png";
 		playerIdleRight.src =  "./images/player/player_idleright_anim.png";

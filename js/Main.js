@@ -79,10 +79,13 @@ function moveAll() {
 }
 
 function drawAll() {
-	updateAnimations();
 	playerBlueImageSwap();
+	updateAnimations();
+
 	colorRect(0,0, canvas.width,canvas.height, 'black', 1);
-	drawHelpBG();
+	if (helpGrid.length > 0) {
+		drawHelpBG();
+	}
 	drawLevel();
 	player.draw();
 

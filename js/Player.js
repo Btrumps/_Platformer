@@ -1,11 +1,10 @@
-const PLAYER_ACCELERATION = 3;
-const PLAYER_MAX_SPEED = 12;
-const PLAYER_VEL_X_DECAY = 0.65;
+const PLAYER_ACCELERATION = 2.8;
+const PLAYER_MAX_SPEED = 14;
+const PLAYER_VEL_X_DECAY = 0.67;
 
-const PLAYER_JUMP_SPEED = 6;
-const PLAYER_JUMP_MAX_SPEED = 10;
+const PLAYER_JUMP_SPEED = 5;
 const VARIABLE_JUMP_WINDOW = 8;
-const MAX_DASH_FRAMES = 5;
+const MAX_DASH_FRAMES = 6;
 const GROUNDED_DASH_COOLDOWN = 5;
 const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 4;
 
@@ -328,7 +327,7 @@ function playerClass() {
 					this.velY = 0;
 				} else if (this.direction == DIRECTION_UP) {
 					this.velX = 0;
-					this.velY = -8;
+					this.velY = -7;
 				}
 				
 			} else {
@@ -650,7 +649,7 @@ function playerClass() {
 	this.updateCollectibleTimer = function() {
 		if (this.collectibleIncrementTimer < COLLECTIBLE_MAX_TIME_TO_HOLD) {
 			this.collectibleIncrementTimer++;
-		} else {
+		} else if (this.deathAnimationStarted == false) {
 			this.collectibleObtained = true;
 		}
 	}
