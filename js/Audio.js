@@ -2,6 +2,8 @@ var audioFormat;
 var musicEnabled = false;
 var firstSong;
 
+var deathSound;
+
 
 function setFormat() {
 	var audio = new Audio();
@@ -14,7 +16,7 @@ function setFormat() {
 }
 
 function playBGM() {
-	if (musicEnabled && currentLevel < 3) {
+	if (musicEnabled) {
 		firstSong.volume = 0.8;
 		firstSong.play();
 	} else {
@@ -23,7 +25,12 @@ function playBGM() {
 	}
 }
 
+function playDeathSound() {
+	deathSound.play();
+}
+
 function loadSounds() {
 	setFormat();
 	firstSong = new Audio("./audio/deepdark" + audioFormat);
+	deathSound = new Audio("./audio/sfx/death_sfx.mp3");
 }

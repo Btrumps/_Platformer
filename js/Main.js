@@ -60,6 +60,10 @@ function updateAll() {
 
 function moveAll() {
 	player.move();
+	if (currentLevel == 11) {
+		boss.move();
+	}
+	
 	if (mapEditorEnabled) {
 		placeTilesOnButtonPress();
 	}
@@ -88,6 +92,9 @@ function drawAll() {
 	}
 	drawLevel();
 	player.draw();
+	if (currentLevel == 11) {
+		boss.draw();
+	}
 
 	for (var i = 0; i < allTriggersArray.length; i++) {
 		allTriggersArray[i].draw();

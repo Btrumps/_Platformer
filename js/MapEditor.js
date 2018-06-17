@@ -1,6 +1,7 @@
 var mapEditorEnabled = false;
 var helpBGEnabled = false;
 var gridEnabled = false;
+var levelPreview = false;
 
 function placeTilesOnButtonPress() {
 	mouseCol = Math.floor(mouseX / TILE_WIDTH);

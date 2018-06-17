@@ -81,6 +81,7 @@ function playerClass() {
 
 	this.fadeOutStarted = false;
 	this.deathAnimationStarted = false;
+	this.hasPlayedDeathSound = false;
 	this.deathTimer = 0;
 
 	this.collectibleObtained = false;
@@ -98,6 +99,8 @@ function playerClass() {
 
 					this.x = startX;
 					this.y = startY;
+					this.velX = 0;
+					this.velY = 0;
 				}
 
 				if (this.collectibleObtained && levelGrid[index] == LEVEL_COLLECTIBLE) {
@@ -119,7 +122,11 @@ function playerClass() {
 
 
 		if (this.deathAnimationStarted) {
-			
+			if (this.hasPlayedDeathSound = false) {
+				playDeathSound();
+				this.hasPlayedDeathSound = true;
+			}
+
 			if (this.fadeOutStarted == false) {
 				fadeTimer = -1;
 				this.fadeOutStarted = true;
@@ -131,6 +138,7 @@ function playerClass() {
 			} else {
 				this.deathAnimationStarted = false;
 				this.fadeOutStarted = false;
+				this.hasPlayedDeathSound = false;
 				this.deathTimer = 0;
 				this.playerDiedSoResetLevel();
 			}
@@ -338,6 +346,13 @@ function playerClass() {
 		}
 	}
 
+	
+	this.playerDiedSoResetLevel = function() {
+		loadLevel(currentLevel);
+		this.reset();
+		totalDeaths++;
+	}
+
 	this.wallCollisionChecks = function() {
 		
 		this.recalculateCollisionEdges();
@@ -450,12 +465,6 @@ function playerClass() {
 		this.bottomEdge = this.y + PLAYER_HEIGHT / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
 		this.leftEdge = this.x - PLAYER_WIDTH / 2 + PLAYER_HITBOX_INNER_X_OFFSET;
 		this.rightEdge = this.x+ PLAYER_WIDTH / 2 - PLAYER_HITBOX_INNER_X_OFFSET;
-	}
-
-	this.playerDiedSoResetLevel = function() {
-		loadLevel(currentLevel);
-		this.reset();
-		totalDeaths++;
 	}
 
 	// NEED TO SET INSIDE TRIGGER TO FALSE TO AVOID MULTIPLE TRIGGER CALLS

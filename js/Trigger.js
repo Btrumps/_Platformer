@@ -158,7 +158,7 @@ function triggerClass(col, row, index, whichType) {
 	}
 
 	this.collectibleHandling = function () {
-		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.collectibleObtained == false) {
+		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.deathAnimationStarted == false && player.collectibleObtained == false) {
 			var deltaX = player.x - this.centeredX;
 			var deltaY = player.y - this.centeredY;
 			var distanceFromPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
@@ -182,6 +182,18 @@ function triggerClass(col, row, index, whichType) {
 	}
 
 	this.fallingSpikeHandling = function() {
+		// we don't want the falling spikes to respawn on any other map than the boss fight
+		if (this.startRespawnTimer && currentLevel == 11) { 
+				if (this.respawnTimer < this.maxTimeTilRespawn) {
+					this.respawnTimer++;
+				} else {
+					this.startRespawnTimer = false;
+					this.respawnTimer = 0;
+					levelGrid[this.index] = this.type;
+					this.x = this.centeredX - TILE_WIDTH / 2;
+					this.y = this.centeredY - TILE_HEIGHT / 2;
+				}
+			}
 		if (this.type == LEVEL_SPIKE_S_FALLING) {
 			if (player.x > this.x &&
 				player.x < this.x + TILE_WIDTH &&
@@ -236,6 +248,7 @@ function triggerClass(col, row, index, whichType) {
 		if (this.y > canvas.height) {
 			this.fallTrigger = false;
 			this.collider = false;
+			this.startRespawnTimer = true;
 		}
 	}
 
