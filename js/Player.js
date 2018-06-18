@@ -627,6 +627,7 @@ function playerClass() {
 
 			if (this.triggerArray[i].type == LEVEL_END) {
 				currentLevel++;
+				saveLevel();
 				if (this.collectibleObtained || this.startCollectibleTimer) {
 					totalCollectibles++;
 					this.collectibleObtained = false;

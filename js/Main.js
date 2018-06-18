@@ -50,7 +50,16 @@ window.onload = function() {
 
 function imagesDoneLoadingSoStartGame() {
 	setInterval(updateAll, 1000 / FPS);
-	loadLevel(currentLevel); // should be set to current level to start the first level
+
+	var savedLevel = getSavedLevel();
+	if (savedLevel != undefined) {
+		loadLevel(savedLevel);
+		currentLevel = savedLevel;
+	} else {
+		// if the player's browser does not have local storage capabilities (or they haven't played before), this will be called
+		loadLevel(1);
+	}
+	
 }
 
 function updateAll() {
