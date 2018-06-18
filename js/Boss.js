@@ -5,7 +5,8 @@ const BOSS_HEIGHT = 48;
 const BOSS_STATE_INTRO = 1;
 const BOSS_STATE_DROP_BLOCKS = 2;
 const BOSS_STATE_SLAM = 3;
-const BOSS_STATE_VULERNABLE = 4;
+const BOSS_STATE_VULNERNABLE = 4;
+const BOSS_STATE_ENRAGED = 5; // after two hits, boss will get enraged and cycle faster
 
 function bossClass() {
 	this.x = canvas.width / 2;
@@ -28,7 +29,11 @@ function bossClass() {
 
 		}
 
-		if (this.currentState == BOSS_STATE_VULERNABLE) {
+		if (this.currentState == BOSS_STATE_VULNERNABLE) {
+
+		}
+
+		if (this.currentState == BOSS_STATE_ENRAGED) {
 
 		}
 	}
