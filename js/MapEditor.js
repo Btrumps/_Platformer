@@ -189,6 +189,16 @@ function placeTilesOnButtonPress() {
 			helpGrid[mouseIndex] = LEVEL_HELP_MP;
 		}
 
+		if (keyHeld_8) {
+			helpGrid[mouseIndex] = LEVEL_HELP_AG;
+		}
+		if (keyHeld_9) {
+			helpGrid[mouseIndex] = LEVEL_HELP_AI;
+		}
+		if (keyHeld_0) {
+			helpGrid[mouseIndex] = LEVEL_HELP_N;
+		}
+
 		if (keyHeld_W) {
 			helpGrid[mouseIndex] = LEVEL_HELP_W_KEY;
 		}

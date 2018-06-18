@@ -20,5 +20,9 @@ function showLevelText() {
 		colorText('1-7', TEXT_LEVEL_START_X, TEXT_LEVEL_START_Y, 'white', FONT_LEVEL_NAME);
 	} else if (currentLevel == 9) {
 		colorText('1-8', TEXT_LEVEL_START_X, TEXT_LEVEL_START_Y, 'white', FONT_LEVEL_NAME);
+	} else if (currentLevel == 10) {
+		colorText('1-9', TEXT_LEVEL_START_X, TEXT_LEVEL_START_Y, 'white', FONT_LEVEL_NAME);
+	} else if (currentLevel == 11) {
+		colorText('1-10 BOSS', TEXT_LEVEL_START_X, TEXT_LEVEL_START_Y, 'white', FONT_LEVEL_NAME);
 	}
 }
