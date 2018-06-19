@@ -29,6 +29,7 @@ var keyHeld_7 = false;
 var keyHeld_8 = false;
 var keyHeld_9 = false;
 var keyHeld_0 = false;
+var keyHeld_Enter = false;
 var keyHeld_Delete = false;
 var keyHeld_Num1 = false;
 var keyHeld_Num2 = false;
@@ -67,6 +68,10 @@ function keyUpHandler(evt) {
 
 function setValuesForKey(evt, value) {
 	switch (evt.code) {
+
+		case "Enter" :
+			keyHeld_Enter = value;
+			break;
 
 		case "ArrowLeft" :
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {

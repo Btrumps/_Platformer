@@ -1,4 +1,5 @@
 const FONT_LEVEL_NAME = '14pt Retro';
+const FONT_MAIN_MENU = '22pt Retro';
 const FONT_LEVEL_PLATFORM = '8pt Retro';
 
 function colorRect (topLeftX, topLeftY, boxWidth, boxHeight, fillColor, opacity) {

@@ -3,6 +3,8 @@ var helpPics = [];
 
 var picsToLoad = 0;
 
+var mainMenuImg = document.createElement("img");
+
 var playerIdleLeft = document.createElement("img");
 var playerIdleRight = document.createElement("img");
 var playerRunLeft = document.createElement("img");
@@ -45,6 +47,7 @@ function loadImageForHelpCode(helpCode, fileName) {
 
 function loadImages() {
 	var imageList = [
+		{varName: mainMenuImg, theFile: "./images/menu.png"},
 		{varName: playerIdleLeft, theFile: "./images/player/player_idleleft_anim.png"},
 		{varName: playerIdleRight, theFile: "./images/player/player_idleright_anim.png"},
 		{varName: playerRunLeft, theFile: "./images/player/player_runleft_anim.png"},

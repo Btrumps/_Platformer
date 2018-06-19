@@ -50,15 +50,6 @@ window.onload = function() {
 
 function imagesDoneLoadingSoStartGame() {
 	setInterval(updateAll, 1000 / FPS);
-
-	var savedLevel = getSavedLevel();
-	if (savedLevel != undefined) {
-		loadLevel(savedLevel);
-		currentLevel = savedLevel;
-	} else {
-		// if the player's browser does not have local storage capabilities (or they haven't played before), this will be called
-		loadLevel(1);
-	}
 	
 }
 
@@ -68,75 +59,87 @@ function updateAll() {
 }
 
 function moveAll() {
-	player.move();
-	if (currentLevel == 11) {
-		boss.move();
-	}
-	
-	if (mapEditorEnabled) {
-		placeTilesOnButtonPress();
-	}
+	if (mainMenuOpen) {
+		mainMenuUpdate();
+	} else {
+		player.move();
+		if (currentLevel == 11) {
+			boss.move();
+		}
+		
+		if (mapEditorEnabled) {
+			placeTilesOnButtonPress();
+		}
 
-	for (var i = 0; i < allTriggersArray.length; i++) {
-		allTriggersArray[i].move();
-	}
+		for (var i = 0; i < allTriggersArray.length; i++) {
+			allTriggersArray[i].move();
+		}
 
-	for (var i = 0; i < projectileArray.length; i++) {
-		projectileArray[i].move();
+		for (var i = 0; i < projectileArray.length; i++) {
+			projectileArray[i].move();
+		}
+		
+		if (musicEnabled) {
+			playBGM(currentLevel);
+		}
 	}
-	
-	if (musicEnabled) {
-		playBGM(currentLevel);
-	}
-	
 }
 
 function drawAll() {
-	playerBlueImageSwap();
-	updateAnimations();
+	if (mainMenuOpen) {
+		drawMainMenu();
+	} else {
+		playerBlueImageSwap();
+		updateAnimations();
 
-	colorRect(0,0, canvas.width,canvas.height, 'black', 1);
-	if (helpGrid.length > 0) {
-		drawHelpBG();
-	}
-	drawLevel();
-	player.draw();
-	if (currentLevel == 11) {
-		boss.draw();
-	}
+		colorRect(0,0, canvas.width,canvas.height, 'black', 1);
+		if (helpGrid.length > 0) {
+			drawHelpBG();
+		}
+		drawLevel();
+		player.draw();
+		if (currentLevel == 11) {
+			boss.draw();
+		}
 
-	for (var i = 0; i < allTriggersArray.length; i++) {
-		allTriggersArray[i].draw();
-	}
+		for (var i = 0; i < allTriggersArray.length; i++) {
+			allTriggersArray[i].draw();
+		}
 
-	for (var i = 0; i < projectileArray.length; i++) {
-		projectileArray[i].draw();
-	}
+		for (var i = 0; i < projectileArray.length; i++) {
+			projectileArray[i].draw();
+		}
 
 
-	if (mapEditorEnabled) {
-		showMapEditorGrid();
-	}
+		if (mapEditorEnabled) {
+			showMapEditorGrid();
+		}
 
-	if (fadeTimer > 0) {
-		fadeTimer--;
-		colorRect(0,0, canvas.width, canvas.height, 'black', fadeTimer/maxFadeInTime);
-	} else if (fadeTimer < 0) {
-		fadeTimer--;
-		colorRect(0,0, canvas.width, canvas.height, 'black', Math.abs(fadeTimer)/maxFadeOutTime);
-		if (fadeTimer == -maxFadeOutTime) {
-			fadeTimer = maxFadeInTime;
+		if (fadeTimer > 0) {
+			fadeTimer--;
+			colorRect(0,0, canvas.width, canvas.height, 'black', fadeTimer/maxFadeInTime);
+		} else if (fadeTimer < 0) {
+			fadeTimer--;
+			colorRect(0,0, canvas.width, canvas.height, 'black', Math.abs(fadeTimer)/maxFadeOutTime);
+			if (fadeTimer == -maxFadeOutTime) {
+				fadeTimer = maxFadeInTime;
+			}
+		}
+
+		for (var i = 0; i < allTriggersArray.length; i++) {
+			allTriggersArray[i].drawText();
 		}
 	}
 
 	scaledContext.drawImage(canvas, 0,0, canvas.width,canvas.height,
-	                        		0,0, scaledCanvas.width, scaledCanvas.height);
+		                        		0,0, scaledCanvas.width, scaledCanvas.height);
 
-	showLevelText();
-
-	for (var i = 0; i < allTriggersArray.length; i++) {
-		allTriggersArray[i].drawText();
+	if (mainMenuOpen == false) {
+		showLevelText();
+	} else {
+		drawMainMenuText();
 	}
+	
 }
 
 function startScreenWithLoadingImagesText() {
