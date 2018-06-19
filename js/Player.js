@@ -106,6 +106,7 @@ function playerClass() {
 					this.currentMoveState = PLAYER_STATE_IDLE;
 				}
 
+				// don't spawn collectible if the player has already obtained it
 				if (this.collectibleObtained && levelGrid[index] == LEVEL_COLLECTIBLE) {
 					levelGrid[index] = 0;
 				}
@@ -116,6 +117,7 @@ function playerClass() {
 		this.startCollectibleTimer = false;
 		this.playedCollectibleStartSound = false;
 		this.playedCollectibleObtainedSound = false;
+
 		this.collectibleIncrementTimer = 0;
 
 	}
@@ -639,12 +641,15 @@ function playerClass() {
 				currentLevel++;
 				saveLevel();
 				if (this.collectibleObtained || this.startCollectibleTimer) {
-					totalCollectibles++;
-					saveCollectibleCount();
-					if (this.playedCollectibleObtainedSound == false) {
+					if (this.playedCollectibleObtainedSound == false &&
+					    getCollectibleObtainedForLevel() == "false") {
 						playCollectibleObtainedSound();
+						// we only include this here if the collectible timer hasn't completed already
+						totalCollectibles++;
+						saveCollectibleCount();
 						this.playedCollectibleObtainedSound = true;
 					}
+					saveCollectibleObtainedForLevel("false");
 					this.collectibleObtained = false;
 				}
 
@@ -680,8 +685,12 @@ function playerClass() {
 			
 			if (this.playedCollectibleObtainedSound == false) {
 				playCollectibleObtainedSound();
+				totalCollectibles++;
+				saveCollectibleCount();
+				saveCollectibleObtainedForLevel("true");
 				this.playedCollectibleObtainedSound = true;
 			}
+
 			this.collectibleObtained = true;
 		}
 	}

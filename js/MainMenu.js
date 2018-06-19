@@ -6,10 +6,11 @@ const MAIN_MENU_NEW_GAME_Y = 400;
 const MAIN_MENU_CONTINUE_X = 420;
 const MAIN_MENU_CONTINUE_Y = 500;
 
-const MAIN_MENU_MAX_OPTIONS = 2;
+const MAIN_MENU_MAX_OPTIONS = 2; // increase this number every time we add something to the menu
 
 var selectedOption = MAIN_MENU_NEW_GAME;
 var mainMenuOpen = true;
+
 function mainMenuUpdate() {
 	if ((keyHeld_ArrowUp || keyHeld_W) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 		if (selectedOption > 1) {
@@ -39,6 +40,7 @@ function mainMenuUpdate() {
 			saveLevel(); // overwrites old save file
 			saveDeathCount();
 			saveCollectibleCount();
+			saveCollectibleObtainedForLevel("false");
 			loadLevel(currentLevel);
 			mainMenuOpen = false;
 		}
@@ -46,10 +48,18 @@ function mainMenuUpdate() {
 		if (selectedOption == MAIN_MENU_CONTINUE) {
 			var savedLevel = getSavedLevel();
 			if (savedLevel != undefined) {
-				loadLevel(savedLevel);
 				currentLevel = savedLevel;
 				totalDeaths = getDeathCount();
 				totalCollectibles = getCollectibleCount();
+
+				// needs to be entered this way or it will be input as a string
+				if (getCollectibleObtainedForLevel() == "false") {
+					player.collectibleObtained = false;
+				} else {
+					player.collectibleObtained = true;
+				}
+				
+				loadLevel(savedLevel);
 			} else {
 				// if the player's browser does not have local storage capabilities (or they haven't played before), this will be called
 				loadLevel(1);

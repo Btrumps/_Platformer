@@ -61,6 +61,8 @@ function updateAll() {
 function moveAll() {
 	if (mainMenuOpen) {
 		mainMenuUpdate();
+	} else if (scoreScreenOpen) {
+		// do nothing, stops deathCount from going up in the background
 	} else {
 		player.move();
 		if (currentLevel == 11) {
@@ -90,11 +92,13 @@ function moveAll() {
 function drawAll() {
 	if (mainMenuOpen) {
 		drawMainMenu();
+	} else if (scoreScreenOpen) {
+		colorRect(0,0, canvas.width,canvas.height, 'black');
 	} else {
 		playerBlueImageSwap();
 		updateAnimations();
 
-		colorRect(0,0, canvas.width,canvas.height, 'black', 1);
+		colorRect(0,0, canvas.width,canvas.height, 'black');
 		if (helpGrid.length > 0) {
 			drawHelpBG();
 		}
@@ -136,10 +140,12 @@ function drawAll() {
 	scaledContext.drawImage(canvas, 0,0, canvas.width,canvas.height,
 		                        		0,0, scaledCanvas.width, scaledCanvas.height);
 
-	if (mainMenuOpen == false) {
-		showLevelText();
-	} else {
+	if (mainMenuOpen) {
 		drawMainMenuText();
+	} else if (scoreScreenOpen) {
+		drawScoreScreenText();
+	} else {
+		showLevelText();
 	}
 	
 }

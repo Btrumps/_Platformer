@@ -6,6 +6,14 @@ function getSavedLevel() {
 	return localStorage.getItem("level");
 }
 
+function saveCollectibleObtainedForLevel(value) {
+	localStorage.setItem("collectibleObtained", value); 
+}
+
+function getCollectibleObtainedForLevel(value) {
+	return localStorage.getItem("collectibleObtained");
+}
+
 function saveDeathCount() {
 	localStorage.setItem("deathCount", totalDeaths);
 }

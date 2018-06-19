@@ -2,6 +2,11 @@ const FONT_LEVEL_NAME = '14pt Retro';
 const FONT_MAIN_MENU = '22pt Retro';
 const FONT_LEVEL_PLATFORM = '8pt Retro';
 
+const PALETTE_RED = '#fe0000';
+const PALETTE_WHITE = '#fefefe';
+const PALETTE_BLACK = '#000000';
+const PALETTE_BLUE = '#208eff';
+
 function colorRect (topLeftX, topLeftY, boxWidth, boxHeight, fillColor, opacity) {
 	canvasContext.fillStyle = fillColor;
 	canvasContext.globalAlpha = opacity;
