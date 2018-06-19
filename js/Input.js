@@ -3,8 +3,7 @@ var keyHeld_Left = false;
 var keyHeld_Right = false;
 var keyHeld_DashLeft = false; 
 var keyHeld_DashRight = false;
-var keyHeld_DashUp = false; 
-var keyHeld_DashDown = false;
+var keyHeld_DashUp = false;
 var keyHeld_Jump = false;
 var keyHeld_Jump_Prev = false;
 var keyHeld_Run = false;
@@ -29,7 +28,10 @@ var keyHeld_7 = false;
 var keyHeld_8 = false;
 var keyHeld_9 = false;
 var keyHeld_0 = false;
+var keyHeld_ArrowUp = false;
+var keyHeld_ArrowDown = false;
 var keyHeld_Enter = false;
+var keyHeld_Space = false;
 var keyHeld_Delete = false;
 var keyHeld_Num1 = false;
 var keyHeld_Num2 = false;
@@ -72,12 +74,8 @@ function setValuesForKey(evt, value) {
 		case "Enter" :
 			keyHeld_Enter = value;
 			break;
-
-		case "ArrowLeft" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-				keyHeld_Timer = 0;
-				keyHeld_DashLeft = true;
-			}
+		case "Space" :
+			keyHeld_Space = value;
 			break;
 		case "KeyA" :
 			if (mapEditorEnabled == false) {
@@ -85,9 +83,21 @@ function setValuesForKey(evt, value) {
 			}
 			keyHeld_A = value;
 			break;
-
+		case "ArrowUp" :
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && currentLevel > 2) {
+				//keyHeld_Timer = 0;
+				keyHeld_DashUp = true;
+			}
+			keyHeld_ArrowUp = value;
+			break;
+		case "ArrowLeft" :
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && currentLevel > 2) {
+				keyHeld_Timer = 0;
+				keyHeld_DashLeft = true;
+			}
+			break;
 		case "ArrowRight" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && currentLevel > 2) {
 				keyHeld_Timer = 0;
 				keyHeld_DashRight = true;
 			}
@@ -99,12 +109,8 @@ function setValuesForKey(evt, value) {
 			keyHeld_D = value;
 			break;
 
-
-		case "ArrowUp" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-				keyHeld_Timer = 0;
-				keyHeld_DashUp = true;
-			}
+		case "ArrowDown" :
+			keyHeld_ArrowDown = value;
 			break;
 		case "KeyW" :
 			if (mapEditorEnabled == false) {

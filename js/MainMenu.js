@@ -11,7 +11,7 @@ const MAIN_MENU_MAX_OPTIONS = 2;
 var selectedOption = MAIN_MENU_NEW_GAME;
 var mainMenuOpen = true;
 function mainMenuUpdate() {
-	if (keyHeld_W && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+	if ((keyHeld_ArrowUp || keyHeld_W) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 		if (selectedOption > 1) {
 			selectedOption--;
 		} else if (selectedOption == 1) {
@@ -21,7 +21,7 @@ function mainMenuUpdate() {
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
-	if (keyHeld_S && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+	if ((keyHeld_ArrowDown || keyHeld_S) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 		if (selectedOption < MAIN_MENU_MAX_OPTIONS) {
 			selectedOption++;
 		} else {
@@ -31,7 +31,7 @@ function mainMenuUpdate() {
 	}
 
 
-	if (keyHeld_Enter) {
+	if (keyHeld_Enter || keyHeld_Space) {
 		if (selectedOption == MAIN_MENU_NEW_GAME) {
 			currentLevel = 1;
 			saveLevel(); // overwrites old save file
