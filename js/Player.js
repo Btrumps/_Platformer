@@ -101,6 +101,7 @@ function playerClass() {
 					this.y = startY;
 					this.velX = 0;
 					this.velY = 0;
+					this.currentMoveState = PLAYER_STATE_IDLE;
 				}
 
 				if (this.collectibleObtained && levelGrid[index] == LEVEL_COLLECTIBLE) {

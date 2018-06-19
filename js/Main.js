@@ -82,6 +82,8 @@ function moveAll() {
 		if (musicEnabled) {
 			playBGM(currentLevel);
 		}
+
+		checkLevelSkipInput();
 	}
 }
 
