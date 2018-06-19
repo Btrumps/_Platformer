@@ -34,7 +34,11 @@ function mainMenuUpdate() {
 	if (keyHeld_Enter || keyHeld_Space) {
 		if (selectedOption == MAIN_MENU_NEW_GAME) {
 			currentLevel = 1;
+			totalCollectibles = 0;
+			totalDeaths = 0;
 			saveLevel(); // overwrites old save file
+			saveDeathCount();
+			saveCollectibleCount();
 			loadLevel(currentLevel);
 			mainMenuOpen = false;
 		}
@@ -44,6 +48,8 @@ function mainMenuUpdate() {
 			if (savedLevel != undefined) {
 				loadLevel(savedLevel);
 				currentLevel = savedLevel;
+				totalDeaths = getDeathCount();
+				totalCollectibles = getCollectibleCount();
 			} else {
 				// if the player's browser does not have local storage capabilities (or they haven't played before), this will be called
 				loadLevel(1);

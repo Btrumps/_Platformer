@@ -176,12 +176,14 @@ function checkLevelSkipInput() {
 	if (keyHeld_Minus && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 		currentLevel--;
 		keyHeld_Timer = 0;
-		player.collectibleObtained = false;
+		// if we don't turn this false before loading level, the collectible won't spawn
+		player.collectibleObtained = false; 
 		loadLevel(currentLevel);
 	}
 	if (keyHeld_Equal && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 		currentLevel++;
 		keyHeld_Timer = 0;
+		// if we don't turn this false before loading level, the collectible won't spawn
 		player.collectibleObtained = false;
 		loadLevel(currentLevel);
 		}

@@ -3,6 +3,7 @@ var musicEnabled = false;
 var firstSong;
 
 var deathSound;
+var collectibleStartTimerSound;
 var collectibleObtainedSound;
 
 
@@ -32,13 +33,19 @@ function playDeathSound() {
 }
 
 function playCollectibleObtainedSound() {
-	collectibleObtainedSound.volume = 0.1;
+	collectibleObtainedSound.volume = 0.05;
 	collectibleObtainedSound.play();
+}
+
+function playCollectibleStartSound() {
+	collectibleStartTimerSound.volume = 0.3;
+	collectibleStartTimerSound.play();
 }
 
 function loadSounds() {
 	setFormat();
 	firstSong = new Audio("./audio/deepdark" + audioFormat);
 	deathSound = new Audio("./audio/sfx/death_sfx.mp3");
-	collectibleObtainedSound = new Audio("./audio/sfx/notsure.mp3");
+	collectibleObtainedSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
+	collectibleStartTimerSound = new Audio("./audio/sfx/collectible_start_sfx.mp3");
 }

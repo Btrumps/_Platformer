@@ -85,6 +85,7 @@ function playerClass() {
 	this.deathTimer = 0;
 
 	this.collectibleObtained = false;
+	this.playedCollectibleStartSound = false;
 	this.playedCollectibleObtainedSound = false;
 	this.startCollectibleTimer = false;
 	this.collectibleIncrementTimer = 0;
@@ -113,6 +114,7 @@ function playerClass() {
 		}
 
 		this.startCollectibleTimer = false;
+		this.playedCollectibleStartSound = false;
 		this.playedCollectibleObtainedSound = false;
 		this.collectibleIncrementTimer = 0;
 
@@ -354,6 +356,7 @@ function playerClass() {
 		loadLevel(currentLevel);
 		this.reset();
 		totalDeaths++;
+		saveDeathCount();
 	}
 
 	this.wallCollisionChecks = function() {
@@ -625,6 +628,10 @@ function playerClass() {
 
 			if (this.triggerArray[i].type == LEVEL_COLLECTIBLE) {
 				levelGrid[this.triggerArray[i].index] = 0;
+				if (this.playedCollectibleStartSound == false) {
+					playCollectibleStartSound();
+					this.playedCollectibleStartSound = true;
+				}
 				this.startCollectibleTimer = true;
 			}
 
@@ -633,6 +640,7 @@ function playerClass() {
 				saveLevel();
 				if (this.collectibleObtained || this.startCollectibleTimer) {
 					totalCollectibles++;
+					saveCollectibleCount();
 					if (this.playedCollectibleObtainedSound == false) {
 						playCollectibleObtainedSound();
 						this.playedCollectibleObtainedSound = true;
