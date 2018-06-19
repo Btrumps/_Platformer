@@ -176,13 +176,15 @@ function checkLevelSkipInput() {
 	if (keyHeld_Minus && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 		currentLevel--;
 		keyHeld_Timer = 0;
+		player.collectibleObtained = false;
 		loadLevel(currentLevel);
 	}
 	if (keyHeld_Equal && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 		currentLevel++;
 		keyHeld_Timer = 0;
+		player.collectibleObtained = false;
 		loadLevel(currentLevel);
-	}
+		}
 }
 
 function getTriggersAndAddToArray() {

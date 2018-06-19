@@ -3,6 +3,7 @@ var musicEnabled = false;
 var firstSong;
 
 var deathSound;
+var collectibleObtainedSound;
 
 
 function setFormat() {
@@ -26,11 +27,18 @@ function playBGM() {
 }
 
 function playDeathSound() {
+	deathSound.volume = 0.1;
 	deathSound.play();
+}
+
+function playCollectibleObtainedSound() {
+	collectibleObtainedSound.volume = 0.1;
+	collectibleObtainedSound.play();
 }
 
 function loadSounds() {
 	setFormat();
 	firstSong = new Audio("./audio/deepdark" + audioFormat);
 	deathSound = new Audio("./audio/sfx/death_sfx.mp3");
+	collectibleObtainedSound = new Audio("./audio/sfx/notsure.mp3");
 }

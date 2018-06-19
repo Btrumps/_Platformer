@@ -85,6 +85,7 @@ function playerClass() {
 	this.deathTimer = 0;
 
 	this.collectibleObtained = false;
+	this.playedCollectibleObtainedSound = false;
 	this.startCollectibleTimer = false;
 	this.collectibleIncrementTimer = 0;
 
@@ -112,6 +113,7 @@ function playerClass() {
 		}
 
 		this.startCollectibleTimer = false;
+		this.playedCollectibleObtainedSound = false;
 		this.collectibleIncrementTimer = 0;
 
 	}
@@ -123,7 +125,7 @@ function playerClass() {
 
 
 		if (this.deathAnimationStarted) {
-			if (this.hasPlayedDeathSound = false) {
+			if (this.hasPlayedDeathSound == false) {
 				playDeathSound();
 				this.hasPlayedDeathSound = true;
 			}
@@ -631,8 +633,13 @@ function playerClass() {
 				saveLevel();
 				if (this.collectibleObtained || this.startCollectibleTimer) {
 					totalCollectibles++;
+					if (this.playedCollectibleObtainedSound == false) {
+						playCollectibleObtainedSound();
+						this.playedCollectibleObtainedSound = true;
+					}
 					this.collectibleObtained = false;
 				}
+
 				loadLevel(currentLevel);
 				break;
 			}
@@ -660,7 +667,13 @@ function playerClass() {
 	this.updateCollectibleTimer = function() {
 		if (this.collectibleIncrementTimer < COLLECTIBLE_MAX_TIME_TO_HOLD) {
 			this.collectibleIncrementTimer++;
-		} else if (this.deathAnimationStarted == false) {
+		} else if (this.collectibleIncrementTimer >= COLLECTIBLE_MAX_TIME_TO_HOLD &&
+		           this.deathAnimationStarted == false) {
+			
+			if (this.playedCollectibleObtainedSound == false) {
+				playCollectibleObtainedSound();
+				this.playedCollectibleObtainedSound = true;
+			}
 			this.collectibleObtained = true;
 		}
 	}
