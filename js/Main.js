@@ -102,7 +102,17 @@ function drawAll() {
 		if (helpGrid.length > 0) {
 			drawHelpBG();
 		}
+		
+		/*
+		canvasContext.save();
+		canvasContext.scale(0.2,0.2);
+
 		drawLevel();
+		canvasContext.restore();
+		*/
+
+		drawLevel();
+
 		player.draw();
 		if (currentLevel == 11) {
 			boss.draw();
