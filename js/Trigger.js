@@ -37,6 +37,7 @@ function triggerClass(col, row, index, whichType) {
 	// falling spikes
 	this.fallTrigger = false;
 	this.collider = true;
+	this.hitPlayer = false;
 
 	// shooting blocks
 	this.shotTimer = 0;
@@ -189,6 +190,7 @@ function triggerClass(col, row, index, whichType) {
 				} else {
 					this.startRespawnTimer = false;
 					this.respawnTimer = 0;
+					this.hitPlayer = false;
 					levelGrid[this.index] = this.type;
 					this.x = this.centeredX - TILE_WIDTH / 2;
 					this.y = this.centeredY - TILE_HEIGHT / 2;
@@ -209,8 +211,8 @@ function triggerClass(col, row, index, whichType) {
 			levelGrid[this.index] = 0;
 			this.y += FALL_SPEED;
 
-			// turns off the death collider after it passes the player
-			if (this.y > player.y + PLAYER_HEIGHT / 2 - FORGIVENESS_PIXELS) {
+			// turns off the death collider after it passes the player unless it's a boss level
+			if (this.y > player.y + PLAYER_HEIGHT / 2 - FORGIVENESS_PIXELS && currentLevel != 11) {
 				this.collider = false;
 			} else {
 				this.collider = true;
@@ -232,13 +234,45 @@ function triggerClass(col, row, index, whichType) {
 						// adds offset for left-side cases on the right hitbox
 						if (playerXInsideTrigger * 2 > playerYInsideTrigger && playerXInsideTrigger > 0) {
 							player.deathAnimationStarted = true;
+							this.hitPlayer = true;
 							return;
 						}
 					} else {
 						playerXInsideTrigger -= TILE_WIDTH / 2;
 						if ((playerXInsideTrigger * 2) + playerYInsideTrigger < 16 && playerXInsideTrigger > 0) {
 							player.deathAnimationStarted = true;
+							this.hitPlayer = true;
 							return;
+						}
+					}
+				}
+
+				if (currentLevel == 11 && this.hitPlayer == false) { // boss level
+					// these offsets are for collisions, normally, this.x/y refers to player's center
+					var bossYOffset = BOSS_HEIGHT / 2;
+
+					bossXArray = [	boss.leftEdge,
+									boss.rightEdge,
+									boss.x]
+					var bossYInsideTrigger = boss.y - bossYOffset - this.y;
+
+					for (var i = 0; i < bossXArray.length; i++) {
+						var bossXInsideTrigger = bossXArray[i] - this.x;
+
+						if (bossXInsideTrigger < 8) {
+							// adds offset for left-side cases on the right hitbox
+							if (bossXInsideTrigger * 2 > bossYInsideTrigger && bossXInsideTrigger > 0) {
+								boss.tookDamage = true;
+								this.hitPlayer = true;
+								return;
+							}
+						} else {
+							bossXInsideTrigger -= TILE_WIDTH / 2;
+							if ((bossXInsideTrigger * 2) + bossYInsideTrigger < 16 && bossXInsideTrigger > 0) {
+								boss.tookDamage = true;
+								this.hitPlayer = true;
+								return;
+							}
 						}
 					}
 				}
@@ -250,11 +284,12 @@ function triggerClass(col, row, index, whichType) {
 			this.collider = false;
 			this.startRespawnTimer = true;
 		}
+
 	}
 
 	this.draw = function() {
 		if (this.fallTrigger) {
-			if (whichType == LEVEL_SPIKE_S_FALLING) {
+			if (whichType == LEVEL_SPIKE_S_FALLING && this.hitPlayer == false) {
 				canvasContext.drawImage(levelPics[LEVEL_SPIKE_S_FALLING], this.x, this.y);
 			}
 		}

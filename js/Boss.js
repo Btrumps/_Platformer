@@ -11,6 +11,7 @@ const BOSS_CHASE_DEADZONE = 5;
 const BOSS_INTRO_MAX_TIME = 60;
 const BOSS_SLAM_ANTICIPATION_FRAMES = 12;
 const BOSS_VULERNABLE_MAX_TIME = 60;
+const BOSS_DAMAGE_TAKEN_COOLDOWN = 30;
 
 const BOSS_STATE_INTRO = 1;
 const BOSS_STATE_CHASE_PLAYER = 2;
@@ -32,9 +33,13 @@ function bossClass() {
 	this.breathing2 = 0; // osc2
 	this.breathPercentage = 1.0;
 
+	this.tookDamage = true;
+	this.health = 3;
+
 	this.introTimer = 0;
 	this.slamAnticipationTimer = 0;
 	this.vulernableTimer = 0;
+	this.damageTakenCooldownTimer = 0;
 
 	this.currentState = BOSS_STATE_INTRO;
 
@@ -104,6 +109,17 @@ function bossClass() {
 		}	
 
 		checkBossCollisionsWithPlayer();
+
+		if (this.tookDamage && this.damageTakenCooldownTimer < BOSS_DAMAGE_TAKEN_COOLDOWN) {
+			this.damageTakenCooldownTimer++;
+		} else if (this.tookDamage && this.damageTakenCooldownTimer >= BOSS_DAMAGE_TAKEN_COOLDOWN) {
+			this.tookDamage = false;
+			this.health--;
+		}
+
+		if (this.health < 0) {
+			console.log('Boss has died');
+		}
 	}
 
 	this.recalculateCollisionEdges = function() {

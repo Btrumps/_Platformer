@@ -46,11 +46,11 @@ function mainMenuUpdate() {
 		}
 
 		if (selectedOption == MAIN_MENU_CONTINUE) {
-			var savedLevel = getSavedLevel();
+			var savedLevel = parseInt(getSavedLevel());
 			if (savedLevel != undefined) {
 				currentLevel = savedLevel;
-				totalDeaths = getDeathCount();
-				totalCollectibles = getCollectibleCount();
+				totalDeaths = parseInt(getDeathCount());
+				totalCollectibles = parseInt(getCollectibleCount());
 
 				// needs to be entered this way or it will be input as a string
 				if (getCollectibleObtainedForLevel() == "false") {
