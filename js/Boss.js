@@ -10,7 +10,7 @@ const BOSS_CHASE_DEADZONE = 5;
 
 const BOSS_INTRO_MAX_TIME = 60;
 const BOSS_SLAM_ANTICIPATION_FRAMES = 12;
-const BOSS_VULERNABLE_MAX_TIME = 60;
+const BOSS_VULERNABLE_MAX_TIME = 15;
 const BOSS_DAMAGE_TAKEN_COOLDOWN = 30;
 
 const BOSS_STATE_INTRO = 1;
@@ -33,7 +33,7 @@ function bossClass() {
 	this.breathing2 = 0; // osc2
 	this.breathPercentage = 1.0;
 
-	this.tookDamage = true;
+	this.tookDamage = false;
 	this.health = 3;
 
 	this.introTimer = 0;
@@ -110,15 +110,27 @@ function bossClass() {
 
 		checkBossCollisionsWithPlayer();
 
-		if (this.tookDamage && this.damageTakenCooldownTimer < BOSS_DAMAGE_TAKEN_COOLDOWN) {
-			this.damageTakenCooldownTimer++;
-		} else if (this.tookDamage && this.damageTakenCooldownTimer >= BOSS_DAMAGE_TAKEN_COOLDOWN) {
-			this.tookDamage = false;
+		this.damageHandling();
+	}
+
+	this.damageHandling = function() {
+		// at the start of the counter, deduct health from the boss so that we can show an animation for boss taking damage
+		if (this.tookDamage && this.damageTakenCooldownTimer == 0) {
 			this.health--;
 		}
 
-		if (this.health < 0) {
-			console.log('Boss has died');
+		// we need to have this here or the boss will take damage every frame while the spike is inside the boss
+		if (this.tookDamage && this.damageTakenCooldownTimer < BOSS_DAMAGE_TAKEN_COOLDOWN) {
+			this.damageTakenCooldownTimer++;
+
+		} else if (this.tookDamage && this.damageTakenCooldownTimer >= BOSS_DAMAGE_TAKEN_COOLDOWN) {
+			this.tookDamage = false;
+			this.damageTakenCooldownTimer = 0;
+		}
+
+		// need to have player.deathAnimationStarted as false or the player can win when the spike hits the boss
+		if (this.health <= 0 && player.deathAnimationStarted == false) {
+			scoreScreenOpen = true;
 		}
 	}
 

@@ -1,15 +1,28 @@
-const MAIN_MENU_NEW_GAME = 1;
-const MAIN_MENU_CONTINUE = 2;
+const MAIN_MENU_CONTINUE = 1;
+const MAIN_MENU_NEW_GAME = 2;
+const MAIN_MENU_NO = 1;
+const MAIN_MENU_YES = 2;
 
-const MAIN_MENU_NEW_GAME_X = 425;
-const MAIN_MENU_NEW_GAME_Y = 400;
 const MAIN_MENU_CONTINUE_X = 420;
-const MAIN_MENU_CONTINUE_Y = 500;
+const MAIN_MENU_CONTINUE_Y = 400;
+const MAIN_MENU_NEW_GAME_X = 425;
+const MAIN_MENU_NEW_GAME_Y = 500;
+const MAIN_MENU_ARE_YOU_SURE_X = 375;
+const MAIN_MENU_ARE_YOU_SURE_Y = 325;
+const MAIN_MENU_NO_X = 485;
+const MAIN_MENU_NO_Y = 425;
+const MAIN_MENU_YES_X = 475;
+const MAIN_MENU_YES_Y = 500;
+
+const MAIN_MENU_ARE_YOU_SURE_WIDTH = 200;
+const MAIN_MENU_ARE_YOU_SURE_HEIGHT = 150;
+const MAIN_MENU_ARE_YOU_SURE_BORDER = 10;
 
 const MAIN_MENU_MAX_OPTIONS = 2; // increase this number every time we add something to the menu
 
-var selectedOption = MAIN_MENU_NEW_GAME;
+var selectedOption = MAIN_MENU_CONTINUE;
 var mainMenuOpen = true;
+var areYouSureOpen = false;
 
 function mainMenuUpdate() {
 	if ((keyHeld_ArrowUp || keyHeld_W) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
@@ -32,20 +45,35 @@ function mainMenuUpdate() {
 	}
 
 
-	if (keyHeld_Enter || keyHeld_Space) {
-		if (selectedOption == MAIN_MENU_NEW_GAME) {
-			currentLevel = 1;
-			totalCollectibles = 0;
-			totalDeaths = 0;
-			saveLevel(); // overwrites old save file
-			saveDeathCount();
-			saveCollectibleCount();
-			saveCollectibleObtainedForLevel("false");
-			loadLevel(currentLevel);
-			mainMenuOpen = false;
+	if ((keyHeld_Enter || keyHeld_Space) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+
+		keyHeld_Timer = 0;
+		var optionSelectedThisFrame = false;
+
+		if (areYouSureOpen) {
+			if (selectedOption == MAIN_MENU_YES) {
+				currentLevel = 1;
+				totalCollectibles = 0;
+				totalDeaths = 0;
+				saveLevel(); // overwrites old save file
+				saveDeathCount();
+				saveCollectibleCount();
+				saveCollectibleObtainedForLevel("false");
+				loadLevel(currentLevel);
+				mainMenuOpen = false;
+			} else if (selectedOption == MAIN_MENU_NO) {
+				areYouSureOpen = false;
+				optionSelectedThisFrame = true;
+			}
 		}
 
-		if (selectedOption == MAIN_MENU_CONTINUE) {
+		if (selectedOption == MAIN_MENU_NEW_GAME) {
+			selectedOption = 1;
+			areYouSureOpen = true;
+			optionSelectedThisFrame = true;
+		}
+
+		if (selectedOption == MAIN_MENU_CONTINUE && optionSelectedThisFrame == false) {
 			var savedLevel = parseInt(getSavedLevel());
 			if (savedLevel != undefined) {
 				currentLevel = savedLevel;
@@ -72,43 +100,81 @@ function mainMenuUpdate() {
 function drawMainMenu() {
 	colorRect(0,0, canvas.width,canvas.height, 'black');
 	canvasContext.drawImage(mainMenuImg, -10,25);
+
+	if (areYouSureOpen) {
+		colorRect(	(canvas.width / 2) - (MAIN_MENU_ARE_YOU_SURE_WIDTH /2) - MAIN_MENU_ARE_YOU_SURE_BORDER / 2,
+					(canvas.height / 2) - 100 - MAIN_MENU_ARE_YOU_SURE_BORDER / 2,
+					MAIN_MENU_ARE_YOU_SURE_WIDTH + MAIN_MENU_ARE_YOU_SURE_BORDER,
+					MAIN_MENU_ARE_YOU_SURE_HEIGHT + MAIN_MENU_ARE_YOU_SURE_BORDER,
+					'white');
+
+		colorRect(	(canvas.width / 2) - (MAIN_MENU_ARE_YOU_SURE_WIDTH /2),
+					(canvas.height / 2) - 100,
+					MAIN_MENU_ARE_YOU_SURE_WIDTH,
+					MAIN_MENU_ARE_YOU_SURE_HEIGHT,
+					'black');
+	}
 }
 
 function drawMainMenuText() {
-	var selectedOptionColor = '#208eff';
-	var unselectedOptionColor = '#fefefe';
+	var selectedOptionColor = PALETTE_BLUE;
+	var unselectedOptionColor = PALETTE_WHITE;
 
-	if (selectedOption == MAIN_MENU_NEW_GAME) {
-		colorText('New Game',
-		          MAIN_MENU_NEW_GAME_X,
-		          MAIN_MENU_NEW_GAME_Y,
+	var textToShow1;
+	var textToShow2;
+
+	var whereToShowText1X;
+	var whereToShowText1Y;
+	var whereToShowText2X;
+	var whereToShowText2Y;
+
+	if (areYouSureOpen) {
+		textToShow1 = 'No';
+		textToShow2 = 'Yes';
+		whereToShowText1X = MAIN_MENU_NO_X;
+		whereToShowText1Y = MAIN_MENU_NO_Y;
+		whereToShowText2X = MAIN_MENU_YES_X;
+		whereToShowText2Y = MAIN_MENU_YES_Y;
+
+		colorText('Are you sure?',
+		          MAIN_MENU_ARE_YOU_SURE_X,
+		          MAIN_MENU_ARE_YOU_SURE_Y,
+		          PALETTE_WHITE,
+		          FONT_MAIN_MENU);
+	} else {
+		textToShow1 = 'Continue';
+		textToShow2 = 'New Game';
+		whereToShowText1X = MAIN_MENU_CONTINUE_X;
+		whereToShowText1Y = MAIN_MENU_CONTINUE_Y;
+		whereToShowText2X = MAIN_MENU_NEW_GAME_X;
+		whereToShowText2Y = MAIN_MENU_NEW_GAME_Y;
+	}
+
+	if (selectedOption == MAIN_MENU_CONTINUE || selectedOption == MAIN_MENU_NO) {
+		colorText(textToShow1,
+		          whereToShowText1X,
+		          whereToShowText1Y,
 		          selectedOptionColor,
 		          FONT_MAIN_MENU);
 	} else {
-		colorText('New Game',
-		          MAIN_MENU_NEW_GAME_X,
-		          MAIN_MENU_NEW_GAME_Y,
+		colorText(textToShow1,
+		          whereToShowText1X,
+		          whereToShowText1Y,
 		          unselectedOptionColor,
 		          FONT_MAIN_MENU);
 	}
 
-	if (selectedOption == MAIN_MENU_CONTINUE) {
-		colorText('Continue',
-		          MAIN_MENU_CONTINUE_X,
-		          MAIN_MENU_CONTINUE_Y,
+	if (selectedOption == MAIN_MENU_NEW_GAME || selectedOption == MAIN_MENU_YES) {
+		colorText(textToShow2,
+		          whereToShowText2X,
+		          whereToShowText2Y,
 		          selectedOptionColor,
 		          FONT_MAIN_MENU);
-	} else if (selectedOption != MAIN_MENU_CONTINUE && getSavedLevel() != undefined) {
-		colorText('Continue',
-		          MAIN_MENU_CONTINUE_X,
-		          MAIN_MENU_CONTINUE_Y,
-		          unselectedOptionColor,
-		          FONT_MAIN_MENU);
 	} else {
-		colorText('Continue',
-		          MAIN_MENU_CONTINUE_X,
-		          MAIN_MENU_CONTINUE_Y,
-		          'black',
+		colorText(textToShow2,
+		          whereToShowText2X,
+		          whereToShowText2Y,
+		          unselectedOptionColor,
 		          FONT_MAIN_MENU);
 	}
 }

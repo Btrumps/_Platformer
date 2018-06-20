@@ -250,7 +250,7 @@ function triggerClass(col, row, index, whichType) {
 				if (currentLevel == 11 && this.hitPlayer == false) { // boss level
 					// these offsets are for collisions, normally, this.x/y refers to player's center
 					var bossYOffset = BOSS_HEIGHT / 2;
-
+					boss.recalculateCollisionEdges();
 					bossXArray = [	boss.leftEdge,
 									boss.rightEdge,
 									boss.x]
