@@ -55,6 +55,8 @@ function updateAnimations() {
   playerRunLeftAnim.update();
   playerRunRightAnim.update();
 
+  bossIntroAnim.update();
+
   enterPortalAnim.update();
   exitPortalAnim.update();
   collectibleAnim.update();
@@ -139,6 +141,26 @@ function setupSpriteSheets() {
       loop: false,
       numberOfFrames: 8,
       ticksPerFrame: 1,
+    });
+
+    bossIntroAnim = sprite({
+      context: canvasContext,
+      width: 384,
+      height: 48,
+      image: bossIntro,
+      loop: true,
+      numberOfFrames: 8,
+      ticksPerFrame: 12,
+    });
+
+    bossSlamAnim = sprite({
+      context: canvasContext,
+      width: 192,
+      height: 48,
+      image: bossSlam,
+      loop: false,
+      numberOfFrames: 4,
+      ticksPerFrame: 4,
     });
 
     enterPortalAnim = sprite({

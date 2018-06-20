@@ -134,7 +134,7 @@ function isTriggerAtPixel(x, y, whichEdge) {
 
 function isProjectileKillingPlayer(x, y) {
 
-	player.recalculateCollisionEdges();
+	// player.recalculateCollisionEdges();
 
 	// these small values push the hitbox in on the player
 	var startX = x - (PLAYER_WIDTH / 2);
@@ -155,4 +155,29 @@ function isProjectileKillingPlayer(x, y) {
 
 	}
 		return false;
+}
+
+function checkBossCollisionsWithPlayer() {
+	player.recalculateCollisionEdges();
+	boss.recalculateCollisionEdges();
+
+	if ( ( (player.leftEdge > boss.leftEdge &&
+	    	player.leftEdge < boss.rightEdge) ||
+		   (player.rightEdge > boss.rightEdge &&
+	    	player.rightEdge < boss.leftEdge) ) &&
+	    	boss.bottomEdge > player.topEdge &&
+	    	boss.topEdge < player.topEdge) {
+		player.deathAnimationStarted = true;
+		// almost works, but triggers when the player is above the boss
+	}
+
+	if ( ( (player.leftEdge > boss.leftEdge &&
+	    	player.leftEdge < boss.rightEdge) ||
+		   (player.rightEdge > boss.rightEdge &&
+	    	player.rightEdge < boss.leftEdge) ) &&
+	    	boss.topEdge < player.bottomEdge &&
+	    	boss.bottomEdge > player.bottomEdge) {
+		player.deathAnimationStarted = true;
+		// almost works, but triggers when the player is above the boss
+	}
 }

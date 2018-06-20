@@ -18,6 +18,9 @@ var playerDashRightImg = document.createElement("img");
 var playerDashUpImg = document.createElement("img");
 var playerFallingImg = document.createElement("img");
 
+var bossIntro = document.createElement("img");
+var bossSlam = document.createElement("img");
+
 var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
 var collectibleAnim = document.createElement("img");
@@ -59,6 +62,8 @@ function loadImages() {
 		{varName: playerDashLeftImg, theFile: "./images/player/player_dashleft.png"},
 		{varName: playerDashRightImg, theFile: "./images/player/player_dashright.png"},
 		{varName: playerDashUpImg, theFile: "./images/player/player_dashup.png"},
+		{varName: bossIntro, theFile: "./images/enemy/boss_intro_anim.png"},
+		{varName: bossSlam, theFile: "./images/enemy/boss_slam_anim.png"},
 		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
 		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
