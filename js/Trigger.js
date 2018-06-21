@@ -212,7 +212,7 @@ function triggerClass(col, row, index, whichType) {
 			this.y += FALL_SPEED;
 
 			// turns off the death collider after it passes the player unless it's a boss level
-			if (this.y > player.y + PLAYER_HEIGHT / 2 - FORGIVENESS_PIXELS && currentLevel != 11) {
+			if (this.y > player.y + PLAYER_HEIGHT / 2 - FORGIVENESS_PIXELS) {
 				this.collider = false;
 			} else {
 				this.collider = true;
@@ -246,11 +246,15 @@ function triggerClass(col, row, index, whichType) {
 						}
 					}
 				}
+			}
 
-				if (currentLevel == 11 && this.hitPlayer == false) { // boss level
+			if (this.collider && currentLevel == 11 && this.hitPlayer == false) { // boss level
+				if (boss.y + BOSS_HEIGHT / 2 < this.y) {
+					// do nothing
+				} else {
 					// these offsets are for collisions, normally, this.x/y refers to player's center
-					var bossYOffset = BOSS_HEIGHT / 2;
 					boss.recalculateCollisionEdges();
+					var bossYOffset = BOSS_HEIGHT / 2;
 					bossXArray = [	boss.leftEdge,
 									boss.rightEdge,
 									boss.x]
@@ -263,6 +267,7 @@ function triggerClass(col, row, index, whichType) {
 							// adds offset for left-side cases on the right hitbox
 							if (bossXInsideTrigger * 2 > bossYInsideTrigger && bossXInsideTrigger > 0) {
 								boss.tookDamage = true;
+								console.log('boss took damage from left side');
 								this.hitPlayer = true;
 								return;
 							}
@@ -270,6 +275,7 @@ function triggerClass(col, row, index, whichType) {
 							bossXInsideTrigger -= TILE_WIDTH / 2;
 							if ((bossXInsideTrigger * 2) + bossYInsideTrigger < 16 && bossXInsideTrigger > 0) {
 								boss.tookDamage = true;
+								console.log('boss took damage from right side');
 								this.hitPlayer = true;
 								return;
 							}

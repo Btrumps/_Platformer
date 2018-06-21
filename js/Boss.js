@@ -5,7 +5,7 @@ const BOSS_FIGHT_1_FLOOR_Y = 368;
 
 const BOSS_CHASE_SPEED = 3;
 const BOSS_RETURN_TO_CHASE_SPEED = 3;
-const BOSS_SLAM_SPEED = 5;
+const BOSS_SLAM_SPEED = 7;
 
 const BOSS_ENRAGE_CHASE_SPEED = 5;
 const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 5;
@@ -60,7 +60,7 @@ function bossClass() {
 				this.returnToChaseSpeed = BOSS_ENRAGE_RETURN_TO_CHASE_SPEED;
 			} else {
 				this.chaseSpeed = BOSS_CHASE_SPEED;
-				this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
+				this.slamSpeed = BOSS_SLAM_SPEED;
 				this.returnToChaseSpeed = BOSS_RETURN_TO_CHASE_SPEED;
 			}
 
@@ -80,7 +80,7 @@ function bossClass() {
 				this.breathPercentage = 1.0;
 
 				if (this.x > player.x + BOSS_CHASE_DEADZONE) {
-					this.x -= BOSS_CHASE_SPEED;
+					this.x -= this.chaseSpeed;
 				} else if (this.x < player.x - BOSS_CHASE_DEADZONE) {
 					this.x += this.chaseSpeed;
 				} else {
@@ -132,7 +132,10 @@ function bossClass() {
 
 		this.recalculateCollisionEdges();
 
-		checkBossCollisionsWithPlayer();
+		if (player.deathAnimationStarted == false) {
+			checkBossCollisionsWithPlayer();
+		}
+		
 
 		this.damageHandling();
 	}
