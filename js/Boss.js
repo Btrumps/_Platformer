@@ -4,18 +4,20 @@ const BOSS_MAX_HEALTH = 3;
 
 const BOSS_FIGHT_1_FLOOR_Y = 368;
 
-const BOSS_CHASE_SPEED = 4;
-const BOSS_ROOM_SLAM_CHASE_SPEED = 5;
-const BOSS_SLAM_SPEED = 5;
-const BOSS_ROOM_SLAM_SPEED = 6;
-const BOSS_RETURN_TO_CHASE_SPEED = 4;
-const BOSS_RETURN_TO_ROOM_SLAM_SPEED = 6;
 
-const BOSS_ENRAGE_CHASE_SPEED = 6;
-const BOSS_ENRAGE_ROOM_SLAM_CHASE_SPEED = 7;
+
+const BOSS_CHASE_SPEED = 4;
+const BOSS_SLAM_SPEED = 5;
+const BOSS_RETURN_TO_CHASE_SPEED = 4;
+const BOSS_ENRAGE_CHASE_SPEED = 5;
 const BOSS_ENRAGE_SLAM_SPEED = 6;
+const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 5;
+
+const BOSS_ROOM_SLAM_SPEED = 6;
+const BOSS_ROOM_SLAM_CHASE_SPEED = 5;
+const BOSS_RETURN_TO_ROOM_SLAM_SPEED = 6;
+const BOSS_ENRAGE_ROOM_SLAM_CHASE_SPEED = 7;
 const BOSS_ENRAGE_ROOM_SLAM_SPEED = 7;
-const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 6;
 const BOSS_ENRAGE_RETURN_TO_ROOM_SLAM_SPEED = 7;
 
 const BOSS_CHASE_DEADZONE = 5;
@@ -23,6 +25,7 @@ const BOSS_CHASE_DEADZONE = 5;
 const BOSS_INTRO_MAX_TIME = 60;
 const BOSS_SLAM_ANTICIPATION_FRAMES = 12;
 const BOSS_VULERNABLE_MAX_TIME = 30;
+const BOSS_ENRAGE_VULNERABLE_MAX_TIME = 10;
 const BOSS_DAMAGE_TAKEN_COOLDOWN = 30;
 
 const BOSS_ROOM_SLAM_1_X = 64 - TILE_WIDTH / 2;
@@ -58,6 +61,8 @@ function bossClass() {
 	this.tookDamage = false;
 	this.health = BOSS_MAX_HEALTH;
 
+	this.vulernableMaxTime = BOSS_VULERNABLE_MAX_TIME;
+
 	this.chaseSpeed = BOSS_CHASE_SPEED;
 	this.roomSlamChaseSpeed = BOSS_ROOM_SLAM_CHASE_SPEED;
 	this.slamSpeed = BOSS_SLAM_SPEED;
@@ -78,6 +83,7 @@ function bossClass() {
 	this.move = function() {
 
 		if (this.health == 1) {
+			this.vulernableMaxTime = BOSS_ENRAGE_VULNERABLE_MAX_TIME;
 			this.chaseSpeed = BOSS_ENRAGE_CHASE_SPEED;
 			this.roomSlamChaseSpeed = BOSS_ENRAGE_ROOM_SLAM_CHASE_SPEED;
 			this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
@@ -85,6 +91,7 @@ function bossClass() {
 			this.returnToChaseSpeed = BOSS_ENRAGE_RETURN_TO_CHASE_SPEED;
 			this.returnToRoomSlamSpeed = BOSS_ENRAGE_RETURN_TO_ROOM_SLAM_SPEED;
 		} else {
+			this.vulernableMaxTime = BOSS_VULERNABLE_MAX_TIME;
 			this.chaseSpeed = BOSS_CHASE_SPEED;
 			this.roomSlamChaseSpeed = BOSS_ROOM_SLAM_CHASE_SPEED;
 			this.slamSpeed = BOSS_SLAM_SPEED;
@@ -202,7 +209,7 @@ function bossClass() {
 
 			case BOSS_STATE_VULNERABLE:
 				this.breathPercentage = 0;
-				if (this.vulernableTimer < BOSS_VULERNABLE_MAX_TIME && this.health > 1) {
+				if (this.vulernableTimer < this.vulernableMaxTime) {
 					this.vulernableTimer++;
 				} else {
 					this.currentState = BOSS_STATE_RETURN_TO_CHASE;
