@@ -53,9 +53,8 @@ function bossClass() {
 	this.currentState = BOSS_STATE_INTRO;
 
 	this.move = function() {
-		switch(this.currentState) {
 
-			if (this.health == 1) {
+		if (this.health == 1) {
 				this.chaseSpeed = BOSS_ENRAGE_CHASE_SPEED;
 				this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
 				this.returnToChaseSpeed = BOSS_ENRAGE_RETURN_TO_CHASE_SPEED;
@@ -64,6 +63,8 @@ function bossClass() {
 				this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
 				this.returnToChaseSpeed = BOSS_RETURN_TO_CHASE_SPEED;
 			}
+
+		switch(this.currentState) {
 
 			case BOSS_STATE_INTRO:
 				this.breathPercentage = 1.0;
