@@ -1,5 +1,6 @@
 const BOSS_WIDTH = 48;
 const BOSS_HEIGHT = 48;
+const BOSS_MAX_HEALTH = 3;
 
 const BOSS_FIGHT_1_FLOOR_Y = 368;
 
@@ -55,7 +56,7 @@ function bossClass() {
 	this.breathPercentage = 1.0;
 
 	this.tookDamage = false;
-	this.health = 3;
+	this.health = BOSS_MAX_HEALTH;
 
 	this.chaseSpeed = BOSS_CHASE_SPEED;
 	this.roomSlamChaseSpeed = BOSS_ROOM_SLAM_CHASE_SPEED;
@@ -106,6 +107,9 @@ function bossClass() {
 
 			case BOSS_STATE_PICKING_MOVE:
 				var randomNumber = Math.random();
+				if (this.health == BOSS_MAX_HEALTH) {
+					this.randomNumber = 0;
+				}
 				if (randomNumber <= .6) {
 					this.currentState = BOSS_STATE_CHASE_PLAYER;
 				} else {
