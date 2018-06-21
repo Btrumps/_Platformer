@@ -3,27 +3,43 @@ const BOSS_HEIGHT = 48;
 
 const BOSS_FIGHT_1_FLOOR_Y = 368;
 
-const BOSS_CHASE_SPEED = 3;
-const BOSS_RETURN_TO_CHASE_SPEED = 3;
-const BOSS_SLAM_SPEED = 7;
+const BOSS_CHASE_SPEED = 4;
+const BOSS_ROOM_SLAM_CHASE_SPEED = 6;
+const BOSS_SLAM_SPEED = 6;
+const BOSS_ROOM_SLAM_SPEED = 7;
+const BOSS_RETURN_TO_CHASE_SPEED = 4;
+const BOSS_RETURN_TO_ROOM_SLAM_SPEED = 7;
 
-const BOSS_ENRAGE_CHASE_SPEED = 5;
-const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 5;
+const BOSS_ENRAGE_CHASE_SPEED = 6;
+const BOSS_ENRAGE_ROOM_SLAM_CHASE_SPEED = 8;
 const BOSS_ENRAGE_SLAM_SPEED = 7;
+const BOSS_ENRAGE_ROOM_SLAM_SPEED = 8;
+const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 6;
+const BOSS_ENRAGE_RETURN_TO_ROOM_SLAM_SPEED = 7;
 
 const BOSS_CHASE_DEADZONE = 5;
 
 const BOSS_INTRO_MAX_TIME = 60;
 const BOSS_SLAM_ANTICIPATION_FRAMES = 12;
-const BOSS_VULERNABLE_MAX_TIME = 15;
+const BOSS_VULERNABLE_MAX_TIME = 30;
 const BOSS_DAMAGE_TAKEN_COOLDOWN = 30;
 
+const BOSS_ROOM_SLAM_1_X = 64 - TILE_WIDTH / 2;
+const BOSS_ROOM_SLAM_2_X = 144 + TILE_WIDTH / 2;
+const BOSS_ROOM_SLAM_3_X = 256;
+const BOSS_ROOM_SLAM_4_X = 352 + TILE_WIDTH / 2;
+const BOSS_ROOM_SLAM_5_X = 448 + TILE_WIDTH / 2;
+
 const BOSS_STATE_INTRO = 1;
-const BOSS_STATE_CHASE_PLAYER = 2;
-const BOSS_STATE_SLAM = 3;
-const BOSS_STATE_VULNERNABLE = 4;
-const BOSS_STATE_RETURN_TO_CHASE = 5;
-const BOSS_STATE_ENRAGED = 6; // after two hits, boss will get enraged and cycle faster
+const BOSS_STATE_PICKING_MOVE = 2;
+const BOSS_STATE_CHASE_PLAYER = 3;
+const BOSS_STATE_READYING_FOR_ROOM_SLAM = 4;
+const BOSS_STATE_SLAM = 5;
+const BOSS_STATE_ROOM_SLAM = 6;
+const BOSS_STATE_VULNERABLE = 7;
+const BOSS_STATE_RETURN_TO_CHASE = 8;
+const BOSS_STATE_RETURN_TO_ROOM_SLAM = 9;
+const BOSS_STATE_ENRAGED = 10; // after two hits, boss will get enraged and cycle faster
 
 function bossClass() {
 	this.x = canvas.width / 2;
@@ -42,8 +58,14 @@ function bossClass() {
 	this.health = 3;
 
 	this.chaseSpeed = BOSS_CHASE_SPEED;
+	this.roomSlamChaseSpeed = BOSS_ROOM_SLAM_CHASE_SPEED;
+	this.slamSpeed = BOSS_SLAM_SPEED;
+	this.roomSlamSpeed = BOSS_ROOM_SLAM_SPEED;
 	this.returnToChaseSpeed = BOSS_RETURN_TO_CHASE_SPEED;
-	this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
+	this.returnToRoomSlamSpeed = BOSS_RETURN_TO_ROOM_SLAM_SPEED;
+
+	this.roomSlamNumber = 1;
+	this.reversed = false;
 
 	this.introTimer = 0;
 	this.slamAnticipationTimer = 0;
@@ -55,14 +77,20 @@ function bossClass() {
 	this.move = function() {
 
 		if (this.health == 1) {
-				this.chaseSpeed = BOSS_ENRAGE_CHASE_SPEED;
-				this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
-				this.returnToChaseSpeed = BOSS_ENRAGE_RETURN_TO_CHASE_SPEED;
-			} else {
-				this.chaseSpeed = BOSS_CHASE_SPEED;
-				this.slamSpeed = BOSS_SLAM_SPEED;
-				this.returnToChaseSpeed = BOSS_RETURN_TO_CHASE_SPEED;
-			}
+			this.chaseSpeed = BOSS_ENRAGE_CHASE_SPEED;
+			this.roomSlamChaseSpeed = BOSS_ENRAGE_ROOM_SLAM_CHASE_SPEED;
+			this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
+			this.roomSlamSpeed = BOSS_ENRAGE_ROOM_SLAM_SPEED;
+			this.returnToChaseSpeed = BOSS_ENRAGE_RETURN_TO_CHASE_SPEED;
+			this.returnToRoomSlamSpeed = BOSS_ENRAGE_RETURN_TO_ROOM_SLAM_SPEED;
+		} else {
+			this.chaseSpeed = BOSS_CHASE_SPEED;
+			this.roomSlamChaseSpeed = BOSS_ROOM_SLAM_CHASE_SPEED;
+			this.slamSpeed = BOSS_SLAM_SPEED;
+			this.roomSlamSpeed = BOSS_ROOM_SLAM_SPEED;
+			this.returnToChaseSpeed = BOSS_RETURN_TO_CHASE_SPEED;
+			this.returnToRoomSlamSpeed = BOSS_RETURN_TO_ROOM_SLAM_SPEED;
+		}
 
 		switch(this.currentState) {
 
@@ -71,8 +99,26 @@ function bossClass() {
 				if (this.introTimer < BOSS_INTRO_MAX_TIME) {
 					this.introTimer++;
 				} else {
-					this.currentState = BOSS_STATE_CHASE_PLAYER;
+					this.currentState = BOSS_STATE_PICKING_MOVE;
 					this.introTimer = 0;
+				}
+				break;
+
+			case BOSS_STATE_PICKING_MOVE:
+				var randomNumber = Math.random();
+				if (randomNumber <= .6) {
+					this.currentState = BOSS_STATE_CHASE_PLAYER;
+				} else {
+					this.currentState = BOSS_STATE_READYING_FOR_ROOM_SLAM;
+
+					randomNumber = Math.random();
+					if (randomNumber < .5) {
+						this.reversed = true;
+						this.roomSlamNumber = 5;
+					} else {
+						this.reversed = false;
+						this.roomSlamNumber = 1;
+					}
 				}
 				break;
 
@@ -92,6 +138,44 @@ function bossClass() {
 				}
 				break;
 
+			case BOSS_STATE_READYING_FOR_ROOM_SLAM:
+				var whichSlamX;
+
+				if (this.roomSlamNumber == 1) {
+					whichSlamX = BOSS_ROOM_SLAM_1_X;
+				} else if (this.roomSlamNumber == 2) {
+					whichSlamX = BOSS_ROOM_SLAM_2_X;
+				} else if (this.roomSlamNumber == 3) {
+					whichSlamX = BOSS_ROOM_SLAM_3_X;
+				} else if (this.roomSlamNumber == 4) {
+					whichSlamX = BOSS_ROOM_SLAM_4_X;
+				} else if (this.roomSlamNumber == 5) {
+					whichSlamX = BOSS_ROOM_SLAM_5_X;
+				}
+
+				
+				if (this.x < whichSlamX) {
+					if (whichSlamX - this.x < this.roomSlamChaseSpeed) {
+						this.x = whichSlamX;
+					} else {
+						this.x += this.roomSlamChaseSpeed;
+					}
+					
+				} else if (this.x > whichSlamX) {
+					if (this.x - whichSlamX < this.roomSlamChaseSpeed) {
+						this.x = whichSlamX;
+					} else {
+						this.x -= this.roomSlamChaseSpeed;
+					}
+					
+				}
+
+				if (this.x == whichSlamX) {
+					this.currentState = BOSS_STATE_ROOM_SLAM;
+				}
+				break;
+
+
 			case BOSS_STATE_SLAM:
 				if (this.slamAnticipationTimer < BOSS_SLAM_ANTICIPATION_FRAMES) {
 					this.breathPercentage = 1.0;
@@ -102,15 +186,15 @@ function bossClass() {
 					if (this.y + BOSS_HEIGHT / 2 < BOSS_FIGHT_1_FLOOR_Y) {
 						this.y += this.slamSpeed;
 					} else if (this.y + BOSS_HEIGHT / 2 >= BOSS_FIGHT_1_FLOOR_Y) {
-						this.currentState = BOSS_STATE_VULNERNABLE;
+						this.currentState = BOSS_STATE_VULNERABLE;
 						this.slamAnticipationTimer = 0;
 					}
 				}
 				break;
 
-			case BOSS_STATE_VULNERNABLE:
+			case BOSS_STATE_VULNERABLE:
 				this.breathPercentage = 0;
-				if (this.vulernableTimer < BOSS_VULERNABLE_MAX_TIME) {
+				if (this.vulernableTimer < BOSS_VULERNABLE_MAX_TIME && this.health > 1) {
 					this.vulernableTimer++;
 				} else {
 					this.currentState = BOSS_STATE_RETURN_TO_CHASE;
@@ -119,12 +203,42 @@ function bossClass() {
 				}
 				break;
 
+			case BOSS_STATE_ROOM_SLAM:
+				this.breathPercentage = 0;
+
+				if (this.y + BOSS_HEIGHT / 2 < BOSS_FIGHT_1_FLOOR_Y) {
+					this.y += this.roomSlamSpeed;
+
+				} else if (this.y + BOSS_HEIGHT / 2 >= BOSS_FIGHT_1_FLOOR_Y) {
+					this.currentState = BOSS_STATE_RETURN_TO_ROOM_SLAM;
+				}
+				break;		
+
 			case BOSS_STATE_RETURN_TO_CHASE:
 				this.breathPercentage = 1.0;
 				if (this.y > canvas.height / 2) {
 					this.y -= this.returnToChaseSpeed;
 				} else {
-					this.currentState = BOSS_STATE_CHASE_PLAYER;
+					this.currentState = BOSS_STATE_PICKING_MOVE;
+				}
+				break;
+
+			case BOSS_STATE_RETURN_TO_ROOM_SLAM:
+				this.breathPercentage = 1.0;
+				if (this.y > canvas.height / 2) {
+					this.y -= this.returnToRoomSlamSpeed;
+				} else {
+					if (this.roomSlamNumber == 5 && this.reversed == false) {
+						this.currentState = BOSS_STATE_PICKING_MOVE;
+					} else if (this.reversed == false) {
+						this.roomSlamNumber++;
+						this.currentState = BOSS_STATE_READYING_FOR_ROOM_SLAM;
+					} else if (this.roomSlamNumber == 1 && this.reversed) {
+						this.currentState = BOSS_STATE_PICKING_MOVE;
+					} else if (this.reversed) {
+						this.roomSlamNumber--;
+						this.currentState = BOSS_STATE_READYING_FOR_ROOM_SLAM;
+					}
 				}
 				break;
 
@@ -175,7 +289,7 @@ function bossClass() {
 		this.breathing1 += 0.092;
 		this.breathing2 -= 0.053;
 
-		if (this.currentState == BOSS_STATE_SLAM || this.currentState == BOSS_STATE_VULNERNABLE) {
+		if (this.currentState == BOSS_STATE_SLAM || this.currentState == BOSS_STATE_VULNERABLE) {
 			bossSlamAnim.render(Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
 			                    Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
 			bossSlamAnim.update();
