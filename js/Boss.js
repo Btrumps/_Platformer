@@ -100,7 +100,7 @@ function bossClass() {
 				if (this.introTimer < BOSS_INTRO_MAX_TIME) {
 					this.introTimer++;
 				} else {
-					this.currentState = BOSS_STATE_PICKING_MOVE;
+					//this.currentState = BOSS_STATE_PICKING_MOVE;
 					this.introTimer = 0;
 				}
 				break;
@@ -108,7 +108,7 @@ function bossClass() {
 			case BOSS_STATE_PICKING_MOVE:
 				var randomNumber = Math.random();
 				if (this.health == BOSS_MAX_HEALTH) {
-					this.randomNumber = 0;
+					randomNumber = 0;
 				}
 				if (randomNumber <= .6) {
 					this.currentState = BOSS_STATE_CHASE_PLAYER;
