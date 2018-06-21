@@ -85,6 +85,10 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_SPIKE_E;
 		}
 
+		if (keyHeld_5) {
+			levelGrid[mouseIndex] = LEVEL_MINE;
+		}
+
 		if (keyHeld_A) {
 			levelGrid[mouseIndex] = LEVEL_FALLING_PLATFORM_W;
 		}

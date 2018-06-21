@@ -670,6 +670,11 @@ function playerClass() {
 					}
 				}
 			}
+
+			if (this.triggerArray[i].type == LEVEL_MINE) {
+				levelGrid[this.triggerArray[i].index] = 0;
+				this.deathAnimationStarted = true;
+			}
 		}
 
 		this.triggerArray = [];

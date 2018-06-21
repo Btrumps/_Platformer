@@ -94,6 +94,7 @@ function loadImages() {
 		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S2.png"},
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W2.png"},
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E2.png"},
+		{levelType: LEVEL_MINE, theFile: "./images/level_obstacles/mine_ball.png"},
 		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
 		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"},
 		{helpType: LEVEL_HELP_A_KEY, theFile: "./images/level_help/level_a_key.png"},
