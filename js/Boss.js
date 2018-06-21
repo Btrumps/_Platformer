@@ -100,7 +100,7 @@ function bossClass() {
 				if (this.introTimer < BOSS_INTRO_MAX_TIME) {
 					this.introTimer++;
 				} else {
-					//this.currentState = BOSS_STATE_PICKING_MOVE;
+					this.currentState = BOSS_STATE_PICKING_MOVE;
 					this.introTimer = 0;
 				}
 				break;
