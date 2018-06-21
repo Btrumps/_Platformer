@@ -20,6 +20,9 @@ var playerFallingImg = document.createElement("img");
 
 var bossIntro = document.createElement("img");
 var bossSlam = document.createElement("img");
+var bossRoomSlamFace = document.createElement("img");
+var bossEnragedFace = document.createElement("img");
+var bossReturningToChaseFace = document.createElement("img");
 
 var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
@@ -64,6 +67,9 @@ function loadImages() {
 		{varName: playerDashUpImg, theFile: "./images/player/player_dashup.png"},
 		{varName: bossIntro, theFile: "./images/enemy/boss_intro_anim.png"},
 		{varName: bossSlam, theFile: "./images/enemy/boss_slam_anim.png"},
+		{varName: bossRoomSlamFace, theFile: "./images/enemy/boss_room_slam_face.png"},
+		{varName: bossEnragedFace, theFile: "./images/enemy/boss_enraged_face.png"},
+		{varName: bossReturningToChaseFace, theFile: "./images/enemy/boss_returning_to_chase_face.png"},
 		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
 		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},

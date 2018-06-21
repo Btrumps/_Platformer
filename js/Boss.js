@@ -55,7 +55,7 @@ function bossClass() {
 	this.breathPercentage = 1.0;
 
 	this.tookDamage = false;
-	this.health = 3;
+	this.health = 1;
 
 	this.chaseSpeed = BOSS_CHASE_SPEED;
 	this.roomSlamChaseSpeed = BOSS_ROOM_SLAM_CHASE_SPEED;
@@ -216,7 +216,8 @@ function bossClass() {
 
 			case BOSS_STATE_RETURN_TO_CHASE:
 				this.breathPercentage = 1.0;
-				if (this.y > canvas.height / 2) {
+				var randomReturnPointY = Math.random() * 20;
+				if (this.y > (canvas.height / 2) + randomReturnPointY) {
 					this.y -= this.returnToChaseSpeed;
 				} else {
 					this.currentState = BOSS_STATE_PICKING_MOVE;
@@ -225,7 +226,8 @@ function bossClass() {
 
 			case BOSS_STATE_RETURN_TO_ROOM_SLAM:
 				this.breathPercentage = 1.0;
-				if (this.y > canvas.height / 2) {
+				var randomReturnPointY = Math.random() * 20;
+				if (this.y > (canvas.height / 2) + randomReturnPointY) {
 					this.y -= this.returnToRoomSlamSpeed;
 				} else {
 					if (this.roomSlamNumber == 5 && this.reversed == false) {
@@ -289,13 +291,30 @@ function bossClass() {
 		this.breathing1 += 0.092;
 		this.breathing2 -= 0.053;
 
-		if (this.currentState == BOSS_STATE_SLAM || this.currentState == BOSS_STATE_VULNERABLE) {
-			bossSlamAnim.render(Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
-			                    Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
-			bossSlamAnim.update();
+		if (this.health <= 1) {
+			canvasContext.drawImage(bossEnragedFace,
+				                    Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
+				                    Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
 		} else {
-			bossIntroAnim.render(Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
-			                    Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
+			if (this.currentState == BOSS_STATE_SLAM ||
+				this.currentState == BOSS_STATE_VULNERABLE) {
+				bossSlamAnim.render(Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
+				                    Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
+				bossSlamAnim.update();
+			} else if (this.currentState == BOSS_STATE_RETURN_TO_CHASE) {
+				canvasContext.drawImage(bossReturningToChaseFace,
+				                        Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
+				                    	Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
+			} else if (this.currentState == BOSS_STATE_ROOM_SLAM ||
+			           this.currentState == BOSS_STATE_RETURN_TO_ROOM_SLAM ||
+			           this.currentState == BOSS_STATE_READYING_FOR_ROOM_SLAM) {
+				canvasContext.drawImage(bossRoomSlamFace,
+				                        Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
+				                    	Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
+			} else {
+				bossIntroAnim.render(Math.floor(this.x - BOSS_WIDTH / 2 + this.breathPercentage * suppressedSideToSide * (Math.cos(this.breathing1) * breathing1_Length + Math.cos(this.breathing2) * breathing2_Length)),
+				                    Math.floor(this.y - BOSS_HEIGHT / 2 + this.breathPercentage * (Math.sin(this.breathing1) * breathing1_Length + Math.sin(this.breathing2) * breathing2_Length)) );
+			}
 		}
 
 
