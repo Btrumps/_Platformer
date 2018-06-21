@@ -55,7 +55,7 @@ function bossClass() {
 	this.breathPercentage = 1.0;
 
 	this.tookDamage = false;
-	this.health = 1;
+	this.health = 3;
 
 	this.chaseSpeed = BOSS_CHASE_SPEED;
 	this.roomSlamChaseSpeed = BOSS_ROOM_SLAM_CHASE_SPEED;
