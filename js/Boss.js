@@ -128,7 +128,9 @@ function bossClass() {
 				}
 				break;
 
-		}	
+		}
+
+		this.recalculateCollisionEdges();
 
 		checkBossCollisionsWithPlayer();
 
