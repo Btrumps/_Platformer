@@ -6,6 +6,11 @@ const BOSS_FIGHT_1_FLOOR_Y = 368;
 const BOSS_CHASE_SPEED = 3;
 const BOSS_RETURN_TO_CHASE_SPEED = 3;
 const BOSS_SLAM_SPEED = 5;
+
+const BOSS_ENRAGE_CHASE_SPEED = 5;
+const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 5;
+const BOSS_ENRAGE_SLAM_SPEED = 7;
+
 const BOSS_CHASE_DEADZONE = 5;
 
 const BOSS_INTRO_MAX_TIME = 60;
@@ -36,6 +41,10 @@ function bossClass() {
 	this.tookDamage = false;
 	this.health = 3;
 
+	this.chaseSpeed = BOSS_CHASE_SPEED;
+	this.returnToChaseSpeed = BOSS_RETURN_TO_CHASE_SPEED;
+	this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
+
 	this.introTimer = 0;
 	this.slamAnticipationTimer = 0;
 	this.vulernableTimer = 0;
@@ -45,6 +54,16 @@ function bossClass() {
 
 	this.move = function() {
 		switch(this.currentState) {
+
+			if (this.health == 1) {
+				this.chaseSpeed = BOSS_ENRAGE_CHASE_SPEED;
+				this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
+				this.returnToChaseSpeed = BOSS_ENRAGE_RETURN_TO_CHASE_SPEED;
+			} else {
+				this.chaseSpeed = BOSS_CHASE_SPEED;
+				this.slamSpeed = BOSS_ENRAGE_SLAM_SPEED;
+				this.returnToChaseSpeed = BOSS_RETURN_TO_CHASE_SPEED;
+			}
 
 			case BOSS_STATE_INTRO:
 				this.breathPercentage = 1.0;
@@ -58,10 +77,11 @@ function bossClass() {
 
 			case BOSS_STATE_CHASE_PLAYER:
 				this.breathPercentage = 1.0;
+
 				if (this.x > player.x + BOSS_CHASE_DEADZONE) {
 					this.x -= BOSS_CHASE_SPEED;
 				} else if (this.x < player.x - BOSS_CHASE_DEADZONE) {
-					this.x += BOSS_CHASE_SPEED;
+					this.x += this.chaseSpeed;
 				} else {
 					if (player.y < boss.y) {
 						// maybe change to another state to attack the player when they are above the boss
@@ -79,7 +99,7 @@ function bossClass() {
 				} else {
 					this.breathPercentage = 0;
 					if (this.y + BOSS_HEIGHT / 2 < BOSS_FIGHT_1_FLOOR_Y) {
-						this.y += BOSS_SLAM_SPEED;
+						this.y += this.slamSpeed;
 					} else if (this.y + BOSS_HEIGHT / 2 >= BOSS_FIGHT_1_FLOOR_Y) {
 						this.currentState = BOSS_STATE_VULNERNABLE;
 						this.slamAnticipationTimer = 0;
@@ -101,10 +121,11 @@ function bossClass() {
 			case BOSS_STATE_RETURN_TO_CHASE:
 				this.breathPercentage = 1.0;
 				if (this.y > canvas.height / 2) {
-					this.y -= BOSS_RETURN_TO_CHASE_SPEED;
+					this.y -= this.returnToChaseSpeed;
 				} else {
 					this.currentState = BOSS_STATE_CHASE_PLAYER;
 				}
+				break;
 
 		}	
 
