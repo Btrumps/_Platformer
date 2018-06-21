@@ -3,6 +3,9 @@ var helpBGEnabled = false;
 var gridEnabled = false;
 var levelPreview = false;
 
+var levelLayoutScreenOpen = false;
+var levelToShow = 1;
+
 function placeTilesOnButtonPress() {
 	mouseCol = Math.floor(mouseX / TILE_WIDTH);
 	mouseRow = Math.floor(mouseY / TILE_HEIGHT);
@@ -311,5 +314,40 @@ function showMapEditorGrid() {
 
 			}
 		}
+	}
+}
+
+function drawLevelLayoutScreen() {
+	colorRect(0,0, canvas.width,canvas.height, 'black');
+
+	var rowsPerScreen = 3;
+	var columnsPerScreen = 3;
+	var whichLevelToDraw = levelToShow;
+
+	// 3 because that's how many levels we can fit on a screen
+	for (var eachRow = 0; eachRow < rowsPerScreen; eachRow++) {
+		for (var eachCol = 0; eachCol < columnsPerScreen; eachCol++) {
+			canvasContext.save();
+			canvasContext.translate(eachCol * 150, eachRow * 125);
+			canvasContext.scale(0.3,0.3);
+			loadLevel(whichLevelToDraw);
+			drawLevel();
+			canvasContext.restore();
+			whichLevelToDraw++;
+		}
+	}
+
+}
+
+function checkLevelLayoutInput() {
+	if (keyHeld_Minus && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+		if (levelToShow >= 9) {
+			levelToShow -= 9; // 9 is the max amount of levels that can be shown on a screen at a time
+		}
+		keyHeld_Timer = 0;
+	}
+	if (keyHeld_Equal && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+		levelToShow += 9;
+		keyHeld_Timer = 0;
 	}
 }

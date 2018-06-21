@@ -5,16 +5,16 @@ const BOSS_MAX_HEALTH = 3;
 const BOSS_FIGHT_1_FLOOR_Y = 368;
 
 const BOSS_CHASE_SPEED = 4;
-const BOSS_ROOM_SLAM_CHASE_SPEED = 6;
-const BOSS_SLAM_SPEED = 6;
-const BOSS_ROOM_SLAM_SPEED = 7;
+const BOSS_ROOM_SLAM_CHASE_SPEED = 5;
+const BOSS_SLAM_SPEED = 5;
+const BOSS_ROOM_SLAM_SPEED = 6;
 const BOSS_RETURN_TO_CHASE_SPEED = 4;
-const BOSS_RETURN_TO_ROOM_SLAM_SPEED = 7;
+const BOSS_RETURN_TO_ROOM_SLAM_SPEED = 6;
 
 const BOSS_ENRAGE_CHASE_SPEED = 6;
-const BOSS_ENRAGE_ROOM_SLAM_CHASE_SPEED = 8;
-const BOSS_ENRAGE_SLAM_SPEED = 7;
-const BOSS_ENRAGE_ROOM_SLAM_SPEED = 8;
+const BOSS_ENRAGE_ROOM_SLAM_CHASE_SPEED = 7;
+const BOSS_ENRAGE_SLAM_SPEED = 6;
+const BOSS_ENRAGE_ROOM_SLAM_SPEED = 7;
 const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 6;
 const BOSS_ENRAGE_RETURN_TO_ROOM_SLAM_SPEED = 7;
 
@@ -93,6 +93,8 @@ function bossClass() {
 			this.returnToRoomSlamSpeed = BOSS_RETURN_TO_ROOM_SLAM_SPEED;
 		}
 
+		this.recalculateCollisionEdges();
+
 		switch(this.currentState) {
 
 			case BOSS_STATE_INTRO:
@@ -110,7 +112,9 @@ function bossClass() {
 				if (this.health == BOSS_MAX_HEALTH) {
 					randomNumber = 0;
 				}
-				if (randomNumber <= .6) {
+
+				// randomNumber will be between 0 - 1, we are turning off the room slam for now
+				if (randomNumber <= 2) {
 					this.currentState = BOSS_STATE_CHASE_PLAYER;
 				} else {
 					this.currentState = BOSS_STATE_READYING_FOR_ROOM_SLAM;

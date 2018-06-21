@@ -189,7 +189,7 @@ function checkLevelSkipInput() {
 		// if we don't turn this false before loading level, the collectible won't spawn
 		player.collectibleObtained = false;
 		loadLevel(currentLevel);
-		}
+	}
 }
 
 function getTriggersAndAddToArray() {
