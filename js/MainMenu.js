@@ -53,13 +53,16 @@ function mainMenuUpdate() {
 		if (areYouSureOpen) {
 			if (selectedOption == MAIN_MENU_YES) {
 				currentLevel = 1;
-				totalCollectibles = 0;
+				totalGameTime = 0;
 				totalDeaths = 0;
+				totalCollectibles = 0;
 				saveLevel(); // overwrites old save file
+				saveGameTime();
 				saveDeathCount();
 				saveCollectibleCount();
 				saveCollectibleObtainedForLevel("false");
 				loadLevel(currentLevel);
+				setInterval(gameTimer, 1000);
 				mainMenuOpen = false;
 			} else if (selectedOption == MAIN_MENU_NO) {
 				areYouSureOpen = false;
@@ -74,19 +77,19 @@ function mainMenuUpdate() {
 		}
 
 		if (selectedOption == MAIN_MENU_CONTINUE && optionSelectedThisFrame == false) {
-			var savedLevel = parseInt(getSavedLevel());
+			var savedLevel = parseInt( getSavedLevel() );
 			if (savedLevel != undefined) {
 				currentLevel = savedLevel;
-				totalDeaths = parseInt(getDeathCount());
-				totalCollectibles = parseInt(getCollectibleCount());
-
+				totalGameTime = parseInt( getGameTime() );
+				totalDeaths = parseInt( getDeathCount() );
+				totalCollectibles = parseInt( getCollectibleCount() );
 				// needs to be entered this way or it will be input as a string
 				if (getCollectibleObtainedForLevel() == "false") {
 					player.collectibleObtained = false;
 				} else {
 					player.collectibleObtained = true;
 				}
-				
+				setInterval(gameTimer, 1000);
 				loadLevel(savedLevel);
 			} else {
 				// if the player's browser does not have local storage capabilities (or they haven't played before), this will be called

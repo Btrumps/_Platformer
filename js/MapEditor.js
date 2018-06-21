@@ -101,11 +101,11 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_6) {
-			levelGrid[mouseIndex] = LEVEL_ENTER_PORTAL_1;
+			levelGrid[mouseIndex] = LEVEL_SWITCH;
 		}
 
 		if (keyHeld_7) {
-			levelGrid[mouseIndex] = LEVEL_EXIT_PORTAL_1;
+			levelGrid[mouseIndex] = LEVEL_DOOR;
 		}
 
 		if (keyHeld_8) {
@@ -328,7 +328,7 @@ function drawLevelLayoutScreen() {
 	for (var eachRow = 0; eachRow < rowsPerScreen; eachRow++) {
 		for (var eachCol = 0; eachCol < columnsPerScreen; eachCol++) {
 			canvasContext.save();
-			canvasContext.translate(eachCol * 150, eachRow * 125);
+			canvasContext.translate(eachCol * 180, eachRow * 140);
 			canvasContext.scale(0.3,0.3);
 			loadLevel(whichLevelToDraw);
 			drawLevel();

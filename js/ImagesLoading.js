@@ -24,6 +24,9 @@ var bossRoomSlamFace = document.createElement("img");
 var bossEnragedFace = document.createElement("img");
 var bossReturningToChaseFace = document.createElement("img");
 
+var switchOff = document.createElement("img");
+var switchOn = document.createElement("img");
+
 var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
 var collectibleAnim = document.createElement("img");
@@ -71,6 +74,8 @@ function loadImages() {
 		{varName: bossEnragedFace, theFile: "./images/enemy/boss_enraged_face.png"},
 		{varName: bossReturningToChaseFace, theFile: "./images/enemy/boss_returning_to_chase_face.png"},
 		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
+		{varName: switchOff, theFile: "./images/level_obstacles/switch_off.png"},
+		{varName: switchOn, theFile: "./images/level_obstacles/switch_on.png"},
 		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},
@@ -95,6 +100,7 @@ function loadImages() {
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W2.png"},
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E2.png"},
 		{levelType: LEVEL_MINE, theFile: "./images/level_obstacles/mine_ball.png"},
+		{levelType: LEVEL_DOOR_1, theFile: "./images/level_obstacles/door_1.png"},
 		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
 		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"},
 		{helpType: LEVEL_HELP_A_KEY, theFile: "./images/level_help/level_a_key.png"},

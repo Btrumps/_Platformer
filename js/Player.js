@@ -675,6 +675,20 @@ function playerClass() {
 				levelGrid[this.triggerArray[i].index] = 0;
 				this.deathAnimationStarted = true;
 			}
+
+			if (this.triggerArray[i].type == LEVEL_SWITCH_1) {
+
+				// change the look of the switch to show that it has been "flipped"
+				for (var j = 0; j < allTriggersArray.length; j++) {
+					if (allTriggersArray[j].type == LEVEL_SWITCH_1) {
+						allTriggersArray[j].switchedOn = true;
+					}
+					if (allTriggersArray[j].type == LEVEL_DOOR_1) {
+						levelGrid[allTriggersArray[j].index] = 0;
+					}
+				}
+			}
+
 		}
 
 		this.triggerArray = [];

@@ -1,3 +1,11 @@
+function saveGameTime() {
+	localStorage.setItem("time", totalGameTime);
+}
+
+function getGameTime() {
+	return localStorage.getItem("time");
+}
+
 function saveLevel() {
 	localStorage.setItem("level", currentLevel);
 }

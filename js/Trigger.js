@@ -39,6 +39,9 @@ function triggerClass(col, row, index, whichType) {
 	this.collider = true;
 	this.hitPlayer = false;
 
+	// switch
+	this.switchedOn = false;
+
 	// shooting blocks
 	this.shotTimer = 0;
 	this.projectileInterval = PROJECTILE_INTERVAL;
@@ -56,7 +59,7 @@ function triggerClass(col, row, index, whichType) {
 		this.powerupHandling();
 		this.collectibleHandling();
 		this.shooterHandling();
-		this.fallingPlatformHandling();	
+		this.fallingPlatformHandling();
 	}
 
 	this.fallingPlatformHandling = function() {
