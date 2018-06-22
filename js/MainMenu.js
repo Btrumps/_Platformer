@@ -21,26 +21,43 @@ const MAIN_MENU_ARE_YOU_SURE_BORDER = 10;
 const MAIN_MENU_MAX_OPTIONS = 2; // increase this number every time we add something to the menu
 
 var selectedOption = MAIN_MENU_CONTINUE;
+var noSavedGame = false;
 var mainMenuOpen = true;
 var areYouSureOpen = false;
 
 function mainMenuUpdate() {
+
+	// this is so we can grey out continue and start the menu selection on New Game
+	// this will only happen once, so it doesn't auto snap selection on the are you sure screen
+	if ((getSavedLevel() == null || getSavedLevel() == undefined) && areYouSureOpen == false) {
+		noSavedGame = true;
+		selectedOption = MAIN_MENU_NEW_GAME;
+	}
+
 	if ((keyHeld_ArrowUp || keyHeld_W) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-		if (selectedOption > 1) {
-			selectedOption--;
-		} else if (selectedOption == 1) {
-			 // change this number to the max number of options so it wraps to the bottom selection
-			selectedOption = MAIN_MENU_MAX_OPTIONS;
-		}
+		if (noSavedGame && areYouSureOpen == false) {
+			// do nothing
+		} else {
+			if (selectedOption > 1) {
+				selectedOption--;
+			} else if (selectedOption == 1) {
+				 // change this number to the max number of options so it wraps to the bottom selection
+				selectedOption = MAIN_MENU_MAX_OPTIONS;
+			}
+		}	
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
 	if ((keyHeld_ArrowDown || keyHeld_S) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-		if (selectedOption < MAIN_MENU_MAX_OPTIONS) {
-			selectedOption++;
+		if (noSavedGame && areYouSureOpen == false) {
+			// do nothing
 		} else {
-			selectedOption = 1;
-		}
+			if (selectedOption < MAIN_MENU_MAX_OPTIONS) {
+				selectedOption++;
+			} else {
+				selectedOption = 1;
+			}
+		}		
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
@@ -76,25 +93,25 @@ function mainMenuUpdate() {
 			optionSelectedThisFrame = true;
 		}
 
-		if (selectedOption == MAIN_MENU_CONTINUE && optionSelectedThisFrame == false) {
+		if (selectedOption == MAIN_MENU_CONTINUE &&
+		    optionSelectedThisFrame == false &&
+		    noSavedGame == false) {
+			
 			var savedLevel = parseInt( getSavedLevel() );
-			if (savedLevel != undefined) {
-				currentLevel = savedLevel;
-				totalGameTime = parseInt( getGameTime() );
-				totalDeaths = parseInt( getDeathCount() );
-				totalCollectibles = parseInt( getCollectibleCount() );
-				// needs to be entered this way or it will be input as a string
-				if (getCollectibleObtainedForLevel() == "false") {
-					player.collectibleObtained = false;
-				} else {
-					player.collectibleObtained = true;
-				}
-				setInterval(gameTimer, 1000);
-				loadLevel(savedLevel);
+			currentLevel = savedLevel;
+			totalGameTime = parseInt( getGameTime() );
+			totalDeaths = parseInt( getDeathCount() );
+			totalCollectibles = parseInt( getCollectibleCount() );
+
+			// needs to be entered this way or it will be input as a string
+			if (getCollectibleObtainedForLevel() == "false") {
+				player.collectibleObtained = false;
 			} else {
-				// if the player's browser does not have local storage capabilities (or they haven't played before), this will be called
-				loadLevel(1);
+				player.collectibleObtained = true;
 			}
+
+			setInterval(gameTimer, 1000);
+			loadLevel(savedLevel);
 			mainMenuOpen = false;
 		}
 	}
@@ -153,7 +170,16 @@ function drawMainMenuText() {
 		whereToShowText2Y = MAIN_MENU_NEW_GAME_Y;
 	}
 
-	if (selectedOption == MAIN_MENU_CONTINUE || selectedOption == MAIN_MENU_NO) {
+	if (noSavedGame &&
+		areYouSureOpen == false) {
+
+		colorText(textToShow1,
+		          whereToShowText1X,
+		          whereToShowText1Y,
+		          'grey',
+		          FONT_MAIN_MENU);
+
+	} else if (selectedOption == MAIN_MENU_CONTINUE || selectedOption == MAIN_MENU_NO) {
 		colorText(textToShow1,
 		          whereToShowText1X,
 		          whereToShowText1Y,
