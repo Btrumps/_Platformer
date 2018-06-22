@@ -27,6 +27,11 @@ var bossReturningToChaseFace = document.createElement("img");
 var switchOff = document.createElement("img");
 var switchOn = document.createElement("img");
 
+var shooterWAnim = document.createElement("img");
+var shooterEAnim = document.createElement("img");
+var shooterNAnim = document.createElement("img");
+var shooterSAnim = document.createElement("img");
+
 var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
 var collectibleAnim = document.createElement("img");
@@ -76,6 +81,10 @@ function loadImages() {
 		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
 		{varName: switchOff, theFile: "./images/level_obstacles/switch_off.png"},
 		{varName: switchOn, theFile: "./images/level_obstacles/switch_on.png"},
+		{varName: shooterWAnim, theFile: "./images/level_obstacles/shooter_w_anim.png"},
+		{varName: shooterEAnim, theFile: "./images/level_obstacles/shooter_e_anim.png"},
+		{varName: shooterNAnim, theFile: "./images/level_obstacles/shooter_n_anim.png"},
+		{varName: shooterSAnim, theFile: "./images/level_obstacles/shooter_s_anim.png"},
 		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},

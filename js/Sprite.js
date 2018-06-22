@@ -60,6 +60,20 @@ function updateAnimations() {
   enterPortalAnim.update();
   exitPortalAnim.update();
   collectibleAnim.update();
+
+  if (okayToUpdateShooterAnim_W) {
+    shooterWAnim.update();
+  }
+  if (okayToUpdateShooterAnim_E) {
+    shooterEAnim.update();
+  }
+  if (okayToUpdateShooterAnim_N) {
+    shooterNAnim.update();
+  }
+  if (okayToUpdateShooterAnim_S) {
+    shooterSAnim.update();
+  }
+  
 }
 
 function setupSpriteSheets() {
@@ -161,6 +175,46 @@ function setupSpriteSheets() {
       loop: false,
       numberOfFrames: 4,
       ticksPerFrame: 4,
+    });
+
+    shooterWAnim = sprite({
+      context: canvasContext,
+      width: 64,
+      height: 16,
+      image: shooterWAnim,
+      loop: false,
+      numberOfFrames: 4,
+      ticksPerFrame: 15,
+    });
+
+    shooterEAnim = sprite({
+      context: canvasContext,
+      width: 64,
+      height: 16,
+      image: shooterEAnim,
+      loop: false,
+      numberOfFrames: 4,
+      ticksPerFrame: 15,
+    });
+
+    shooterNAnim = sprite({
+      context: canvasContext,
+      width: 64,
+      height: 16,
+      image: shooterNAnim,
+      loop: false,
+      numberOfFrames: 4,
+      ticksPerFrame: 15,
+    });
+
+    shooterSAnim = sprite({
+      context: canvasContext,
+      width: 64,
+      height: 16,
+      image: shooterSAnim,
+      loop: false,
+      numberOfFrames: 4,
+      ticksPerFrame: 15,
     });
 
     enterPortalAnim = sprite({

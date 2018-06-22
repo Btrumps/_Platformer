@@ -4,8 +4,6 @@ const BOSS_MAX_HEALTH = 3;
 
 const BOSS_FIGHT_1_FLOOR_Y = 368;
 
-
-
 const BOSS_CHASE_SPEED = 4;
 const BOSS_SLAM_SPEED = 5;
 const BOSS_RETURN_TO_CHASE_SPEED = 4;

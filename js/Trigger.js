@@ -6,6 +6,11 @@ const COLLECTIBLE_MAX_DIST_FROM_PLAYER = 25;
 const POWERUP_COOLDOWN_MAX = 60; // 2 sec
 const FORGIVENESS_PIXELS = 8;
 
+const DELAY_BEFORE_FIRST_SHOT_W = 30;
+const DELAY_BEFORE_FIRST_SHOT_E = 0;
+const DELAY_BEFORE_FIRST_SHOT_N = 30;
+const DELAY_BEFORE_FIRST_SHOT_S = 0;
+
 const PROJECTILE_INTERVAL = 60;
 
 const PLATFORM_FALL_MAX = 30;
@@ -13,6 +18,11 @@ const PLATFORM_RESPAWN_MAX = 60;
 
 var allTriggersArray = [];
 var projectileArray = [];
+
+var okayToUpdateShooterAnim_W = false;
+var okayToUpdateShooterAnim_E = false;
+var okayToUpdateShooterAnim_N = false;
+var okayToUpdateShooterAnim_S = false;
 
 function triggerClass(col, row, index, whichType) {
 
@@ -26,6 +36,8 @@ function triggerClass(col, row, index, whichType) {
 	this.row = row;
 	this.index = index;
 	this.type = whichType;
+
+	this.anim;
 
 	// powerups
 	this.powerupCooldown = 0;
@@ -43,6 +55,8 @@ function triggerClass(col, row, index, whichType) {
 	this.switchedOn = false;
 
 	// shooting blocks
+	this.firstShotFired = false;
+	this.delayBeforeFirstShotTimer = 0;
 	this.shotTimer = 0;
 	this.projectileInterval = PROJECTILE_INTERVAL;
 
@@ -106,42 +120,92 @@ function triggerClass(col, row, index, whichType) {
 
 	this.shooterHandling = function() {
 		if (this.type == LEVEL_SHOOTER_W) {
-			if (this.shotTimer > this.projectileInterval) {
-				this.shotTimer = 0;
-				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_LEFT);
-				projectileArray.push(projectile);
+			if (this.firstShotFired == false) {
+				if (this.delayBeforeFirstShotTimer < DELAY_BEFORE_FIRST_SHOT_W) {
+					this.delayBeforeFirstShotTimer++;
+				} else {
+					this.delayBeforeFirstShotTimer = 0;
+					this.firstShotFired = true;
+				}
 			} else {
-				this.shotTimer++;
+				if (this.shotTimer > this.projectileInterval) {
+					this.shotTimer = 0;
+					var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_LEFT);
+					projectileArray.push(projectile);
+					okayToUpdateShooterAnim_W = false;
+					shooterWAnim.reset();
+				} else {
+					this.shotTimer++;
+					okayToUpdateShooterAnim_W = true;
+				}
 			}
+			
 		}
 
 		if (this.type == LEVEL_SHOOTER_E) {
-			if (this.shotTimer > this.projectileInterval) {
-				this.shotTimer = 0;
-				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_RIGHT);
-				projectileArray.push(projectile);
+			if (this.firstShotFired == false) {
+				if (this.delayBeforeFirstShotTimer < DELAY_BEFORE_FIRST_SHOT_E) {
+					this.delayBeforeFirstShotTimer++;
+				} else {
+					this.delayBeforeFirstShotTimer = 0;
+					this.firstShotFired = true;
+				}
 			} else {
-				this.shotTimer++;
+				if (this.shotTimer > this.projectileInterval) {
+					this.shotTimer = 0;
+					var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_RIGHT);
+					projectileArray.push(projectile);
+					okayToUpdateShooterAnim_E = false;
+					shooterEAnim.reset();
+				} else {
+					this.shotTimer++;
+					okayToUpdateShooterAnim_E = true;
+				}
 			}
 		}
 
 		if (this.type == LEVEL_SHOOTER_N) {
-			if (this.shotTimer > this.projectileInterval) {
-				this.shotTimer = 0;
-				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_UP);
-				projectileArray.push(projectile);
+			if (this.firstShotFired == false) {
+				if (this.delayBeforeFirstShotTimer < DELAY_BEFORE_FIRST_SHOT_N) {
+					this.delayBeforeFirstShotTimer++;
+				} else {
+					this.delayBeforeFirstShotTimer = 0;
+					this.firstShotFired = true;
+				}
 			} else {
-				this.shotTimer++;
+				if (this.shotTimer > this.projectileInterval) {
+					this.shotTimer = 0;
+					var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_UP);
+					projectileArray.push(projectile);
+					okayToUpdateShooterAnim_N = false;
+					shooterNAnim.reset();
+				} else {
+					this.shotTimer++;
+					okayToUpdateShooterAnim_N = true;
+				}
 			}
+			
 		}
 
 		if (this.type == LEVEL_SHOOTER_S) {
-			if (this.shotTimer > this.projectileInterval) {
-				this.shotTimer = 0;
-				var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_DOWN);
-				projectileArray.push(projectile);
+			if (this.firstShotFired == false) {
+				if (this.delayBeforeFirstShotTimer < DELAY_BEFORE_FIRST_SHOT_S) {
+					this.delayBeforeFirstShotTimer++;
+				} else {
+					this.delayBeforeFirstShotTimer = 0;
+					this.firstShotFired = true;
+				}
 			} else {
-				this.shotTimer++;
+				if (this.shotTimer > this.projectileInterval) {
+					this.shotTimer = 0;
+					var projectile = new projectileClass(this.centeredX, this.centeredY, DIRECTION_DOWN);
+					projectileArray.push(projectile);
+					okayToUpdateShooterAnim_S = false;
+					shooterSAnim.reset();
+				} else {
+					this.shotTimer++;
+					okayToUpdateShooterAnim_S = true;
+				}
 			}
 		}
 	}
