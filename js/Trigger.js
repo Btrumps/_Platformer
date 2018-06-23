@@ -1,5 +1,9 @@
 const MAX_FALLING_SPIKE_TRIGGER_RANGE = 125;
-const FALL_SPEED = 4;
+const FALLING_SPIKE_TRIGGER_OFFSET = 7;
+const FALL_SPEED = 5;
+
+const SQUARE_SPIKE_SPEED = 3;
+
 const COLLECTIBLE_SPEED = 0.1;
 const COLLECTIBLE_MAX_DIST_FROM_PLAYER = 25;
 
@@ -51,6 +55,10 @@ function triggerClass(col, row, index, whichType) {
 	this.collider = true;
 	this.hitPlayer = false;
 
+	// square spikes
+	this.movingDown = true;
+	this.movingRight = true;
+
 	// switch
 	this.switchedOn = false;
 
@@ -74,6 +82,74 @@ function triggerClass(col, row, index, whichType) {
 		this.collectibleHandling();
 		this.shooterHandling();
 		this.fallingPlatformHandling();
+		this.bouncingSquareSpikeHandling();
+
+	}
+
+	this.bouncingSquareSpikeHandling = function() {
+		if (this.type == LEVEL_SQUARE_SPIKE_V) {
+			levelGrid[this.index] = 0;
+
+			var edgeCheckY;
+
+			if (this.movingDown) {
+				this.y += SQUARE_SPIKE_SPEED;
+				edgeCheckY = this.y + TILE_HEIGHT; 
+			} else {
+				this.y -= SQUARE_SPIKE_SPEED;
+				edgeCheckY = this.y;
+			}
+
+			var edgeCol = Math.floor(this.x / TILE_WIDTH);
+			var edgeRow = Math.floor(edgeCheckY / TILE_HEIGHT);
+			var edgeIndex = colRowToArrayIndex(edgeCol, edgeRow);
+
+			if (this.movingDown) {
+				for (var i = 0; i < bottomTiles.length; i++) {
+					if (levelGrid[edgeIndex] == bottomTiles[i]) {
+						this.movingDown = false;
+					}
+				}
+			} else if (this.movingDown == false) {
+				for (var i = 0; i < topTiles.length; i++) {
+					if (levelGrid[edgeIndex] == topTiles[i]) {
+						this.movingDown = true;
+					}
+				}
+			}
+
+		} else if (this.type == LEVEL_SQUARE_SPIKE_H) {
+			levelGrid[this.index] = 0;
+
+			var edgeCheckX;
+
+			if (this.movingRight) {
+				this.x += SQUARE_SPIKE_SPEED;
+				edgeCheckX = this.x + TILE_WIDTH; 
+			} else {
+				this.x -= SQUARE_SPIKE_SPEED;
+				edgeCheckX = this.x;
+			}
+
+			var edgeCol = Math.floor(edgeCheckX / TILE_WIDTH);
+			var edgeRow = Math.floor(this.y / TILE_HEIGHT);
+			var edgeIndex = colRowToArrayIndex(edgeCol, edgeRow);
+
+			if (this.movingRight) {
+				for (var i = 0; i < rightTiles.length; i++) {
+					if (levelGrid[edgeIndex] == rightTiles[i]) {
+						this.movingRight = false;
+					}
+				}
+			} else if (this.movingRight == false) {
+				for (var i = 0; i < leftTiles.length; i++) {
+					if (levelGrid[edgeIndex] == leftTiles[i]) {
+						this.movingRight = true;
+					}
+				}
+			}
+
+		}
 	}
 
 	this.fallingPlatformHandling = function() {
@@ -264,8 +340,8 @@ function triggerClass(col, row, index, whichType) {
 				}
 			}
 		if (this.type == LEVEL_SPIKE_S_FALLING) {
-			if (player.x > this.x &&
-				player.x < this.x + TILE_WIDTH &&
+			if (player.x > this.x - FALLING_SPIKE_TRIGGER_OFFSET &&
+				player.x < this.x + TILE_WIDTH + FALLING_SPIKE_TRIGGER_OFFSET &&
 				player.y > this.centeredY &&
 				player.y < this.centeredY + MAX_FALLING_SPIKE_TRIGGER_RANGE) {
 
@@ -379,6 +455,14 @@ function triggerClass(col, row, index, whichType) {
 		if (this.type == LEVEL_COLLECTIBLE && player.collectibleObtained) {
 			collectibleObtainedAnim.render(this.x, this.y);
 			collectibleObtainedAnim.update();
+		}
+
+		if (this.type == LEVEL_SQUARE_SPIKE_V) {
+			canvasContext.drawImage(levelPics[LEVEL_SQUARE_SPIKE_V], this.x, this.y);
+		}
+
+		if (this.type == LEVEL_SQUARE_SPIKE_H) {
+			canvasContext.drawImage(levelPics[LEVEL_SQUARE_SPIKE_H], this.x, this.y);
 		}
 	}
 

@@ -28,6 +28,8 @@ var keyHeld_7 = false;
 var keyHeld_8 = false;
 var keyHeld_9 = false;
 var keyHeld_0 = false;
+var keyHeld_BracketLeft = false;
+var keyHeld_BracketRight = false;
 var keyHeld_ArrowUp = false;
 var keyHeld_ArrowDown = false;
 var keyHeld_Enter = false;
@@ -290,6 +292,12 @@ function setValuesForKey(evt, value) {
 			break;
 		case "Equal" :
 			keyHeld_Equal = value;
+			break;
+		case "BracketLeft" :
+			keyHeld_BracketLeft = value;
+			break;
+		case "BracketRight" :
+			keyHeld_BracketRight = value;
 			break;
 	}
 }

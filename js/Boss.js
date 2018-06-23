@@ -8,8 +8,8 @@ const BOSS_CHASE_SPEED = 4;
 const BOSS_SLAM_SPEED = 5;
 const BOSS_RETURN_TO_CHASE_SPEED = 4;
 const BOSS_ENRAGE_CHASE_SPEED = 5;
-const BOSS_ENRAGE_SLAM_SPEED = 6;
-const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 5;
+const BOSS_ENRAGE_SLAM_SPEED = 7;
+const BOSS_ENRAGE_RETURN_TO_CHASE_SPEED = 4;
 
 const BOSS_ROOM_SLAM_SPEED = 6;
 const BOSS_ROOM_SLAM_CHASE_SPEED = 5;
@@ -23,7 +23,7 @@ const BOSS_CHASE_DEADZONE = 5;
 const BOSS_INTRO_MAX_TIME = 60;
 const BOSS_SLAM_ANTICIPATION_FRAMES = 12;
 const BOSS_VULERNABLE_MAX_TIME = 30;
-const BOSS_ENRAGE_VULNERABLE_MAX_TIME = 10;
+const BOSS_ENRAGE_VULNERABLE_MAX_TIME = 15;
 const BOSS_DAMAGE_TAKEN_COOLDOWN = 30;
 
 const BOSS_ROOM_SLAM_1_X = 64 - TILE_WIDTH / 2;
@@ -193,7 +193,7 @@ function bossClass() {
 				if (this.slamAnticipationTimer < BOSS_SLAM_ANTICIPATION_FRAMES) {
 					this.breathPercentage = 1.0;
 					this.slamAnticipationTimer++;
-					this.y -= 1;
+					this.y -= 2;
 				} else {
 					this.breathPercentage = 0;
 					if (this.y + BOSS_HEIGHT / 2 < BOSS_FIGHT_1_FLOOR_Y) {

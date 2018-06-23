@@ -89,7 +89,7 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_5) {
-			levelGrid[mouseIndex] = LEVEL_MINE;
+			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE;
 		}
 
 		if (keyHeld_A) {
@@ -101,11 +101,11 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_6) {
-			levelGrid[mouseIndex] = LEVEL_SWITCH;
+			levelGrid[mouseIndex] = LEVEL_SWITCH_1;
 		}
 
 		if (keyHeld_7) {
-			levelGrid[mouseIndex] = LEVEL_DOOR;
+			levelGrid[mouseIndex] = LEVEL_DOOR_1;
 		}
 
 		if (keyHeld_8) {
@@ -137,10 +137,18 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_Minus) {
-			levelGrid[mouseIndex] = LEVEL_START;
+			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_V;
 		}
 
 		if (keyHeld_Equal) {
+			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_H;
+		}
+
+		if (keyHeld_BracketLeft) {
+			levelGrid[mouseIndex] = LEVEL_START;
+		}
+
+		if (keyHeld_BracketRight) {
 			levelGrid[mouseIndex] = LEVEL_END;
 		}
 	} else {

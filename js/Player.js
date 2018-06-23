@@ -671,7 +671,7 @@ function playerClass() {
 				}
 			}
 
-			if (this.triggerArray[i].type == LEVEL_MINE) {
+			if (this.triggerArray[i].type == LEVEL_SQUARE_SPIKE) {
 				levelGrid[this.triggerArray[i].index] = 0;
 				this.deathAnimationStarted = true;
 			}
