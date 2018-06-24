@@ -29,7 +29,7 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_Num5) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_BLANK;
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_SINGLE;
 		}
 
 		if (keyHeld_Num6) {

@@ -104,6 +104,7 @@ function loadImages() {
 		{levelType: LEVEL_PLATFORM_BLANK, theFile: "./images/level_tiles/platform_blank.png"},
 		{levelType: LEVEL_PLATFORM_VERTICAL_MIDDLE, theFile: "./images/level_tiles/platform_vertical_middle.png"},
 		{levelType: LEVEL_PLATFORM_HORIZONTAL_MIDDLE, theFile: "./images/level_tiles/platform_horizontal_middle.png"},
+		{levelType: LEVEL_PLATFORM_SINGLE, theFile: "./images/level_tiles/platform_single.png"},
 		{levelType: LEVEL_SPIKE_N, theFile: "./images/level_obstacles/spike_N.png"},
 		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S.png"},
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W.png"},
