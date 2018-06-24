@@ -211,12 +211,6 @@ function playerClass() {
 		} else {
 			this.dashTrail = [];
 
-			// set these values to false when not dashing
-			// this stops the player from accidentally dashing when holding down the arrows
-			// requires the player to lift up the key for every dash
-			keyHeld_DashLeft = false;
-			keyHeld_DashRight = false;
-			keyHeld_DashUp = false;
 		}
 
 		this.x += this.velX;
@@ -274,7 +268,8 @@ function playerClass() {
 	this.dashHandling = function() {
 		if (keyHeld_DashRight &&
 			this.dashesLeft >= this.maxDashLimit &&
-			this.currentMoveState != PLAYER_STATE_DASHING) {
+			this.currentMoveState != PLAYER_STATE_DASHING &&
+			keyHeld_DashTimer >= KEY_HELD_TIME_MAX) {
 
 			if (this.isGrounded && this.dashCooldownCounter < GROUNDED_DASH_COOLDOWN) {
 				// nothing should happen, as we are still waiting for cooldown
@@ -284,6 +279,7 @@ function playerClass() {
 				this.currentMoveState = PLAYER_STATE_DASHING;
 				this.direction = DIRECTION_RIGHT;
 				this.dashesLeft--;
+				keyHeld_DashTimer = 0;
 
 
 				if (this.isGrounded == false) {
@@ -294,7 +290,8 @@ function playerClass() {
 
 		if (keyHeld_DashLeft &&
 			this.dashesLeft >= this.maxDashLimit &&
-			this.currentMoveState != PLAYER_STATE_DASHING) {
+			this.currentMoveState != PLAYER_STATE_DASHING &&
+			keyHeld_DashTimer >= KEY_HELD_TIME_MAX) {
 
 			if (this.isGrounded && this.dashCooldownCounter < GROUNDED_DASH_COOLDOWN) {
 				// nothing should happen, as we are still waiting for cooldown
@@ -304,6 +301,7 @@ function playerClass() {
 				this.currentMoveState = PLAYER_STATE_DASHING;
 				this.direction = DIRECTION_LEFT;
 				this.dashesLeft--;
+				keyHeld_DashTimer = 0;
 
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
@@ -313,7 +311,8 @@ function playerClass() {
 
 		if (keyHeld_DashUp &&
 			this.dashesLeft >= this.maxDashLimit &&
-			this.currentMoveState != PLAYER_STATE_DASHING) {
+			this.currentMoveState != PLAYER_STATE_DASHING &&
+			keyHeld_DashTimer >= KEY_HELD_TIME_MAX) {
 
 			if (this.isGrounded && this.dashCooldownCounter < GROUNDED_DASH_COOLDOWN) {
 				// nothing should happen, as we are still waiting for cooldown
@@ -323,6 +322,7 @@ function playerClass() {
 				this.currentMoveState = PLAYER_STATE_DASHING;
 				this.direction = DIRECTION_UP;
 				this.dashesLeft--;
+				keyHeld_DashTimer = 0;
 
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;

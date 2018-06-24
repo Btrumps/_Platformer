@@ -57,6 +57,7 @@ var keyHeld_Minus = false;
 var keyHeld_Equal = false;
 
 var keyHeld_Timer = KEY_HELD_TIME_MAX;
+var keyHeld_DashTimer = KEY_HELD_TIME_MAX;
 
 var mouseX;
 var mouseY;
@@ -68,6 +69,13 @@ function keyDownHandler(evt) {
 function keyUpHandler(evt) {
 	setValuesForKey(evt, false);
 	keyHeld_Timer = KEY_HELD_TIME_MAX;
+
+	if (evt.code == "ArrowUp" ||
+		evt.code == "ArrowLeft" ||
+		evt.code == "ArrowRight") {
+		keyHeld_DashTimer = KEY_HELD_TIME_MAX;
+	}
+	
 }
 
 function setValuesForKey(evt, value) {
@@ -86,22 +94,19 @@ function setValuesForKey(evt, value) {
 			keyHeld_A = value;
 			break;
 		case "ArrowUp" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && currentLevel > 2) {
-				//keyHeld_Timer = 0;
-				keyHeld_DashUp = true;
+			if (currentLevel > 2) {
+				keyHeld_DashUp = value;
 			}
 			keyHeld_ArrowUp = value;
 			break;
 		case "ArrowLeft" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && currentLevel > 2) {
-				keyHeld_Timer = 0;
-				keyHeld_DashLeft = true;
+			if (currentLevel > 2) {
+				keyHeld_DashLeft = value;
 			}
 			break;
 		case "ArrowRight" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && currentLevel > 2) {
-				keyHeld_Timer = 0;
-				keyHeld_DashRight = true;
+			if (currentLevel > 2) {
+				keyHeld_DashRight = value;
 			}
 			break;
 		case "KeyD" :
