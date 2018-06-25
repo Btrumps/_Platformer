@@ -118,6 +118,10 @@ function triggerClass(col, row, index, whichType) {
 				}
 			}
 
+			if (player.deathAnimationStarted == false) {
+				this.checkCollisionWithPlayerAndKill();
+			}
+
 		} else if (this.type == LEVEL_SQUARE_SPIKE_H) {
 			levelGrid[this.index] = 0;
 
@@ -149,6 +153,46 @@ function triggerClass(col, row, index, whichType) {
 				}
 			}
 
+			if (player.deathAnimationStarted == false) {
+				this.checkCollisionWithPlayerAndKill();
+			}
+			
+		}
+
+
+	}
+
+	this.checkCollisionWithPlayerAndKill = function() {
+		player.recalculateCollisionEdges();
+
+		if ( ( (player.leftEdge > this.x &&
+	    	player.leftEdge < this.x + TILE_WIDTH) ||
+		   (player.rightEdge > this.x + TILE_WIDTH &&
+	    	player.rightEdge < this.x) ) &&
+	    	this.y +TILE_HEIGHT > player.topEdge &&
+	    	this.y < player.topEdge) {
+			this.hitPlayer = true;
+			player.deathAnimationStarted = true;
+		}
+
+		if ( ( (player.leftEdge > this.x &&
+		    	player.leftEdge < this.x + TILE_WIDTH) ||
+			   (player.rightEdge > this.x + TILE_WIDTH &&
+		    	player.rightEdge < this.x) ) &&
+		    	this.y < player.bottomEdge &&
+		    	this.y + TILE_HEIGHT > player.bottomEdge) {
+
+			this.hitPlayer = true;
+			player.deathAnimationStarted = true;
+		}
+
+		if (player.x > this.x &&
+			player.x < this.x + TILE_WIDTH &&
+			player.y > this.y &&
+			player.y < this.y +TILE_HEIGHT) {
+
+			this.hitPlayer = true;
+			player.deathAnimationStarted = true;
 		}
 	}
 
@@ -457,11 +501,11 @@ function triggerClass(col, row, index, whichType) {
 			collectibleObtainedAnim.update();
 		}
 
-		if (this.type == LEVEL_SQUARE_SPIKE_V) {
+		if (this.type == LEVEL_SQUARE_SPIKE_V && this.hitPlayer == false) {
 			canvasContext.drawImage(levelPics[LEVEL_SQUARE_SPIKE_V], this.x, this.y);
 		}
 
-		if (this.type == LEVEL_SQUARE_SPIKE_H) {
+		if (this.type == LEVEL_SQUARE_SPIKE_H && this.hitPlayer == false) {
 			canvasContext.drawImage(levelPics[LEVEL_SQUARE_SPIKE_H], this.x, this.y);
 		}
 	}
