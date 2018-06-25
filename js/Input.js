@@ -1,4 +1,5 @@
 const KEY_HELD_TIME_MAX = 15;
+
 var keyHeld_Left = false; 
 var keyHeld_Right = false;
 var keyHeld_DashLeft = false; 
@@ -17,6 +18,7 @@ var keyHeld_E = false;
 var keyHeld_R = false;
 var keyHeld_T = false;
 var keyHeld_Y = false;
+var keyHeld_Z = false;
 var keyHeld_G = false;
 var keyHeld_1 = false;
 var keyHeld_2 = false;
@@ -127,7 +129,7 @@ function setValuesForKey(evt, value) {
 			break;
 
 		case "KeyZ" :
-			keyHeld_Jump = value;
+			keyHeld_Z = value;
 			break;
 
 		case "KeyR" :

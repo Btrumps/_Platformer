@@ -4,6 +4,8 @@ const FALL_SPEED = 5;
 
 const SQUARE_SPIKE_SPEED = 3;
 
+const STARTING_FOLLOW_DRONE_SPEED = 2;
+
 const COLLECTIBLE_SPEED = 0.1;
 const COLLECTIBLE_MAX_DIST_FROM_PLAYER = 25;
 
@@ -41,8 +43,6 @@ function triggerClass(col, row, index, whichType) {
 	this.index = index;
 	this.type = whichType;
 
-	this.anim;
-
 	// powerups
 	this.powerupCooldown = 0;
 	this.powerupCooldownStarted = false;
@@ -54,6 +54,9 @@ function triggerClass(col, row, index, whichType) {
 	this.fallTrigger = false;
 	this.collider = true;
 	this.hitPlayer = false;
+
+	// follow drone
+	this.followSpeed = STARTING_FOLLOW_DRONE_SPEED;
 
 	// square spikes
 	this.movingDown = true;
@@ -83,7 +86,31 @@ function triggerClass(col, row, index, whichType) {
 		this.shooterHandling();
 		this.fallingPlatformHandling();
 		this.bouncingSquareSpikeHandling();
+		this.followDroneHandling();
+	}
 
+	this.followDroneHandling = function() {
+		if (this.type == LEVEL_FOLLOW_DRONE) {
+			levelGrid[this.index] = 0;
+
+			var deltaX = player.x - this.x - TILE_WIDTH / 2;
+			var deltaY = player.y - this.y - TILE_HEIGHT / 2;
+			var distance = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
+			if (distance != 0 && player.deathAnimationStarted == false) {
+				if (distance > this.followSpeed) {
+					this.x += this.followSpeed * deltaX/distance;
+					this.y += this.followSpeed * deltaY/distance;
+				} else {
+					this.x = player.x - TILE_WIDTH / 2;
+					this.y = player.y - TILE_HEIGHT / 2;
+				}
+				
+			}
+
+			this.checkCollisionWithPlayerAndKill(2,2);
+
+		}
 	}
 
 	this.bouncingSquareSpikeHandling = function() {
@@ -119,7 +146,7 @@ function triggerClass(col, row, index, whichType) {
 			}
 
 			if (player.deathAnimationStarted == false) {
-				this.checkCollisionWithPlayerAndKill();
+				this.checkCollisionWithPlayerAndKill(0,0);
 			}
 
 		} else if (this.type == LEVEL_SQUARE_SPIKE_H) {
@@ -154,7 +181,7 @@ function triggerClass(col, row, index, whichType) {
 			}
 
 			if (player.deathAnimationStarted == false) {
-				this.checkCollisionWithPlayerAndKill();
+				this.checkCollisionWithPlayerAndKill(0,0);
 			}
 			
 		}
@@ -162,25 +189,25 @@ function triggerClass(col, row, index, whichType) {
 
 	}
 
-	this.checkCollisionWithPlayerAndKill = function() {
+	this.checkCollisionWithPlayerAndKill = function(forgivenessX, forgivenessY) {
 		player.recalculateCollisionEdges();
 
-		if ( ( (player.leftEdge > this.x &&
-	    	player.leftEdge < this.x + TILE_WIDTH) ||
-		   (player.rightEdge > this.x + TILE_WIDTH &&
-	    	player.rightEdge < this.x) ) &&
-	    	this.y +TILE_HEIGHT > player.topEdge &&
-	    	this.y < player.topEdge) {
+		if ( ( (player.leftEdge + forgivenessX > this.x &&
+	    	player.leftEdge + forgivenessX < this.x + TILE_WIDTH) ||
+		   (player.rightEdge - forgivenessX > this.x + TILE_WIDTH &&
+	    	player.rightEdge - forgivenessX < this.x) ) &&
+	    	this.y +TILE_HEIGHT > player.topEdge + forgivenessY &&
+	    	this.y < player.topEdge + forgivenessY) {
 			this.hitPlayer = true;
 			player.deathAnimationStarted = true;
 		}
 
-		if ( ( (player.leftEdge > this.x &&
-		    	player.leftEdge < this.x + TILE_WIDTH) ||
-			   (player.rightEdge > this.x + TILE_WIDTH &&
-		    	player.rightEdge < this.x) ) &&
-		    	this.y < player.bottomEdge &&
-		    	this.y + TILE_HEIGHT > player.bottomEdge) {
+		if ( ( (player.leftEdge + forgivenessX > this.x &&
+		    	player.leftEdge + forgivenessX < this.x + TILE_WIDTH) ||
+			   (player.rightEdge - forgivenessX > this.x + TILE_WIDTH &&
+		    	player.rightEdge - + forgivenessX < this.x) ) &&
+		    	this.y < player.bottomEdge + forgivenessY &&
+		    	this.y + TILE_HEIGHT > player.bottomEdge + forgivenessY) {
 
 			this.hitPlayer = true;
 			player.deathAnimationStarted = true;
@@ -507,6 +534,10 @@ function triggerClass(col, row, index, whichType) {
 
 		if (this.type == LEVEL_SQUARE_SPIKE_H && this.hitPlayer == false) {
 			canvasContext.drawImage(levelPics[LEVEL_SQUARE_SPIKE_H], this.x, this.y);
+		}
+
+		if (this.type == LEVEL_FOLLOW_DRONE) {
+			canvasContext.drawImage(followDrone, this.x, this.y);
 		}
 	}
 

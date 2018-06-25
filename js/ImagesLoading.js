@@ -32,6 +32,7 @@ var shooterEAnim = document.createElement("img");
 var shooterNAnim = document.createElement("img");
 var shooterSAnim = document.createElement("img");
 
+var followDrone = document.createElement("img");
 var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
 var collectibleAnim = document.createElement("img");
@@ -85,6 +86,7 @@ function loadImages() {
 		{varName: shooterEAnim, theFile: "./images/level_obstacles/shooter_e_anim.png"},
 		{varName: shooterNAnim, theFile: "./images/level_obstacles/shooter_n_anim.png"},
 		{varName: shooterSAnim, theFile: "./images/level_obstacles/shooter_s_anim.png"},
+		{varName: followDrone, theFile: "./images/level_obstacles/follow_drone.png"},
 		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},
@@ -109,9 +111,9 @@ function loadImages() {
 		{levelType: LEVEL_SPIKE_S, theFile: "./images/level_obstacles/spike_S.png"},
 		{levelType: LEVEL_SPIKE_W, theFile: "./images/level_obstacles/spike_W.png"},
 		{levelType: LEVEL_SPIKE_E, theFile: "./images/level_obstacles/spike_E.png"},
-		{levelType: LEVEL_SQUARE_SPIKE, theFile: "./images/level_obstacles/square_spike.png"},
-		{levelType: LEVEL_SQUARE_SPIKE_V, theFile: "./images/level_obstacles/square_spike.png"},
-		{levelType: LEVEL_SQUARE_SPIKE_H, theFile: "./images/level_obstacles/square_spike.png"},
+		{levelType: LEVEL_SQUARE_SPIKE, theFile: "./images/level_obstacles/square_spike2.png"},
+		{levelType: LEVEL_SQUARE_SPIKE_V, theFile: "./images/level_obstacles/square_spike2.png"},
+		{levelType: LEVEL_SQUARE_SPIKE_H, theFile: "./images/level_obstacles/square_spike2.png"},
 		{levelType: LEVEL_DOOR_1, theFile: "./images/level_obstacles/door_1.png"},
 		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
 		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"},
