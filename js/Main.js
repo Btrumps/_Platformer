@@ -151,6 +151,8 @@ function drawAll() {
 		}
 	}
 
+	// colorRect(0,0, canvas.width,canvas.height, 'pink', 0.15); // testing 
+
 	scaledContext.drawImage(canvas, 0,0, canvas.width,canvas.height,
 		                        		0,0, scaledCanvas.width, scaledCanvas.height);
 

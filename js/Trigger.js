@@ -55,6 +55,9 @@ function triggerClass(col, row, index, whichType) {
 	this.collider = true;
 	this.hitPlayer = false;
 
+	// spike trigger
+	this.spikeTriggered = false;
+
 	// follow drone
 	this.followSpeed = STARTING_FOLLOW_DRONE_SPEED;
 
@@ -87,6 +90,20 @@ function triggerClass(col, row, index, whichType) {
 		this.fallingPlatformHandling();
 		this.bouncingSquareSpikeHandling();
 		this.followDroneHandling();
+		this.spikeTriggerHandling();
+	}
+
+	this.spikeTriggerHandling = function() {
+		if (this.type == LEVEL_SPIKE_TRIGGER && this.spikeTriggered) {
+			var deltaX = player.x - this.x - TILE_WIDTH / 2;
+			var deltaY = player.y - this.y - TILE_HEIGHT / 2;
+			var distanceToPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
+			if (distanceToPlayer > 20) {
+				this.type = LEVEL_SQUARE_SPIKE;
+				levelGrid[this.index] = LEVEL_SQUARE_SPIKE;
+			}
+		}
 	}
 
 	this.followDroneHandling = function() {
@@ -95,12 +112,12 @@ function triggerClass(col, row, index, whichType) {
 
 			var deltaX = player.x - this.x - TILE_WIDTH / 2;
 			var deltaY = player.y - this.y - TILE_HEIGHT / 2;
-			var distance = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+			var distanceToPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 
-			if (distance != 0 && player.deathAnimationStarted == false) {
-				if (distance > this.followSpeed) {
-					this.x += this.followSpeed * deltaX/distance;
-					this.y += this.followSpeed * deltaY/distance;
+			if (distanceToPlayer != 0 && player.deathAnimationStarted == false) {
+				if (distanceToPlayer > this.followSpeed) {
+					this.x += this.followSpeed * deltaX/distanceToPlayer;
+					this.y += this.followSpeed * deltaY/distanceToPlayer;
 				} else {
 					this.x = player.x - TILE_WIDTH / 2;
 					this.y = player.y - TILE_HEIGHT / 2;
@@ -224,8 +241,7 @@ function triggerClass(col, row, index, whichType) {
 	}
 
 	this.fallingPlatformHandling = function() {
-		if (this.type == LEVEL_FALLING_PLATFORM_W ||
-		    this.type == LEVEL_FALLING_PLATFORM_E) {
+		if (this.type == LEVEL_PLATFORM_FALLING) {
 
 			if (this.startRespawnTimer) {
 				if (this.respawnTimer < this.maxTimeTilRespawn) {
@@ -237,21 +253,7 @@ function triggerClass(col, row, index, whichType) {
 				}
 			}
 
-			if (this.fallTimerStarted && this.startRespawnTimer == false) {
-				
-				if (this.startRespawnTimer == false && this.fallTimer == 0) {
-					var thisIndexInAllTriggers = allTriggersArray.indexOf(this);
-					// check for platforms next to it and start their timers as well
-					for (var i = thisIndexInAllTriggers - 1; i <= thisIndexInAllTriggers + 1; i++) {
-						if (i < allTriggersArray.length) {
-							if (allTriggersArray[i].type == LEVEL_FALLING_PLATFORM_W ||
-							    allTriggersArray[i].type == LEVEL_FALLING_PLATFORM_E) {
-								allTriggersArray[i].fallTimerStarted = true;
-							}
-						}
-					}
-				}
-				
+			if (this.fallTimerStarted && this.startRespawnTimer == false) {		
 
 				if (this.fallTimer > this.maxTimeTilFall) {
 					levelGrid[this.index] = 0;
@@ -542,8 +544,7 @@ function triggerClass(col, row, index, whichType) {
 	}
 
 	this.drawText = function() {
-		if ((this.type == LEVEL_FALLING_PLATFORM_W ||
-		    this.type == LEVEL_FALLING_PLATFORM_E) &&
+		if ((this.type == LEVEL_PLATFORM_FALLING) &&
 		    this.fallTimerStarted &&
 		    this.fallTimer < this.maxTimeTilFall) {
 			// countdown timer

@@ -25,20 +25,17 @@ function isObstacleAtPixel(x, y, whichEdge) {
 			if (whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) {
 				if (returnTileTypeAtPixel(hitboxArray[j], y) == obstacleTileArray[i]) {
 					
-					if ((obstacleTileArray[i] == LEVEL_FALLING_PLATFORM_W ||
-					    obstacleTileArray[i] == LEVEL_FALLING_PLATFORM_E) &&
+					if (obstacleTileArray[i] == LEVEL_PLATFORM_FALLING &&
 					    whichEdge == BOTTOM_EDGE) {
 						for (var k = 0; k < allTriggersArray.length; k++) {
-							if (allTriggersArray[k].type == LEVEL_FALLING_PLATFORM_W ||
-							    allTriggersArray[k].type == LEVEL_FALLING_PLATFORM_E) {
+							if (allTriggersArray[k].type == LEVEL_PLATFORM_FALLING) {
 								
 								if (allTriggersArray[k].index == returnIndexAtPixel(hitboxArray[j], y)) { 
 									allTriggersArray[k].fallTimerStarted = true;
 
 									for (var j = k - 1; j <= k + 1; j++) {
 										if (j < allTriggersArray.length) {
-											if (allTriggersArray[j].type == LEVEL_FALLING_PLATFORM_W ||
-											    allTriggersArray[j].type == LEVEL_FALLING_PLATFORM_E) {
+											if (allTriggersArray[j].type == LEVEL_PLATFORM_FALLING) {
 												allTriggersArray[j].fallTimerStarted = true;
 											}
 										}

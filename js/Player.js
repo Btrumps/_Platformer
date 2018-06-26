@@ -480,8 +480,7 @@ function playerClass() {
 
 		for (var i = 0; i < this.triggerArray.length; i++) {
 
-			if (this.triggerArray[i].type == LEVEL_FALLING_PLATFORM_W ||
-			    this.triggerArray[i].type == LEVEL_FALLING_PLATFORM_E) {
+			if (this.triggerArray[i].type == LEVEL_PLATFORM_FALLING) {
 				this.triggerArray[i].fallTimerStarted = true;
 			}
 
@@ -617,14 +616,11 @@ function playerClass() {
 				
 			}
 
-			if (this.triggerArray[i].type == LEVEL_ENTER_PORTAL_1) {
+			if (this.triggerArray[i].type == LEVEL_SPIKE_TRIGGER) {
 				for (var j = 0; j < allTriggersArray.length; j++) {
-					if (allTriggersArray[j].type == LEVEL_EXIT_PORTAL_1) {
-						this.x = allTriggersArray[j].centeredX;
-						this.y = allTriggersArray[j].centeredY;
-						this.velX *= -1; // reverses the direction we went into the portal
-						this.collectibleObtained = true;
-					}
+					if (this.triggerArray[i].index == allTriggersArray[j].index) {
+						allTriggersArray[j].spikeTriggered = true;
+					} 
 				}
 			}
 
