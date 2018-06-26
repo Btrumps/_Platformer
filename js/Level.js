@@ -347,10 +347,6 @@ function drawLevel() {
 					canvasContext.drawImage(useImg, tileX, tileY);
 					break;
 
-				case LEVEL_PLATFORM_FALLING :
-					canvasContext.drawImage(useImg, tileX, tileY);
-					break;
-
 				case LEVEL_SPIKE_S_FALLING:
 					canvasContext.drawImage(useImg, tileX, tileY);
 					break;

@@ -76,6 +76,10 @@ function triggerClass(col, row, index, whichType) {
 
 	// falling platforms
 	this.fallTimer = 0;
+	this.shakingStarted = false;
+	this.shakeAmountX = 0;
+	this.shakeAmountY = 0;
+	this.shakeLength = 0.75;
 	this.maxTimeTilFall = PLATFORM_FALL_MAX;
 	this.fallTimerStarted = false;
 	this.startRespawnTimer = false;
@@ -248,6 +252,7 @@ function triggerClass(col, row, index, whichType) {
 					this.respawnTimer++;
 				} else {
 					this.startRespawnTimer = false;
+					this.shakingStarted = false;
 					this.respawnTimer = 0;
 					levelGrid[this.index] = this.type;
 				}
@@ -261,7 +266,11 @@ function triggerClass(col, row, index, whichType) {
 					this.fallTimer = 0;
 					this.startRespawnTimer = true;
 				} else if (this.fallTimerStarted && this.fallTimer <= this.maxTimeTilFall) {
+					this.shakingStarted = true;
 					this.fallTimer++;
+					this.shakeAmountX = Math.random() * this.shakeLength;
+					this.shakeAmountY = Math.random() * this.shakeLength;
+					
 				}
 			}
 		}	
@@ -540,6 +549,19 @@ function triggerClass(col, row, index, whichType) {
 
 		if (this.type == LEVEL_FOLLOW_DRONE) {
 			canvasContext.drawImage(followDrone, this.x, this.y);
+		}
+
+		if (this.type == LEVEL_PLATFORM_FALLING && this.startRespawnTimer == false) {
+			if (this.shakingStarted == false) {
+				canvasContext.drawImage(levelPics[LEVEL_PLATFORM_FALLING],
+										this.x,
+										this.y);
+			} else {
+				canvasContext.drawImage(levelPics[LEVEL_PLATFORM_FALLING],
+										this.x + this.shakeAmountX,
+										this.y + this.shakeAmountY);
+			}
+			
 		}
 	}
 
