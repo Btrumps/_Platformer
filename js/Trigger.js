@@ -530,6 +530,10 @@ function triggerClass(col, row, index, whichType) {
 			}
 		}
 
+		if (this.type == LEVEL_DASH_POWERUP && this.powerupCooldownStarted) {
+			canvasContext.drawImage(powerupTaken, this.x, this.y);
+		}
+
 		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.collectibleObtained == false) {
 			collectibleAnim.render(this.x, this.y);
 		}

@@ -1,6 +1,6 @@
 var particleDefs =  [
 					{type: 'death', howMany: 15, startSpeed: 8, howLong: 30, gravity: 0.2, startAng: 0, angSpreadDeg: 180, color: 'white'}, // angSpreadDeg 180 = 360 deg since it can be -180 from to 180
-					{type: 'land', howMany: 'random', startSpeed: 1, howLong: 30, gravity: 0.05, startAng: -90, angSpreadDeg: 45, color: 'white'}
+					{type: 'land', howMany: 'random', startSpeed: 0.5, howLong: 30, gravity: 0.02, startAng: -90, angSpreadDeg: 45, color: 'white'}
 					];
 
 var particleList = [];

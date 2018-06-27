@@ -810,7 +810,6 @@ function playerClass() {
 			}
 
 			this.drawDashTrail();
-			
 		}
 	}
 }
