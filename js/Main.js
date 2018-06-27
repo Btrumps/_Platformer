@@ -117,20 +117,15 @@ function drawAll() {
 		*/
 
 		drawLevel();
-		drawParticles();
 		player.draw();
+		drawParticles();
 
 		if (currentLevel == 11) {
 			boss.draw();
 		}
 
-		for (var i = 0; i < allTriggersArray.length; i++) {
-			allTriggersArray[i].draw();
-		}
-
-		for (var i = 0; i < projectileArray.length; i++) {
-			projectileArray[i].draw();
-		}
+		drawAllTriggers();
+		drawAllProjectiles();
 
 
 		if (mapEditorEnabled) {
@@ -148,9 +143,6 @@ function drawAll() {
 			}
 		}
 
-		for (var i = 0; i < allTriggersArray.length; i++) {
-			allTriggersArray[i].drawText();
-		}
 	}
 
 	// colorRect(0,0, canvas.width,canvas.height, 'pink', 0.15); // testing 
@@ -166,6 +158,7 @@ function drawAll() {
 
 	} else {
 		showLevelText();
+		drawAllTriggerText();
 	}
 	
 }

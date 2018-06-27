@@ -131,6 +131,7 @@ function playerClass() {
 		if (this.deathAnimationStarted) {
 			if (this.hasPlayedDeathSound == false) {
 				playDeathSound();
+				// spawnParticles('death', this.x, this.y);
 				this.hasPlayedDeathSound = true;
 			}
 
@@ -170,7 +171,6 @@ function playerClass() {
 		if (jumpJustPressed && this.framesSinceLeftGround < MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
 			playerJumpLeftAnim.reset();
 			playerJumpRightAnim.reset();
-			spawnParticles('jump', this.x, this.y + TILE_HEIGHT / 2);
 			this.velY = -PLAYER_JUMP_SPEED;
 
 		} else if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
@@ -397,7 +397,7 @@ function playerClass() {
 			this.velY = 0;
 			this.y = (bottomEdgeRow * TILE_HEIGHT) - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_INNER_Y_OFFSET;
 			
-			if (this.isGrounded == false) {
+			if (this.isGrounded == false && this.deathAnimationStarted == false) {
 				spawnParticles('land', this.x, this.y + TILE_HEIGHT / 2);
 			}
 			
@@ -766,6 +766,7 @@ function playerClass() {
 	this.draw = function() {
 
 		if (this.deathAnimationStarted) {
+			
 			if (this.direction == DIRECTION_LEFT) {
 				playerDeathLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				playerDeathLeftAnim.update();
@@ -773,7 +774,7 @@ function playerClass() {
 				playerDeathRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				playerDeathRightAnim.update();
 			}
-
+			
 		} else {
 			if (this.direction == DIRECTION_LEFT) {
 				if (this.currentMoveState == PLAYER_STATE_IDLE) {

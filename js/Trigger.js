@@ -9,7 +9,7 @@ const STARTING_FOLLOW_DRONE_SPEED = 2;
 const COLLECTIBLE_SPEED = 0.1;
 const COLLECTIBLE_MAX_DIST_FROM_PLAYER = 25;
 
-const POWERUP_COOLDOWN_MAX = 60; // 2 sec
+const POWERUP_COOLDOWN_MAX = 45; // 2 sec
 const FORGIVENESS_PIXELS = 8;
 
 const DELAY_BEFORE_FIRST_SHOT_W = 30;
@@ -572,5 +572,17 @@ function triggerClass(col, row, index, whichType) {
 			// countdown timer
 			colorText(Math.round((this.maxTimeTilFall - this.fallTimer) / 30) + 1, (this.centeredX - 1.5) * PIXEL_SCALE_UP, (this.centeredY + 1.5) * PIXEL_SCALE_UP, 'white', FONT_LEVEL_PLATFORM);
 		}
+	}
+}
+
+function drawAllTriggers() {
+	for (var i = 0; i < allTriggersArray.length; i++) {
+			allTriggersArray[i].draw();
+	}
+}
+
+function drawAllTriggerText() {
+	for (var i = 0; i < allTriggersArray.length; i++) {
+		allTriggersArray[i].drawText();
 	}
 }

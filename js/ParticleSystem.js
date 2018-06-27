@@ -1,6 +1,6 @@
 var particleDefs =  [
-					{type: 'jump', howMany: 200, startSpeed: 5, howLong: 30, gravity: 0, startAng: 0, angSpreadDeg: 180, color: 'green'}, // angSpreadDeg 180 = 360 deg since it can be -180 from to 180
-					{type: 'land', howMany: 50, startSpeed: 10, howLong: 60, gravity: 0.6, startAng: -90, angSpreadDeg: 45, color: 'yellow'}
+					{type: 'death', howMany: 15, startSpeed: 8, howLong: 30, gravity: 0.2, startAng: 0, angSpreadDeg: 180, color: 'white'}, // angSpreadDeg 180 = 360 deg since it can be -180 from to 180
+					{type: 'land', howMany: 'random', startSpeed: 1, howLong: 30, gravity: 0.05, startAng: -90, angSpreadDeg: 45, color: 'white'}
 					];
 
 var particleList = [];
@@ -33,12 +33,13 @@ function pfx() {
 	}
 
 	this.draw = function() {
-		colorRect(Math.floor(this.x), Math.floor(this.y), 2,2, 'green', 0.5);
+		colorRect(Math.floor(this.x), Math.floor(this.y), 2,2, this.color, 0.8);
 	}
 }
 
 function spawnParticles(type, startX, startY) {
 	var pfxDef = null;
+	var howMany = null;
 
 	for (var i = 0; i < particleDefs.length; i++) {
 		if (type == particleDefs[i].type) {
@@ -52,7 +53,15 @@ function spawnParticles(type, startX, startY) {
 		return;
 	}
 
-	for (var j = 0; j < pfxDef.howMany; j++) {
+	if (pfxDef.howMany == 'random') {
+		howMany = getRoundedRandomNumberBetweenMinMax(2,4);
+	} else {
+		howMany = pfxDef.howMany;
+	}
+
+	
+
+	for (var j = 0; j < howMany; j++) {
 		var newPFX = new pfx();
 
 		newPFX.x = startX;

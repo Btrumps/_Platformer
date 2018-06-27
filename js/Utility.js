@@ -42,3 +42,11 @@ function returnIndexAtPixel(x, y) {
 
 	return colRowToArrayIndex(xCol, yRow);
 }
+
+function getRandomNumberBetweenMinMax(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function getRoundedRandomNumberBetweenMinMax(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
+}
