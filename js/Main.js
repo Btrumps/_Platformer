@@ -100,7 +100,7 @@ function drawAll() {
 	} else if (levelLayoutScreenOpen) {
 		drawLevelLayoutScreen();
 	} else {
-		playerBlueImageSwap();
+		// playerBlueImageSwap();
 		updateAnimations();
 
 		colorRect(0,0, canvas.width,canvas.height, 'black');
