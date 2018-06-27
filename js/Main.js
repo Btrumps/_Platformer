@@ -67,6 +67,7 @@ function moveAll() {
 		checkLevelLayoutInput();
 	} else {
 		player.move();
+		moveParticles();
 		if (currentLevel == 11) {
 			boss.move();
 		}
@@ -116,8 +117,9 @@ function drawAll() {
 		*/
 
 		drawLevel();
-
+		drawParticles();
 		player.draw();
+
 		if (currentLevel == 11) {
 			boss.draw();
 		}

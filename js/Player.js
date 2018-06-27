@@ -170,6 +170,7 @@ function playerClass() {
 		if (jumpJustPressed && this.framesSinceLeftGround < MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
 			playerJumpLeftAnim.reset();
 			playerJumpRightAnim.reset();
+			spawnParticles('jump', this.x, this.y + TILE_HEIGHT / 2);
 			this.velY = -PLAYER_JUMP_SPEED;
 
 		} else if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
@@ -395,6 +396,11 @@ function playerClass() {
 			}
 			this.velY = 0;
 			this.y = (bottomEdgeRow * TILE_HEIGHT) - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_INNER_Y_OFFSET;
+			
+			if (this.isGrounded == false) {
+				spawnParticles('land', this.x, this.y + TILE_HEIGHT / 2);
+			}
+			
 			this.isGrounded = true;	
 
 		} else if (	isObstacleAtPixel(this.x, this.bottomEdge + 2, BOTTOM_EDGE) == false)  {
