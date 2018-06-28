@@ -410,6 +410,7 @@ function triggerClass(col, row, index, whichType) {
 
 	this.fallingSpikeHandling = function() {
 		// we don't want the falling spikes to respawn on any other map than the boss fight
+		/*
 		if (this.startRespawnTimer && currentLevel == 11) { 
 				if (this.respawnTimer < this.maxTimeTilRespawn) {
 					this.respawnTimer++;
@@ -422,6 +423,8 @@ function triggerClass(col, row, index, whichType) {
 					this.y = this.centeredY - TILE_HEIGHT / 2;
 				}
 			}
+		*/
+		
 		if (this.type == LEVEL_SPIKE_S_FALLING) {
 			if (player.x > this.x - FALLING_SPIKE_TRIGGER_OFFSET &&
 				player.x < this.x + TILE_WIDTH + FALLING_SPIKE_TRIGGER_OFFSET &&

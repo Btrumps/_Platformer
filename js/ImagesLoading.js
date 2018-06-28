@@ -122,7 +122,7 @@ function loadImages() {
 		{levelType: LEVEL_SQUARE_SPIKE_V, theFile: "./images/level_obstacles/square_spike2.png"},
 		{levelType: LEVEL_SQUARE_SPIKE_H, theFile: "./images/level_obstacles/square_spike2.png"},
 		{levelType: LEVEL_DOOR_1, theFile: "./images/level_obstacles/door_1.png"},
-		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S.png"},
+		{levelType: LEVEL_SPIKE_S_FALLING, theFile: "./images/level_obstacles/spike_S_falling.png"},
 		{levelType: LEVEL_DASH_POWERUP, theFile: "./images/level_obstacles/dash_powerup.png"},
 		{helpType: LEVEL_HELP_A_KEY, theFile: "./images/level_help/level_a_key.png"},
 		{helpType: LEVEL_HELP_AG, theFile: "./images/level_help/level_ag.png"},
