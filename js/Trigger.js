@@ -473,7 +473,16 @@ function triggerClass(col, row, index, whichType) {
 					}
 				}
 			}
+		}
 
+		if (this.y > canvas.height) {
+			this.fallTrigger = false;
+			this.collider = false;
+			this.startRespawnTimer = true;
+		}
+
+			// this is for falling spike collision with boss if we ever decide to add it back
+			/*
 			if (currentLevel == 11 && this.y < boss.y + BOSS_HEIGHT / 2) {
 					this.collider = true;
 			}
@@ -514,12 +523,7 @@ function triggerClass(col, row, index, whichType) {
 				}
 			}
 		}
-
-		if (this.y > canvas.height) {
-			this.fallTrigger = false;
-			this.collider = false;
-			this.startRespawnTimer = true;
-		}
+		*/
 
 	}
 
@@ -576,6 +580,12 @@ function triggerClass(col, row, index, whichType) {
 			// countdown timer
 			colorText(Math.round((this.maxTimeTilFall - this.fallTimer) / 30) + 1, (this.centeredX - 1.5) * PIXEL_SCALE_UP, (this.centeredY + 1.5) * PIXEL_SCALE_UP, 'white', FONT_LEVEL_PLATFORM);
 		}
+	}
+}
+
+function moveAllTriggers() {
+	for (var i = 0; i < allTriggersArray.length; i++) {
+			allTriggersArray[i].move();
 	}
 }
 

@@ -47,6 +47,12 @@ function projectileClass(fromX, fromY, whichDirection) {
 
 }
 
+function moveAllProjectiles() {
+	for (var i = 0; i < projectileArray.length; i++) {
+		projectileArray[i].move();
+	}
+}
+
 function drawAllProjectiles() {
 	for (var i = 0; i < projectileArray.length; i++) {
 		projectileArray[i].draw();

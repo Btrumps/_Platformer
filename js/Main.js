@@ -68,27 +68,17 @@ function moveAll() {
 	} else {
 		player.move();
 		moveParticles();
-		if (currentLevel == 11) {
-			boss.move();
-		}
-		
-		if (mapEditorEnabled) {
-			placeTilesOnButtonPress();
-		}
+		moveAllTriggers();
+		moveAllProjectiles();
+		checkLevelSkipInput();
 
-		for (var i = 0; i < allTriggersArray.length; i++) {
-			allTriggersArray[i].move();
-		}
-
-		for (var i = 0; i < projectileArray.length; i++) {
-			projectileArray[i].move();
-		}
-		
 		if (musicEnabled) {
 			playBGM(currentLevel);
 		}
-
-		checkLevelSkipInput();
+		if (mapEditorEnabled) {
+			placeTilesOnButtonPress();
+		}
+		
 	}
 }
 
@@ -104,26 +94,12 @@ function drawAll() {
 		updateAnimations();
 
 		colorRect(0,0, canvas.width,canvas.height, 'black');
-		if (helpGrid.length > 0) {
-			drawHelpBG();
-		}
-
-		/*
-		canvasContext.save();
-		canvasContext.scale(0.2,0.2);
-
-		drawLevel();
-		canvasContext.restore();
-		*/
+		
+		drawHelpBG();
 
 		drawLevel();
 		player.draw();
 		drawParticles();
-
-		if (currentLevel == 11) {
-			boss.draw();
-		}
-
 		drawAllTriggers();
 		drawAllProjectiles();
 

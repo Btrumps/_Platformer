@@ -87,6 +87,7 @@ function setValuesForKey(evt, value) {
 			keyHeld_Enter = value;
 			break;
 		case "Space" :
+			// keyHeld_Jump = value; // I honestly feel that the game feel sucks if the player uses space, therefore i'm not even allowing it
 			keyHeld_Space = value;
 			break;
 		case "KeyA" :
