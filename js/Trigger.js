@@ -531,7 +531,7 @@ function triggerClass(col, row, index, whichType) {
 	this.draw = function() {
 		if (this.fallTrigger) {
 			if (whichType == LEVEL_SPIKE_S_FALLING && this.hitPlayer == false) {
-				canvasContext.drawImage(levelPics[LEVEL_SPIKE_S_FALLING], this.x, this.y);
+				canvasContext.drawImage(fallingSpike, this.x, this.y);
 			}
 		}
 

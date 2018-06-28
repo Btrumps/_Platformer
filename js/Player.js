@@ -12,7 +12,7 @@ const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
 const FALLING_GRAVITY = 1.2;
 
-const COLLECTIBLE_MAX_TIME_TO_HOLD = 90; // 3 sec
+const COLLECTIBLE_MAX_TIME_TO_HOLD = 105; // 3.5 sec
 
 const MAX_DEATH_TIME = 30;
 
@@ -649,10 +649,12 @@ function playerClass() {
 					}
 					saveCollectibleObtainedForLevel("false");
 					this.collectibleObtained = false;
-				}
-
+				}			
 				loadLevel(currentLevel);
 				levelTransitionStarted = true;
+				if (currentLevel == 13) {
+					scoreScreenOpen = true;
+				}
 				break;
 			}
 

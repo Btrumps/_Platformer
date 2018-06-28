@@ -7,7 +7,7 @@ const SCORE_SCREEN_COLLECTIBLES_Y = 500;
 
 const SCORE_SCREEN_DIST_AWAY_FROM_SUB_TEXT = 350;
 
-var TOTAL_COLLECTIBLE_COUNT = 6; // change this number to the max amount of collectibles in the final game
+var TOTAL_COLLECTIBLE_COUNT = 8; // change this number to the max amount of collectibles in the final game
 var totalCollectibles = 0;
 var totalDeaths = 0;
 var totalGameTime = 0;
@@ -33,7 +33,7 @@ function drawScoreScreenText() {
 	          PALETTE_WHITE, // white
 	          FONT_MAIN_MENU);
 
-	if (totalGameTime < 60) { // under 1 minute
+	if (totalGameTime < 240) { // under 4 minute
 		colorToShow = PALETTE_BLUE;
 	} else {
 		colorToShow = PALETTE_WHITE;
