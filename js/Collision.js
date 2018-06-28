@@ -35,7 +35,8 @@ function isObstacleAtPixel(x, y, whichEdge) {
 
 									for (var j = k - 1; j <= k + 1; j++) {
 										if (j < allTriggersArray.length) {
-											if (allTriggersArray[j].type == LEVEL_PLATFORM_FALLING) {
+											if (allTriggersArray[j].type == LEVEL_PLATFORM_FALLING &&
+											    allTriggersArray[j].startRespawnTimer == false) {
 												allTriggersArray[j].fallTimerStarted = true;
 											}
 										}

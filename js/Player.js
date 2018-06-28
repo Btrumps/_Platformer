@@ -12,7 +12,7 @@ const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
 const FALLING_GRAVITY = 1.2;
 
-const COLLECTIBLE_MAX_TIME_TO_HOLD = 120; // 4 sec
+const COLLECTIBLE_MAX_TIME_TO_HOLD = 90; // 3 sec
 
 const MAX_DEATH_TIME = 30;
 
@@ -485,10 +485,6 @@ function playerClass() {
 	this.insideTriggerCheck = function() {
 
 		for (var i = 0; i < this.triggerArray.length; i++) {
-
-			if (this.triggerArray[i].type == LEVEL_PLATFORM_FALLING) {
-				this.triggerArray[i].fallTimerStarted = true;
-			}
 
 			if (this.triggerArray[i].type == LEVEL_SPIKE_N) {
 				var triggerLeftX = this.triggerArray[i].x - TILE_WIDTH / 2;

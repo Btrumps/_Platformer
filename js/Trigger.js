@@ -248,24 +248,25 @@ function triggerClass(col, row, index, whichType) {
 		if (this.type == LEVEL_PLATFORM_FALLING) {
 
 			if (this.startRespawnTimer) {
-				if (this.respawnTimer < this.maxTimeTilRespawn) {
-					this.respawnTimer++;
-				} else {
+				if (this.respawnTimer >= this.maxTimeTilRespawn) {
 					this.startRespawnTimer = false;
 					this.shakingStarted = false;
 					this.respawnTimer = 0;
 					levelGrid[this.index] = this.type;
+
+				} else if (this.respawnTimer < this.maxTimeTilRespawn) {
+					this.respawnTimer++;
 				}
 			}
 
 			if (this.fallTimerStarted && this.startRespawnTimer == false) {		
 
-				if (this.fallTimer > this.maxTimeTilFall) {
+				if (this.fallTimer >= this.maxTimeTilFall) {
 					levelGrid[this.index] = 0;
 					this.fallTimerStarted = false;
 					this.fallTimer = 0;
 					this.startRespawnTimer = true;
-				} else if (this.fallTimerStarted && this.fallTimer <= this.maxTimeTilFall) {
+				} else if (this.fallTimer < this.maxTimeTilFall) {
 					this.shakingStarted = true;
 					this.fallTimer++;
 					this.shakeAmountX = Math.random() * this.shakeLength;

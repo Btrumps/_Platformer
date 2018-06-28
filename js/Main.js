@@ -133,7 +133,7 @@ function drawAll() {
 	} else if (levelLayoutScreenOpen) {
 
 	} else {
-		showLevelText();
+		showLevelText(currentLevel);
 		drawAllTriggerText();
 	}
 	
