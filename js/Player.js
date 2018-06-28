@@ -652,6 +652,7 @@ function playerClass() {
 				}
 
 				loadLevel(currentLevel);
+				levelTransitionStarted = true;
 				break;
 			}
 

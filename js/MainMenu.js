@@ -79,6 +79,7 @@ function mainMenuUpdate() {
 				saveCollectibleCount();
 				saveCollectibleObtainedForLevel("false");
 				loadLevel(currentLevel);
+				levelTransitionStarted = true;
 				setInterval(gameTimer, 1000);
 				mainMenuOpen = false;
 			} else if (selectedOption == MAIN_MENU_NO) {
@@ -112,6 +113,7 @@ function mainMenuUpdate() {
 
 			setInterval(gameTimer, 1000);
 			loadLevel(savedLevel);
+			levelTransitionStarted = true;
 			mainMenuOpen = false;
 		}
 	}
