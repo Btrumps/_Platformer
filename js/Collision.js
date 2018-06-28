@@ -28,19 +28,11 @@ function isObstacleAtPixel(x, y, whichEdge) {
 					if (obstacleTileArray[i] == LEVEL_PLATFORM_FALLING &&
 					    whichEdge == BOTTOM_EDGE) {
 						for (var k = 0; k < allTriggersArray.length; k++) {
-							if (allTriggersArray[k].type == LEVEL_PLATFORM_FALLING) {
+							if (allTriggersArray[k].type == LEVEL_PLATFORM_FALLING &&
+								allTriggersArray[k].startRespawnTimer == false) {
 								
 								if (allTriggersArray[k].index == returnIndexAtPixel(hitboxArray[j], y)) { 
 									allTriggersArray[k].fallTimerStarted = true;
-
-									for (var j = k - 1; j <= k + 1; j++) {
-										if (j < allTriggersArray.length) {
-											if (allTriggersArray[j].type == LEVEL_PLATFORM_FALLING &&
-											    allTriggersArray[j].startRespawnTimer == false) {
-												allTriggersArray[j].fallTimerStarted = true;
-											}
-										}
-									}
 								}
 
 							}
