@@ -652,7 +652,7 @@ function playerClass() {
 				}			
 				loadLevel(currentLevel);
 				levelTransitionStarted = true;
-				if (currentLevel == 13) {
+				if (currentLevel == 11) {
 					scoreScreenOpen = true;
 				}
 				break;
