@@ -52,6 +52,7 @@ function triggerClass(col, row, index, whichType) {
 
 	// falling spikes
 	this.fallTrigger = false;
+	this.fallRange = MAX_FALLING_SPIKE_TRIGGER_RANGE;
 	this.collider = true;
 	this.hitPlayer = false;
 
@@ -409,9 +410,10 @@ function triggerClass(col, row, index, whichType) {
 	}
 
 	this.fallingSpikeHandling = function() {
+		this.fallRange = MAX_FALLING_SPIKE_TRIGGER_RANGE;
+
 		// we don't want the falling spikes to respawn on any other map than the boss fight
-		/*
-		if (this.startRespawnTimer && currentLevel == 11) { 
+		if (this.startRespawnTimer && currentLevel == BOSS_FIGHT_1_LEVEL) { 
 				if (this.respawnTimer < this.maxTimeTilRespawn) {
 					this.respawnTimer++;
 				} else {
@@ -423,13 +425,16 @@ function triggerClass(col, row, index, whichType) {
 					this.y = this.centeredY - TILE_HEIGHT / 2;
 				}
 			}
-		*/
 		
+		if (currentLevel == BOSS_FIGHT_1_LEVEL) {
+			this.fallRange = 150;
+		}
+
 		if (this.type == LEVEL_SPIKE_S_FALLING) {
 			if (player.x > this.x - FALLING_SPIKE_TRIGGER_OFFSET &&
 				player.x < this.x + TILE_WIDTH + FALLING_SPIKE_TRIGGER_OFFSET &&
 				player.y > this.centeredY &&
-				player.y < this.centeredY + MAX_FALLING_SPIKE_TRIGGER_RANGE) {
+				player.y < this.centeredY + this.fallRange) {
 
 				this.fallTrigger = true;
 			}
@@ -476,6 +481,46 @@ function triggerClass(col, row, index, whichType) {
 						}
 					}
 				}
+
+				if (currentLevel == BOSS_FIGHT_1_LEVEL && this.y < boss.y + BOSS_HEIGHT / 2) {
+					this.collider = true;
+				}
+			}
+
+			if (this.collider && currentLevel == BOSS_FIGHT_1_LEVEL && this.hitPlayer == false) { // boss level
+				if (boss.y + BOSS_HEIGHT / 2 < this.y) {
+					// do nothing
+				} else {
+					// these offsets are for collisions, normally, this.x/y refers to player's center
+					boss.recalculateCollisionEdges();
+					var bossYOffset = BOSS_HEIGHT / 2;
+					bossXArray = [	boss.leftEdge,
+									boss.rightEdge,
+									boss.x]
+					var bossYInsideTrigger = boss.y - bossYOffset - this.y;
+
+					for (var i = 0; i < bossXArray.length; i++) {
+						var bossXInsideTrigger = bossXArray[i] - this.x;
+
+						if (bossXInsideTrigger < 8) {
+							// adds offset for left-side cases on the right hitbox
+							if (bossXInsideTrigger * 2 > bossYInsideTrigger) {
+								boss.tookDamage = true;
+								console.log('boss took damage from left side');
+								this.hitPlayer = true;
+								return;
+							}
+						} else {
+							bossXInsideTrigger -= TILE_WIDTH / 2;
+							if ((bossXInsideTrigger * 2) + bossYInsideTrigger < 16) {
+								boss.tookDamage = true;
+								console.log('boss took damage from right side');
+								this.hitPlayer = true;
+								return;
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -487,11 +532,11 @@ function triggerClass(col, row, index, whichType) {
 
 			// this is for falling spike collision with boss if we ever decide to add it back
 			/*
-			if (currentLevel == 11 && this.y < boss.y + BOSS_HEIGHT / 2) {
+			if (currentLevel == BOSS_FIGHT_1_LEVEL && this.y < boss.y + BOSS_HEIGHT / 2) {
 					this.collider = true;
 			}
 
-			if (this.collider && currentLevel == 11 && this.hitPlayer == false) { // boss level
+			if (this.collider && currentLevel == BOSS_FIGHT_1_LEVEL && this.hitPlayer == false) { // boss level
 				if (boss.y + BOSS_HEIGHT / 2 < this.y) {
 					// do nothing
 				} else {
@@ -574,6 +619,10 @@ function triggerClass(col, row, index, whichType) {
 										this.y + this.shakeAmountY);
 			}
 			
+		} else if (this.type == LEVEL_PLATFORM_FALLING && this.startRespawnTimer) {
+			canvasContext.drawImage(fallingPlatformTaken,
+									this.x,
+									this.y);
 		}
 	}
 

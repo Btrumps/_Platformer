@@ -8,6 +8,7 @@ const SCORE_SCREEN_COLLECTIBLES_Y = 500;
 const SCORE_SCREEN_DIST_AWAY_FROM_SUB_TEXT = 350;
 
 var TOTAL_COLLECTIBLE_COUNT = 8; // change this number to the max amount of collectibles in the final game
+var TOTAL_LEVEL_COUNT = 12;
 var totalCollectibles = 0;
 var totalDeaths = 0;
 var totalGameTime = 0;

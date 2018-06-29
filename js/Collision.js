@@ -151,23 +151,26 @@ function checkBossCollisionsWithPlayer() {
 	player.recalculateCollisionEdges();
 	boss.recalculateCollisionEdges();
 
+	// triggers when the player is above the boss
 	if ( ( (player.leftEdge > boss.leftEdge &&
 	    	player.leftEdge < boss.rightEdge) ||
 		   (player.rightEdge > boss.rightEdge &&
 	    	player.rightEdge < boss.leftEdge) ) &&
 	    	boss.bottomEdge > player.topEdge &&
 	    	boss.topEdge < player.topEdge) {
+		
 		player.deathAnimationStarted = true;
-		// almost works, but triggers when the player is above the boss
 	}
 
+	// triggers when the player is above the boss
 	if ( ( (player.leftEdge > boss.leftEdge &&
 	    	player.leftEdge < boss.rightEdge) ||
 		   (player.rightEdge > boss.rightEdge &&
 	    	player.rightEdge < boss.leftEdge) ) &&
 	    	boss.topEdge < player.bottomEdge &&
 	    	boss.bottomEdge > player.bottomEdge) {
+
 		player.deathAnimationStarted = true;
-		// almost works, but triggers when the player is above the boss
+		
 	}
 }

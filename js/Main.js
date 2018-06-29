@@ -67,6 +67,11 @@ function moveAll() {
 		checkLevelLayoutInput();
 	} else {
 		player.move();
+
+		if (currentLevel == BOSS_FIGHT_1_LEVEL) {
+			boss.move();
+		}
+		
 		moveParticles();
 		moveAllTriggers();
 		moveAllProjectiles();
@@ -99,10 +104,15 @@ function drawAll() {
 
 		drawLevel();
 		player.draw();
+
+		if (currentLevel == BOSS_FIGHT_1_LEVEL) {
+			boss.draw();
+		}
+		
+
 		drawParticles();
 		drawAllTriggers();
 		drawAllProjectiles();
-
 
 		if (mapEditorEnabled) {
 			showMapEditorGrid();

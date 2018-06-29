@@ -36,6 +36,7 @@ var fallingSpike = document.createElement("img");
 
 var followDrone = document.createElement("img");
 var powerupTaken = document.createElement("img");
+var fallingPlatformTaken = document.createElement("img");
 var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
 var collectibleAnim = document.createElement("img");
@@ -91,6 +92,7 @@ function loadImages() {
 		{varName: shooterSAnim, theFile: "./images/level_obstacles/shooter_s_anim.png"},
 		{varName: followDrone, theFile: "./images/level_obstacles/follow_drone.png"},
 		{varName: powerupTaken, theFile: "./images/level_obstacles/dash_powerup_taken.png"},
+		{varName: fallingPlatformTaken, theFile: "./images/level_tiles/platform_falling_taken.png"},
 		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},

@@ -10,7 +10,7 @@ const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 4;
 
 const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
-const FALLING_GRAVITY = 1.2;
+const FALLING_GRAVITY = 1;
 
 const COLLECTIBLE_MAX_TIME_TO_HOLD = 105; // 3.5 sec
 
@@ -652,9 +652,11 @@ function playerClass() {
 				}			
 				loadLevel(currentLevel);
 				levelTransitionStarted = true;
-				if (currentLevel == 11) {
+				
+				if (currentLevel == TOTAL_LEVEL_COUNT) {
 					scoreScreenOpen = true;
 				}
+				
 				break;
 			}
 
