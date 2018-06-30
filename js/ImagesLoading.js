@@ -18,8 +18,11 @@ var playerJumpLeftImg = document.createElement("img");
 var playerJumpRightImg = document.createElement("img");
 var playerJumpLeftImg_Blue = document.createElement("img");
 var playerJumpRightImg_Blue = document.createElement("img");
-var playerFallingImg = document.createElement("img");
-var playerFallingImg_Blue = document.createElement("img");
+var playerFallingLeftImg = document.createElement("img");
+var playerFallingLeftImg_Blue = document.createElement("img");
+var playerFallingRightImg = document.createElement("img");
+var playerFallingRightImg_Blue = document.createElement("img");
+
 
 var bossIntro = document.createElement("img");
 var bossSlam = document.createElement("img");
@@ -83,8 +86,10 @@ function loadImages() {
 		{varName: playerDashLeftImg, theFile: "./images/player/player_dashleft.png"},
 		{varName: playerDashRightImg, theFile: "./images/player/player_dashright.png"},
 		{varName: playerDashUpImg, theFile: "./images/player/player_dashup.png"},
-		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
-		{varName: playerFallingImg_Blue, theFile: "./images/player/player_falling_blue.png"},
+		{varName: playerFallingLeftImg, theFile: "./images/player/player_fallingleft.png"},
+		{varName: playerFallingLeftImg_Blue, theFile: "./images/player/player_fallingleft_blue.png"},
+		{varName: playerFallingRightImg, theFile: "./images/player/player_fallingright.png"},
+		{varName: playerFallingRightImg_Blue, theFile: "./images/player/player_fallingright_blue.png"},
 		{varName: bossIntro, theFile: "./images/enemy/boss_intro_anim.png"},
 		{varName: bossSlam, theFile: "./images/enemy/boss_slam_anim.png"},
 		{varName: bossRoomSlamFace, theFile: "./images/enemy/boss_room_slam_face.png"},
@@ -175,17 +180,19 @@ function playerBlueImageSwap() {
 	var showRow = 0;
 	if (player.dashesLeft > 0) {
 		showRow = 1;
-		player.fallingImg = playerFallingImg_Blue;
+		player.fallingLeftImg = playerFallingLeftImg_Blue;
+		player.fallingRightImg = playerFallingRightImg_Blue;
 		player.jumpLeftImg = playerJumpLeftImg_Blue;
 		player.jumpRightImg = playerJumpRightImg_Blue;
 
 	} else if (player.dashesLeft <= 0) {
 		showRow = 0;
-		player.fallingImg = playerFallingImg;
+		player.fallingLeftImg = playerFallingLeftImg;
+		player.fallingRightImg = playerFallingRightImg;
 		player.jumpLeftImg = playerJumpLeftImg;
 		player.jumpRightImg = playerJumpRightImg;
 	}
-	
+
 	playerIdleLeftAnim.rowToDraw = showRow;
 	playerIdleRightAnim.rowToDraw = showRow;
 	playerRunLeftAnim.rowToDraw = showRow;

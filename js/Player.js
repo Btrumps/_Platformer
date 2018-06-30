@@ -92,7 +92,8 @@ function playerClass() {
 
 	this.jumpLeftImg = playerJumpLeftImg;
 	this.jumpRightImg = playerJumpRightImg; 
-	this.fallingImg = playerFallingImg;
+	this.fallingRightImg = playerFallingRightImg;
+	this.fallingLeftImg = playerFallingLeftImg;
 
 	this.reset = function() {
 		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
@@ -780,33 +781,54 @@ function playerClass() {
 			
 		} else {
 			if (this.direction == DIRECTION_LEFT) {
-				if (this.currentMoveState == PLAYER_STATE_IDLE) {
-					playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
-					playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
-					canvasContext.drawImage(this.jumpLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
-					canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-					canvasContext.drawImage(this.fallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-				} else {
-					console.log('no animation available for this playerState! add it to player.draw()!');
+
+				switch (this.currentMoveState) {
+
+					case PLAYER_STATE_IDLE:
+						playerIdleLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_RUNNING:
+						playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_JUMPING:
+						canvasContext.drawImage(this.jumpLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_DASHING:
+						canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_FALLING:
+						canvasContext.drawImage(this.fallingLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
 				}
 
-			} else if (this.direction == DIRECTION_RIGHT){
-				if (this.currentMoveState == PLAYER_STATE_IDLE) {
-					playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2 - 2, this.y - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
-					playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
-					canvasContext.drawImage(this.jumpRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
-					canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-				} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-					canvasContext.drawImage(this.fallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-				} else {
-					console.log('no animation available for this playerState! add it to player.draw()!');
+			} else if (this.direction == DIRECTION_RIGHT) {
+				switch (this.currentMoveState) {
+
+					case PLAYER_STATE_IDLE:
+						playerIdleRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_RUNNING:
+						playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_JUMPING:
+						canvasContext.drawImage(this.jumpRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_DASHING:
+						canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_FALLING:
+						canvasContext.drawImage(this.fallingRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
 				}
 			} else if (this.direction == DIRECTION_UP) {
 				canvasContext.drawImage(playerDashUpImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
