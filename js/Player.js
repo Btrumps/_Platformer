@@ -90,6 +90,10 @@ function playerClass() {
 	this.startCollectibleTimer = false;
 	this.collectibleIncrementTimer = 0;
 
+	this.jumpLeftImg = playerJumpLeftImg;
+	this.jumpRightImg = playerJumpRightImg; 
+	this.fallingImg = playerFallingImg;
+
 	this.reset = function() {
 		for (var eachRow = 0; eachRow < LEVEL_ROWS; eachRow++) {
 			for (var eachCol = 0; eachCol < LEVEL_COLS; eachCol++) {
@@ -169,8 +173,6 @@ function playerClass() {
 		}
 
 		if (jumpJustPressed && this.framesSinceLeftGround < MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
-			playerJumpLeftAnim.reset();
-			playerJumpRightAnim.reset();
 			this.velY = -PLAYER_JUMP_SPEED;
 
 		} else if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
@@ -235,15 +237,15 @@ function playerClass() {
 				
 				this.currentMoveState = PLAYER_STATE_JUMPING;
 
-			} else if (	this.isGrounded == false && this.velY > 2) {
+			} else if (	this.isGrounded == false && this.velY > 0) {
 
 				this.currentMoveState = PLAYER_STATE_FALLING;
 
 			} else if (this.isGrounded && Math.abs(this.velX) > .25) {
 
 				this.currentMoveState = PLAYER_STATE_RUNNING;
-
 			} else {
+
 				this.currentMoveState = PLAYER_STATE_IDLE;
 			}
 		}
@@ -653,7 +655,7 @@ function playerClass() {
 				loadLevel(currentLevel);
 				levelTransitionStarted = true;
 				
-				if (currentLevel == TOTAL_LEVEL_COUNT) {
+				if (currentLevel == TOTAL_LEVEL_COUNT + 1) { // +1 because we increment in this function
 					scoreScreenOpen = true;
 				}
 				
@@ -783,11 +785,11 @@ function playerClass() {
 				} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
 					playerRunLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
 				} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
-					playerJumpLeftAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+					canvasContext.drawImage(this.jumpLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
 					canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-					canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+					canvasContext.drawImage(this.fallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				} else {
 					console.log('no animation available for this playerState! add it to player.draw()!');
 				}
@@ -798,11 +800,11 @@ function playerClass() {
 				} else if (this.currentMoveState == PLAYER_STATE_RUNNING) {
 					playerRunRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y + 2 - PLAYER_HEIGHT / 2);
 				} else if (this.currentMoveState == PLAYER_STATE_JUMPING) {
-					playerJumpRightAnim.render(this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+					canvasContext.drawImage(this.jumpRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				} else if (this.currentMoveState == PLAYER_STATE_DASHING) {
 					canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				} else if (this.currentMoveState == PLAYER_STATE_FALLING) {
-					canvasContext.drawImage(playerFallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+					canvasContext.drawImage(this.fallingImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 				} else {
 					console.log('no animation available for this playerState! add it to player.draw()!');
 				}

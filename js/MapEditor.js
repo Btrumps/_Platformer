@@ -270,45 +270,10 @@ function outputLevelToConsole() {
 }
 
 function saveLevelInSession(whichLevel) {
-	if (whichLevel == 1) {
-		level1 = levelGrid.slice();
-		console.log('level1 saved successfully!');
-	} else if (whichLevel == 2) {
-		level2 = levelGrid.slice();
-		console.log('level2 saved successfully!');
-	} else if (whichLevel == 3) {
-		level3 = levelGrid.slice();
-		console.log('level3 saved successfully!');
-	} else if (whichLevel == 4) {
-		level4 = levelGrid.slice();
-		console.log('level4 saved successfully!');
-	} else if (whichLevel == 5) {
-		level5 = levelGrid.slice();
-		console.log('level5 saved successfully!');
-	} else if (whichLevel == 6) {
-		level6 = levelGrid.slice();
-		console.log('level6 saved successfully!');
-	} else if (whichLevel == 7) {
-		level7 = levelGrid.slice();
-		console.log('level7 saved successfully!');
-	} else if (whichLevel == 8) {
-		level8 = levelGrid.slice();
-		console.log('level8 saved successfully!');
-	} else if (whichLevel == 9) {
-		level9 = levelGrid.slice();
-		console.log('level9 saved successfully!');
-	} else if (whichLevel == 10) {
-		level10 = levelGrid.slice();
-		console.log('level10 saved successfully!');
-	} else if (whichLevel == 11) {
-		level11 = levelGrid.slice();
-		console.log('level11 saved successfully!');
-	} else if (whichLevel == 12) {
-		level12 = levelGrid.slice();
-		console.log('level11 saved successfully!');
-	} else {
-		console.log('cannot save level, add it to saveLevelInSession()!');
-	}
+
+	window["level" + whichLevel] = levelGrid.slice();
+	console.log('level ' + whichLevel + 'saved successfully!');
+
 }
 
 function showMapEditorGrid() {

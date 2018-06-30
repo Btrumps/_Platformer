@@ -9,14 +9,17 @@ var playerIdleLeft = document.createElement("img");
 var playerIdleRight = document.createElement("img");
 var playerRunLeft = document.createElement("img");
 var playerRunRight = document.createElement("img");
-var playerJumpLeft = document.createElement("img");
-var playerJumpRight = document.createElement("img");
 var playerDeathLeft = document.createElement("img");
 var playerDeathRight = document.createElement("img");
 var playerDashLeftImg = document.createElement("img");
 var playerDashRightImg = document.createElement("img");
 var playerDashUpImg = document.createElement("img");
+var playerJumpLeftImg = document.createElement("img");
+var playerJumpRightImg = document.createElement("img");
+var playerJumpLeftImg_Blue = document.createElement("img");
+var playerJumpRightImg_Blue = document.createElement("img");
 var playerFallingImg = document.createElement("img");
+var playerFallingImg_Blue = document.createElement("img");
 
 var bossIntro = document.createElement("img");
 var bossSlam = document.createElement("img");
@@ -67,23 +70,26 @@ function loadImageForHelpCode(helpCode, fileName) {
 function loadImages() {
 	var imageList = [
 		{varName: mainMenuImg, theFile: "./images/menu.png"},
-		{varName: playerIdleLeft, theFile: "./images/player/player_idleleft_anim.png"},
-		{varName: playerIdleRight, theFile: "./images/player/player_idleright_anim.png"},
-		{varName: playerRunLeft, theFile: "./images/player/player_runleft_anim.png"},
-		{varName: playerRunRight, theFile: "./images/player/player_runright_anim.png"},
-		{varName: playerJumpLeft, theFile: "./images/player/player_jumpleft_anim.png"},
-		{varName: playerJumpRight, theFile: "./images/player/player_jumpright_anim.png"},
+		{varName: playerIdleLeft, theFile: "./images/player/player_idleleft_anim_spritesheet.png"},
+		{varName: playerIdleRight, theFile: "./images/player/player_idleright_anim_spritesheet.png"},
+		{varName: playerRunLeft, theFile: "./images/player/player_runleft_anim_spritesheet.png"},
+		{varName: playerRunRight, theFile: "./images/player/player_runright_anim_spritesheet.png"},
+		{varName: playerJumpLeftImg, theFile: "./images/player/player_jumpleft.png"},
+		{varName: playerJumpRightImg, theFile: "./images/player/player_jumpright.png"},
+		{varName: playerJumpLeftImg_Blue, theFile: "./images/player/player_jumpleft_blue.png"},
+		{varName: playerJumpRightImg_Blue, theFile: "./images/player/player_jumpright_blue.png"},
 		{varName: playerDeathLeft, theFile: "./images/player/player_deathleft_anim.png"},
 		{varName: playerDeathRight, theFile: "./images/player/player_deathright_anim.png"},
 		{varName: playerDashLeftImg, theFile: "./images/player/player_dashleft.png"},
 		{varName: playerDashRightImg, theFile: "./images/player/player_dashright.png"},
 		{varName: playerDashUpImg, theFile: "./images/player/player_dashup.png"},
+		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
+		{varName: playerFallingImg_Blue, theFile: "./images/player/player_falling_blue.png"},
 		{varName: bossIntro, theFile: "./images/enemy/boss_intro_anim.png"},
 		{varName: bossSlam, theFile: "./images/enemy/boss_slam_anim.png"},
 		{varName: bossRoomSlamFace, theFile: "./images/enemy/boss_room_slam_face.png"},
 		{varName: bossEnragedFace, theFile: "./images/enemy/boss_enraged_face.png"},
 		{varName: bossReturningToChaseFace, theFile: "./images/enemy/boss_returning_to_chase_face.png"},
-		{varName: playerFallingImg, theFile: "./images/player/player_falling.png"},
 		{varName: switchOff, theFile: "./images/level_obstacles/switch_off.png"},
 		{varName: switchOn, theFile: "./images/level_obstacles/switch_on.png"},
 		{varName: shooterWAnim, theFile: "./images/level_obstacles/shooter_w_anim.png"},
@@ -166,21 +172,22 @@ function loadImages() {
 }
 
 function playerBlueImageSwap() {
+	var showRow = 0;
 	if (player.dashesLeft > 0) {
-		playerIdleLeft.src =  "./images/player/player_idleleft_blue_anim.png";
-		playerIdleRight.src =  "./images/player/player_idleright_blue_anim.png";
-		playerJumpLeft.src =  "./images/player/player_jumpleft_blue_anim.png";
-		playerJumpRight.src =  "./images/player/player_jumpright_blue_anim.png";
-		playerRunLeft.src =  "./images/player/player_runleft_blue_anim.png";
-		playerRunRight.src =  "./images/player/player_runright_blue_anim.png";
-		playerFallingImg.src =  "./images/player/player_falling_blue.png";
+		showRow = 1;
+		player.fallingImg = playerFallingImg_Blue;
+		player.jumpLeftImg = playerJumpLeftImg_Blue;
+		player.jumpRightImg = playerJumpRightImg_Blue;
+
 	} else if (player.dashesLeft <= 0) {
-		playerIdleLeft.src =  "./images/player/player_idleleft_anim.png";
-		playerIdleRight.src =  "./images/player/player_idleright_anim.png";
-		playerJumpLeft.src =  "./images/player/player_jumpleft_anim.png";
-		playerJumpRight.src =  "./images/player/player_jumpright_anim.png";
-		playerRunLeft.src =  "./images/player/player_runleft_anim.png";
-		playerRunRight.src =  "./images/player/player_runright_anim.png";
-		playerFallingImg.src =  "./images/player/player_falling.png";
+		showRow = 0;
+		player.fallingImg = playerFallingImg;
+		player.jumpLeftImg = playerJumpLeftImg;
+		player.jumpRightImg = playerJumpRightImg;
 	}
+	
+	playerIdleLeftAnim.rowToDraw = showRow;
+	playerIdleRightAnim.rowToDraw = showRow;
+	playerRunLeftAnim.rowToDraw = showRow;
+	playerRunRightAnim.rowToDraw = showRow;
 }

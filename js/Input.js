@@ -81,6 +81,8 @@ function keyUpHandler(evt) {
 }
 
 function setValuesForKey(evt, value) {
+	var keyUsedByGame = true;
+
 	switch (evt.code) {
 
 		case "Enter" :
@@ -307,6 +309,14 @@ function setValuesForKey(evt, value) {
 		case "BracketRight" :
 			keyHeld_BracketRight = value;
 			break;
+
+		default : 
+			keyUsedByGame = false;
+			break;
+	}
+	
+	if (keyUsedByGame) {
+		evt.preventDefault();
 	}
 }
 

@@ -1,3 +1,5 @@
+var playerIdleLeftAnim;
+
 function sprite(options) {
     var that = {};
     var frameIndex = 0; // current frame to be displayed
@@ -10,6 +12,7 @@ function sprite(options) {
     that.loop = options.loop;
     that.width = options.width;
     that.height = options.height;
+    that.rowToDraw = 0;
 
     that.update = function() {
         tickCount++;
@@ -31,18 +34,15 @@ function sprite(options) {
 	}
 
     that.render = function(x, y) {
-        // clear the canvas
-        // context.clearRect(0,0, that.width, that.height);
-        var picWidth = Math.floor(that.width / numberOfFrames);
 
         that.context.drawImage(that.image, // source image
-                               frameIndex * picWidth, // source x
-                               0, // source y
-                               picWidth, //source width
+                               frameIndex * that.width, // source x
+                               that.rowToDraw * that.height, // source y
+                               that.width, //source width
                                that.height, // source height
                                Math.floor(x), // destination x
                                Math.floor(y), // destination y
-                               picWidth, // destination width
+                               that.width, // destination width
                                that.height); // destination height
     }
 
@@ -57,8 +57,6 @@ function updateAnimations() {
 
   bossIntroAnim.update();
 
-  enterPortalAnim.update();
-  exitPortalAnim.update();
   collectibleAnim.update();
 
   if (okayToUpdateShooterAnim_W) {
@@ -77,9 +75,10 @@ function updateAnimations() {
 }
 
 function setupSpriteSheets() {
+
     playerIdleLeftAnim = sprite({ 
       context: canvasContext,
-      width: 192,
+      width: 16,
       height: 24,
       image: playerIdleLeft,
       loop: true,
@@ -89,7 +88,7 @@ function setupSpriteSheets() {
 
     playerIdleRightAnim = sprite({ 
       context: canvasContext,
-      width: 192,
+      width: 16,
       height: 24,
       image: playerIdleRight,
       loop: true,
@@ -99,7 +98,7 @@ function setupSpriteSheets() {
 
     playerRunLeftAnim = sprite({
       context: canvasContext,
-      width: 128,
+      width: 16,
       height: 24,
       image: playerRunLeft,
       loop: true,
@@ -109,7 +108,7 @@ function setupSpriteSheets() {
 
     playerRunRightAnim = sprite({
       context: canvasContext,
-      width: 128,
+      width: 16,
       height: 24,
       image: playerRunRight,
       loop: true,
@@ -117,29 +116,9 @@ function setupSpriteSheets() {
       ticksPerFrame: 1,
     });
 
-    playerJumpLeftAnim = sprite({
-      context: canvasContext,
-      width: 32,
-      height: 24,
-      image: playerJumpLeft,
-      loop: false,
-      numberOfFrames: 2,
-      ticksPerFrame: 20,
-    });
-
-    playerJumpRightAnim = sprite({
-      context: canvasContext,
-      width: 32,
-      height: 24,
-      image: playerJumpRight,
-      loop: false,
-      numberOfFrames: 2,
-      ticksPerFrame: 20,
-    });
-
     playerDeathLeftAnim = sprite({
       context: canvasContext,
-      width: 128,
+      width: 16,
       height: 24,
       image: playerDeathLeft,
       loop: false,
@@ -149,7 +128,7 @@ function setupSpriteSheets() {
 
     playerDeathRightAnim = sprite({
       context: canvasContext,
-      width: 128,
+      width: 16,
       height: 24,
       image: playerDeathRight,
       loop: false,
@@ -159,7 +138,7 @@ function setupSpriteSheets() {
 
     bossIntroAnim = sprite({
       context: canvasContext,
-      width: 384,
+      width: 48,
       height: 48,
       image: bossIntro,
       loop: true,
@@ -169,7 +148,7 @@ function setupSpriteSheets() {
 
     bossSlamAnim = sprite({
       context: canvasContext,
-      width: 192,
+      width: 48,
       height: 48,
       image: bossSlam,
       loop: false,
@@ -179,7 +158,7 @@ function setupSpriteSheets() {
 
     shooterWAnim = sprite({
       context: canvasContext,
-      width: 64,
+      width: 16,
       height: 16,
       image: shooterWAnim,
       loop: false,
@@ -189,7 +168,7 @@ function setupSpriteSheets() {
 
     shooterEAnim = sprite({
       context: canvasContext,
-      width: 64,
+      width: 16,
       height: 16,
       image: shooterEAnim,
       loop: false,
@@ -199,7 +178,7 @@ function setupSpriteSheets() {
 
     shooterNAnim = sprite({
       context: canvasContext,
-      width: 64,
+      width: 16,
       height: 16,
       image: shooterNAnim,
       loop: false,
@@ -209,7 +188,7 @@ function setupSpriteSheets() {
 
     shooterSAnim = sprite({
       context: canvasContext,
-      width: 64,
+      width: 16,
       height: 16,
       image: shooterSAnim,
       loop: false,
@@ -217,29 +196,9 @@ function setupSpriteSheets() {
       ticksPerFrame: 15,
     });
 
-    enterPortalAnim = sprite({
-      context: canvasContext,
-      width: 128,
-      height: 32,
-      image: enterPortalAnim,
-      loop: true,
-      numberOfFrames: 4,
-      ticksPerFrame: 8,
-    });
-
-    exitPortalAnim = sprite({
-      context: canvasContext,
-      width: 128,
-      height: 32,
-      image: exitPortalAnim,
-      loop: true,
-      numberOfFrames: 4,
-      ticksPerFrame: 8,
-    });
-
     collectibleAnim = sprite({
       context: canvasContext,
-      width: 64,
+      width: 16,
       height: 16,
       image: collectibleAnim,
       loop: true,
@@ -249,7 +208,7 @@ function setupSpriteSheets() {
 
     collectibleObtainedAnim = sprite({
       context: canvasContext,
-      width: 176,
+      width: 16,
       height: 16,
       image: collectibleObtainedAnim,
       loop: false,
