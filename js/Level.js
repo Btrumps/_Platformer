@@ -398,15 +398,37 @@ function drawLevel() {
 					break;
 
 				case LEVEL_SQUARE_SPIKE_V:
-					canvasContext.drawImage(useImg, tileX, tileY);
+					if (levelEditorEnabled) {
+						canvasContext.globalAlpha = 0.5;
+						canvasContext.drawImage(useImg, tileX, tileY);
+						canvasContext.drawImage(helpPics[LEVEL_HELP_ARROW_DOWN], tileX, tileY + TILE_HEIGHT);
+						canvasContext.globalAlpha = 1;
+					}
 					break;
 
 				case LEVEL_SQUARE_SPIKE_H:
-					canvasContext.drawImage(useImg, tileX, tileY);
+					if (levelEditorEnabled) {
+						canvasContext.globalAlpha = 0.5;
+						canvasContext.drawImage(useImg, tileX, tileY);
+						canvasContext.drawImage(helpPics[LEVEL_HELP_ARROW_RIGHT], tileX + TILE_WIDTH, tileY);
+						canvasContext.globalAlpha = 1;
+					}
 					break;
 
 				case LEVEL_FOLLOW_DRONE:
-					colorRect(tileX,tileY, TILE_WIDTH,TILE_HEIGHT, 'red', 0.7);
+					if (levelEditorEnabled) {
+						canvasContext.globalAlpha = 0.5;
+						canvasContext.drawImage(followDrone, tileX, tileY);
+						canvasContext.globalAlpha = 1;
+					}
+					break;
+
+				case LEVEL_PLATFORM_FALLING:
+					if (levelEditorEnabled) {
+						canvasContext.globalAlpha = 0.5;
+						canvasContext.drawImage(levelPics[LEVEL_PLATFORM_FALLING], tileX, tileY);
+						canvasContext.globalAlpha = 1;
+					}
 					break;
 
 				case LEVEL_SWITCH_1:

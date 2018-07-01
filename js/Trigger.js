@@ -113,7 +113,6 @@ function triggerClass(col, row, index, whichType) {
 
 	this.followDroneHandling = function() {
 		if (this.type == LEVEL_FOLLOW_DRONE) {
-			levelGrid[this.index] = 0;
 
 			var deltaX = player.x - this.x - TILE_WIDTH / 2;
 			var deltaY = player.y - this.y - TILE_HEIGHT / 2;
@@ -137,7 +136,6 @@ function triggerClass(col, row, index, whichType) {
 
 	this.bouncingSquareSpikeHandling = function() {
 		if (this.type == LEVEL_SQUARE_SPIKE_V) {
-			levelGrid[this.index] = 0;
 
 			var edgeCheckY;
 
@@ -172,7 +170,6 @@ function triggerClass(col, row, index, whichType) {
 			}
 
 		} else if (this.type == LEVEL_SQUARE_SPIKE_H) {
-			levelGrid[this.index] = 0;
 
 			var edgeCheckX;
 
