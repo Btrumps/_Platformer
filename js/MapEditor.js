@@ -12,65 +12,6 @@ function placeTilesOnButtonPress() {
 	mouseIndex = colRowToArrayIndex(mouseCol, mouseRow);
 
 	if (helpBGEnabled == false) {
-		if (keyHeld_Num1) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_SW;
-		}
-
-		if (keyHeld_Num2) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_S;
-		}
-
-		if (keyHeld_Num3) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_SE;
-		}
-
-		if (keyHeld_Num4) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_W;
-		}
-
-		if (keyHeld_Num5) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_SINGLE;
-		}
-
-		if (keyHeld_Num6) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_E;
-		}
-
-		if (keyHeld_Num7) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_NW;
-		}
-
-		if (keyHeld_Num8) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_N;
-		}
-
-		if (keyHeld_Num9) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_NE;
-		}
-
-		if (keyHeld_Num0) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_HORIZONTAL_MIDDLE;
-		}
-
-		if (keyHeld_Decimal) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_VERTICAL_MIDDLE;
-		}
-
-		if (keyHeld_Divide) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_W_PILLAR;
-		}
-
-		if (keyHeld_Multiply) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_N_PILLAR;
-		}
-
-		if (keyHeld_Subtract) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_E_PILLAR;
-		}
-
-		if (keyHeld_Add) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_S_PILLAR;
-		}
 
 		if (keyHeld_1) {
 			levelGrid[mouseIndex] = LEVEL_SPIKE_N;
@@ -89,35 +30,35 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_5) {
-			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE;
-		}
-
-		if (keyHeld_A) {
-			levelGrid[mouseIndex] = LEVEL_PLATFORM_FALLING;
-		}
-
-		if (keyHeld_S) {
-			levelGrid[mouseIndex] = LEVEL_SPIKE_TRIGGER;
-		}
-
-		if (keyHeld_6) {
-			levelGrid[mouseIndex] = LEVEL_SWITCH_1;
-		}
-
-		if (keyHeld_7) {
-			levelGrid[mouseIndex] = LEVEL_DOOR_1;
-		}
-
-		if (keyHeld_8) {
-			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE;
-		}
-
-		if (keyHeld_9) {
 			levelGrid[mouseIndex] = LEVEL_SPIKE_S_FALLING;
 		}
 
+		if (keyHeld_6) {
+			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE;
+		}
+
+		if (keyHeld_7) {
+			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_H;
+		}
+
+		if (keyHeld_8) {
+			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_V;
+		}
+
+		if (keyHeld_9) {
+			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE;
+		}	
+
 		if (keyHeld_0) {
 			levelGrid[mouseIndex] = LEVEL_DASH_POWERUP;
+		}
+
+		if (keyHeld_Minus) {
+			levelGrid[mouseIndex] = LEVEL_SWITCH_1;
+		}
+
+		if (keyHeld_Equal) {
+			levelGrid[mouseIndex] = LEVEL_DOOR_1;
 		}
 
 		if (keyHeld_Q) {
@@ -129,23 +70,27 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_E) {
-			levelGrid[mouseIndex] = LEVEL_SHOOTER_E;
-		}
-
-		if (keyHeld_Y) {
-			levelGrid[mouseIndex] = LEVEL_SHOOTER_W;
-		}
-
-		if (keyHeld_Z) {
 			levelGrid[mouseIndex] = LEVEL_FOLLOW_DRONE;
 		}
 
-		if (keyHeld_Minus) {
-			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_V;
+		if (keyHeld_Y) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_W_PILLAR;
 		}
 
-		if (keyHeld_Equal) {
-			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_H;
+		if (keyHeld_U) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_E_PILLAR;
+		}
+
+		if (keyHeld_I) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_NW;
+		}
+
+		if (keyHeld_O) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_N;
+		}
+
+		if (keyHeld_P) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_NE;
 		}
 
 		if (keyHeld_BracketLeft) {
@@ -155,36 +100,67 @@ function placeTilesOnButtonPress() {
 		if (keyHeld_BracketRight) {
 			levelGrid[mouseIndex] = LEVEL_END;
 		}
+
+		if (keyHeld_A) {
+			levelGrid[mouseIndex] = LEVEL_SHOOTER_E;
+		}
+
+		if (keyHeld_S) {
+			levelGrid[mouseIndex] = LEVEL_SHOOTER_W;
+		}
+
+		if (keyHeld_D) {
+			levelGrid[mouseIndex] = LEVEL_SPIKE_TRIGGER;
+		}
+
+		if (keyHeld_F) {
+			
+		}
+
+		if (keyHeld_H) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_N_PILLAR;
+		}
+
+		if (keyHeld_J) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_S_PILLAR;
+		}
+
+		if (keyHeld_K) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_W;
+		}
+
+		if (keyHeld_L) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_SINGLE;
+		}
+
+		if (keyHeld_Semicolon) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_E;
+		}
+
+		if (keyHeld_Quote) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_FALLING;
+		}
+
+		if (keyHeld_Z) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_HORIZONTAL_MIDDLE;
+		}
+
+		if (keyHeld_X) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_VERTICAL_MIDDLE;
+		}
+
+		if (keyHeld_Comma) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_SW;
+		}
+
+		if (keyHeld_Period) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_S;
+		}
+
+		if (keyHeld_Slash) {
+			levelGrid[mouseIndex] = LEVEL_PLATFORM_SE;
+		}
 	} else {
-		if (keyHeld_Num2) {
-			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_DOWN;
-		}
-		if (keyHeld_Num4) {
-			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_LEFT;
-		}
-		if (keyHeld_Num6) {
-			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_RIGHT;
-		}
-		if (keyHeld_Num8) {
-			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_UP;
-		}
-
-		if (keyHeld_DashUp) {
-			helpGrid[mouseIndex] = LEVEL_HELP_UP_ARROWKEY;
-		}
-		if (keyHeld_DashLeft) {
-			helpGrid[mouseIndex] = LEVEL_HELP_LEFT_ARROWKEY;
-		}
-		if (keyHeld_DashRight) {
-			helpGrid[mouseIndex] = LEVEL_HELP_RIGHT_ARROWKEY;
-		}
-
-		if (keyHeld_Num0) {
-			helpGrid[mouseIndex] = LEVEL_HELP_HORIZONTAL_LINE;
-		}
-		if (keyHeld_Decimal) {
-			helpGrid[mouseIndex] = LEVEL_HELP_VERTICAL_LINE;
-		}
 
 		if (keyHeld_1) {
 			helpGrid[mouseIndex] = LEVEL_HELP_TO;
@@ -207,7 +183,6 @@ function placeTilesOnButtonPress() {
 		if (keyHeld_7) {
 			helpGrid[mouseIndex] = LEVEL_HELP_MP;
 		}
-
 		if (keyHeld_8) {
 			helpGrid[mouseIndex] = LEVEL_HELP_AG;
 		}
@@ -216,6 +191,35 @@ function placeTilesOnButtonPress() {
 		}
 		if (keyHeld_0) {
 			helpGrid[mouseIndex] = LEVEL_HELP_N;
+		}
+
+		if (keyHeld_Period) {
+			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_DOWN;
+		}
+		if (keyHeld_K) {
+			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_LEFT;
+		}
+		if (keyHeld_Semicolon) {
+			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_RIGHT;
+		}
+		if (keyHeld_O) {
+			helpGrid[mouseIndex] = LEVEL_HELP_ARROW_UP;
+		}
+		if (keyHeld_I) {
+			helpGrid[mouseIndex] = LEVEL_HELP_HORIZONTAL_LINE;
+		}
+		if (keyHeld_P) {
+			helpGrid[mouseIndex] = LEVEL_HELP_VERTICAL_LINE;
+		}
+
+		if (keyHeld_ArrowUp) {
+			helpGrid[mouseIndex] = LEVEL_HELP_UP_ARROWKEY;
+		}
+		if (keyHeld_ArrowLeft) {
+			helpGrid[mouseIndex] = LEVEL_HELP_LEFT_ARROWKEY;
+		}
+		if (keyHeld_ArrowRight) {
+			helpGrid[mouseIndex] = LEVEL_HELP_RIGHT_ARROWKEY;
 		}
 
 		if (keyHeld_W) {

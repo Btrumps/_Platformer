@@ -1,5 +1,11 @@
 const KEY_HELD_TIME_MAX = 15;
 
+var keyHeld_Timer = KEY_HELD_TIME_MAX;
+var keyHeld_DashTimer = KEY_HELD_TIME_MAX;
+
+var mouseX;
+var mouseY;
+
 var keyHeld_Left = false; 
 var keyHeld_Right = false;
 var keyHeld_DashLeft = false; 
@@ -9,17 +15,6 @@ var keyHeld_Jump = false;
 var keyHeld_Jump_Prev = false;
 var keyHeld_Run = false;
 
-var keyHeld_A = false;
-var keyHeld_S = false;
-var keyHeld_D = false;
-var keyHeld_Q = false;
-var keyHeld_W = false;
-var keyHeld_E = false;
-var keyHeld_R = false;
-var keyHeld_T = false;
-var keyHeld_Y = false;
-var keyHeld_Z = false;
-var keyHeld_G = false;
 var keyHeld_1 = false;
 var keyHeld_2 = false;
 var keyHeld_3 = false;
@@ -30,13 +25,53 @@ var keyHeld_7 = false;
 var keyHeld_8 = false;
 var keyHeld_9 = false;
 var keyHeld_0 = false;
+var keyHeld_Minus = false;
+var keyHeld_Equal = false;
+
+var keyHeld_Q = false;
+var keyHeld_W = false;
+var keyHeld_E = false;
+var keyHeld_R = false;
+var keyHeld_T = false;
+var keyHeld_Y = false;
+var keyHeld_U = false;
+var keyHeld_I = false;
+var keyHeld_O = false;
+var keyHeld_P = false;
 var keyHeld_BracketLeft = false;
 var keyHeld_BracketRight = false;
+
+var keyHeld_A = false;
+var keyHeld_S = false;
+var keyHeld_D = false;
+var keyHeld_F = false;
+var keyHeld_G = false;
+var keyHeld_H = false;
+var keyHeld_J = false;
+var keyHeld_K = false;
+var keyHeld_L = false;
+var keyHeld_Semicolon = false;
+var keyHeld_Quote = false;
+
+var keyHeld_Z = false;
+var keyHeld_X = false;
+var keyHeld_C = false;
+var keyHeld_V = false;
+var keyHeld_B = false;
+var keyHeld_N = false;
+var keyHeld_M = false;
+var keyHeld_Comma = false;
+var keyHeld_Period = false;
+var keyHeld_Slash = false;
+
 var keyHeld_ArrowUp = false;
 var keyHeld_ArrowDown = false;
+var keyHeld_ArrowLeft = false;
+var keyHeld_ArrowRight = false;
 var keyHeld_Enter = false;
 var keyHeld_Space = false;
 var keyHeld_Delete = false;
+
 var keyHeld_Num1 = false;
 var keyHeld_Num2 = false;
 var keyHeld_Num3 = false;
@@ -52,17 +87,6 @@ var keyHeld_Multiply = false;
 var keyHeld_Subtract = false;
 var keyHeld_Add = false;
 var keyHeld_Decimal = false;
-
-var keyHeld_C = false;
-var keyHeld_V = false;
-var keyHeld_Minus = false;
-var keyHeld_Equal = false;
-
-var keyHeld_Timer = KEY_HELD_TIME_MAX;
-var keyHeld_DashTimer = KEY_HELD_TIME_MAX;
-
-var mouseX;
-var mouseY;
 
 function keyDownHandler(evt) {
 	setValuesForKey(evt, true);
@@ -85,95 +109,108 @@ function setValuesForKey(evt, value) {
 
 	switch (evt.code) {
 
-		case "Enter" :
-			keyHeld_Enter = value;
+		case "Digit1":
+			keyHeld_1 = value;
 			break;
-		case "Space" :
-			// keyHeld_Jump = value; // I honestly feel that the game feel sucks if the player uses space, therefore i'm not even allowing it
-			keyHeld_Space = value;
+		case "Digit2":
+			keyHeld_2 = value;
 			break;
-		case "KeyA" :
-			if (mapEditorEnabled == false) {
-				keyHeld_Left = value;
-			}
-			keyHeld_A = value;
+		case "Digit3":
+			keyHeld_3 = value;
 			break;
-		case "ArrowUp" :
-			if (currentLevel > 2) {
-				keyHeld_DashUp = value;
-			}
-			keyHeld_ArrowUp = value;
+		case "Digit4":
+			keyHeld_4 = value;
 			break;
-		case "ArrowLeft" :
-			if (currentLevel > 2) {
-				keyHeld_DashLeft = value;
-			}
+		case "Digit5":
+			keyHeld_5 = value;
 			break;
-		case "ArrowRight" :
-			if (currentLevel > 2) {
-				keyHeld_DashRight = value;
-			}
+		case "Digit6":
+			keyHeld_6 = value;
 			break;
-		case "KeyD" :
-			if (mapEditorEnabled == false) {
-				keyHeld_Right = value;
-			}
-			keyHeld_D = value;
+		case "Digit7":
+			keyHeld_7 = value;
+			break;
+		case "Digit8":
+			keyHeld_8 = value;
+			break;
+		case "Digit9":
+			keyHeld_9 = value;
+			break;
+		case "Digit0":
+			keyHeld_0 = value;
+			break;
+		case "Minus":
+			keyHeld_Minus = value;
+			break;
+		case "Equal":
+			keyHeld_Equal = value;
 			break;
 
-		case "ArrowDown" :
-			keyHeld_ArrowDown = value;
+		case "KeyQ":
+			keyHeld_Q = value;
 			break;
-		case "KeyW" :
+		case "KeyW":
 			if (mapEditorEnabled == false) {
 				keyHeld_Jump = value;
 			}
 			keyHeld_W = value;
 			break;
-
-		case "KeyZ" :
-			keyHeld_Z = value;
+		case "KeyE":
+			keyHeld_E = value;
 			break;
-
-		case "KeyR" :
+		case "KeyR":
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
 				loadLevel(currentLevel);
 			}
 			break;
-
-
-		// Map editor stuff
-		case "KeyB" :
+		case "KeyT":
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
-				mapEditorEnabled = !mapEditorEnabled;
-
-				if (mapEditorEnabled) {
-					console.log('Map Editor Enabled');
-				} else {
-					console.log('Map Editor Disabled');
-				}
-
+				saveLevelInSession(currentLevel);
 			}
 			break;
-
-		case "KeyN" :
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-				keyHeld_Timer = 0;
-				helpBGEnabled = !helpBGEnabled;
-
-				if (helpBGEnabled) {
-					console.log('BG Enabled');
-				} else {
-					console.log('BG Disabled');
-				}
-
-			}
+		case "KeyY":
+			keyHeld_Y = value;
+			break;
+		case "KeyU":
+			keyHeld_U = value;
+			break;
+		case "KeyI":
+			keyHeld_I = value;
+			break;
+		case "KeyO":
+			keyHeld_O = value;
+			break;
+		case "KeyP":
+			keyHeld_P = value;
+			break;
+		case "BracketLeft":
+			keyHeld_BracketLeft = value;
+			break;
+		case "BracketRight":
+			keyHeld_BracketRight = value;
 			break;
 
-
-		case "KeyG" :
+		case "KeyA":
+			if (mapEditorEnabled == false) {
+				keyHeld_Left = value;
+			}
+			keyHeld_A = value;
+			break;
+		case "KeyS":
+			keyHeld_S = value;
+			break;
+		case "KeyD":
+			if (mapEditorEnabled == false) {
+				keyHeld_Right = value;
+			}
+			keyHeld_D = value;
+			break;
+		case "KeyF":
+			keyHeld_F = value;
+			break;
+		case "KeyG":
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
 				gridEnabled = !gridEnabled;
@@ -186,135 +223,164 @@ function setValuesForKey(evt, value) {
 
 			}
 			break;
+		case "KeyH":
+			keyHeld_H = value;
+			break;
+		case "KeyJ":
+			keyHeld_J = value;
+			break;
+		case "KeyK":
+			keyHeld_K = value;
+			break;
+		case "KeyL":
+			keyHeld_L = value;
+			break;
+		case "Semicolon":
+			keyHeld_Semicolon = value;
+			break;
+		case "Quote":
+			keyHeld_Quote = value;
+			break;
 
-		case "KeyV" :
+
+		case "KeyZ":
+			keyHeld_Z = value;
+			break;
+		case "KeyX":
+			keyHeld_X = value;
+			break;
+		case "KeyC":
+			keyHeld_C = value;
+			break;
+		case "KeyV":
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
 				outputLevelToConsole();
 			}
 			break;
-
-		case "KeyQ" :
-			keyHeld_Q = value;
-			break;
-		case "KeyE" :
-			keyHeld_E = value;
-			break;
-		case "KeyR" :
-			keyHeld_R = value;
-			break;
-		case "KeyS" :
-			keyHeld_S = value;
-			break;
-		case "KeyT" :
+		case "KeyB":
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
-				saveLevelInSession(currentLevel);
+				mapEditorEnabled = !mapEditorEnabled;
+
+				if (mapEditorEnabled) {
+					console.log('Map Editor Enabled');
+				} else {
+					console.log('Map Editor Disabled');
+				}
+
 			}
 			break;
-		case "KeyY" :
-			keyHeld_Y = value;
+		case "KeyN":
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				helpBGEnabled = !helpBGEnabled;
+
+				if (helpBGEnabled) {
+					console.log('BG Enabled');
+				} else {
+					console.log('BG Disabled');
+				}
+
+			}
 			break;
-		case "Digit1" :
-			keyHeld_1 = value;
+		case "KeyM":
+			keyHeld_M = value;
 			break;
-		case "Digit2" :
-			keyHeld_2 = value;
+		case "Comma":
+			keyHeld_Comma = value;
 			break;
-		case "Digit3" :
-			keyHeld_3 = value;
+		case "Period":
+			keyHeld_Period = value;
 			break;
-		case "Digit4" :
-			keyHeld_4 = value;
-			break;
-		case "Digit5" :
-			keyHeld_5 = value;
-			break;
-		case "Digit6" :
-			keyHeld_6 = value;
-			break;
-		case "Digit7" :
-			keyHeld_7 = value;
-			break;
-		case "Digit8" :
-			keyHeld_8 = value;
-			break;
-		case "Digit9" :
-			keyHeld_9 = value;
-			break;
-		case "Digit0" :
-			keyHeld_0 = value;
+		case "Slash":
+			keyHeld_Slash = value;
 			break;
 
-		case "Numpad1" :
-			keyHeld_Num1 = value;
+
+		case "ArrowUp":
+			if (currentLevel > 2) {
+				keyHeld_DashUp = value;
+			}
+			keyHeld_ArrowUp = value;
 			break;
-		case "Numpad2" :
-			keyHeld_Num2 = value;
+		case "ArrowDown":
+			keyHeld_ArrowDown = value;
 			break;
-		case "Numpad3" :
-			keyHeld_Num3 = value;
+		case "ArrowLeft":
+			if (currentLevel > 2) {
+				keyHeld_DashLeft = value;
+			}
+			keyHeld_ArrowLeft = value;
 			break;
-		case "Numpad4" :
-			keyHeld_Num4 = value;
+		case "ArrowRight":
+			if (currentLevel > 2) {
+				keyHeld_DashRight = value;
+			}
+			keyHeld_ArrowRight = value;
 			break;
-		case "Numpad5" :
-			keyHeld_Num5 = value;
+		case "Enter":
+			keyHeld_Enter = value;
 			break;
-		case "Numpad6" :
-			keyHeld_Num6 = value;
+		case "Space":
+			// keyHeld_Jump = value; // I honestly feel that the game feel sucks if the player uses space, therefore i'm not even allowing it
+			keyHeld_Space = value;
 			break;
-		case "Numpad7" :
-			keyHeld_Num7 = value;
-			break;
-		case "Numpad8" :
-			keyHeld_Num8 = value;
-			break;
-		case "Numpad9" :
-			keyHeld_Num9 = value;
-			break;
-		case "Numpad0" :
-			keyHeld_Num0 = value;
-			break;
-		case "NumpadDivide" :
-			keyHeld_Divide = value;
-			break;
-		case "NumpadMultiply" :
-			keyHeld_Multiply = value;
-			break;
-		case "NumpadSubtract" :
-			keyHeld_Subtract = value;
-			break;
-		case "NumpadAdd" :
-			keyHeld_Add = value;
-			break;
-		case "NumpadDecimal" :
-			keyHeld_Decimal = value;
-			break;
-		case "Delete" :
+		case "Delete":
 			keyHeld_Delete = value;
 			break;
-		case "KeyC" :
-			keyHeld_C = value;
+
+		case "Numpad1":
+			keyHeld_Num1 = value;
 			break;
-		case "Minus" :
-			keyHeld_Minus = value;
+		case "Numpad2":
+			keyHeld_Num2 = value;
 			break;
-		case "Equal" :
-			keyHeld_Equal = value;
+		case "Numpad3":
+			keyHeld_Num3 = value;
 			break;
-		case "BracketLeft" :
-			keyHeld_BracketLeft = value;
+		case "Numpad4":
+			keyHeld_Num4 = value;
 			break;
-		case "BracketRight" :
-			keyHeld_BracketRight = value;
+		case "Numpad5":
+			keyHeld_Num5 = value;
+			break;
+		case "Numpad6":
+			keyHeld_Num6 = value;
+			break;
+		case "Numpad7":
+			keyHeld_Num7 = value;
+			break;
+		case "Numpad8":
+			keyHeld_Num8 = value;
+			break;
+		case "Numpad9":
+			keyHeld_Num9 = value;
+			break;
+		case "Numpad0":
+			keyHeld_Num0 = value;
+			break;
+		case "NumpadDivide":
+			keyHeld_Divide = value;
+			break;
+		case "NumpadMultiply":
+			keyHeld_Multiply = value;
+			break;
+		case "NumpadSubtract":
+			keyHeld_Subtract = value;
+			break;
+		case "NumpadAdd":
+			keyHeld_Add = value;
+			break;
+		case "NumpadDecimal":
+			keyHeld_Decimal = value;
 			break;
 
 		default : 
 			keyUsedByGame = false;
 			break;
 	}
-	
+
 	if (keyUsedByGame) {
 		evt.preventDefault();
 	}
