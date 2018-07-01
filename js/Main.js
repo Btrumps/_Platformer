@@ -80,7 +80,7 @@ function moveAll() {
 		if (musicEnabled) {
 			playBGM(currentLevel);
 		}
-		if (mapEditorEnabled) {
+		if (levelEditorEnabled) {
 			placeTilesOnButtonPress();
 		}
 		
@@ -88,20 +88,20 @@ function moveAll() {
 }
 
 function drawAll() {
+
+	colorRect(0,0, canvas.width,canvas.height, 'black');
+
 	if (mainMenuOpen) {
 		drawMainMenu();
 	} else if (scoreScreenOpen) {
-		colorRect(0,0, canvas.width,canvas.height, 'black');
+		// do nothing, we display text after initial canvas is drawn
 	} else if (levelLayoutScreenOpen) {
 		drawLevelLayoutScreen();
 	} else {
 		playerBlueImageSwap();
 		updateAnimations();
-
-		colorRect(0,0, canvas.width,canvas.height, 'black');
 		
 		drawHelpBG();
-
 		drawLevel();
 		player.draw();
 
@@ -114,7 +114,7 @@ function drawAll() {
 		drawAllTriggers();
 		drawAllProjectiles();
 
-		if (mapEditorEnabled) {
+		if (levelEditorEnabled) {
 			showMapEditorGrid();
 		}
 

@@ -221,14 +221,14 @@ function loadLevel(whichLevel) {
 }
 
 function checkLevelSkipInput() {
-	if (keyHeld_Minus && keyHeld_Timer >= KEY_HELD_TIME_MAX && mapEditorEnabled == false) {
+	if (keyHeld_Minus && keyHeld_Timer >= KEY_HELD_TIME_MAX && levelEditorEnabled == false) {
 		currentLevel--;
 		keyHeld_Timer = 0;
 		// if we don't turn this false before loading level, the collectible won't spawn
 		player.collectibleObtained = false; 
 		loadLevel(currentLevel);
 	}
-	if (keyHeld_Equal && keyHeld_Timer >= KEY_HELD_TIME_MAX && mapEditorEnabled == false) {
+	if (keyHeld_Equal && keyHeld_Timer >= KEY_HELD_TIME_MAX && levelEditorEnabled == false) {
 		currentLevel++;
 		keyHeld_Timer = 0;
 		// if we don't turn this false before loading level, the collectible won't spawn
@@ -427,13 +427,13 @@ function drawLevel() {
 					break;
 
 				case LEVEL_START :
-					if (mapEditorEnabled) {
+					if (levelEditorEnabled) {
 						colorRect(tileX, tileY, TILE_WIDTH,TILE_HEIGHT, 'yellow', 0.5);
 					}
 					break;
 
 				case LEVEL_END :
-					if (mapEditorEnabled) {
+					if (levelEditorEnabled) {
 						colorRect(tileX, tileY, TILE_WIDTH,TILE_HEIGHT, '#42f46b');
 					}
 					break;

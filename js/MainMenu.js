@@ -120,7 +120,6 @@ function mainMenuUpdate() {
 }
 
 function drawMainMenu() {
-	colorRect(0,0, canvas.width,canvas.height, 'black');
 	canvasContext.drawImage(mainMenuImg, -10,25);
 
 	if (areYouSureOpen) {

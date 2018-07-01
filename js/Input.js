@@ -150,7 +150,7 @@ function setValuesForKey(evt, value) {
 			keyHeld_Q = value;
 			break;
 		case "KeyW":
-			if (mapEditorEnabled == false) {
+			if (levelEditorEnabled == false) {
 				keyHeld_Jump = value;
 			}
 			keyHeld_W = value;
@@ -193,7 +193,7 @@ function setValuesForKey(evt, value) {
 			break;
 
 		case "KeyA":
-			if (mapEditorEnabled == false) {
+			if (levelEditorEnabled == false) {
 				keyHeld_Left = value;
 			}
 			keyHeld_A = value;
@@ -202,7 +202,7 @@ function setValuesForKey(evt, value) {
 			keyHeld_S = value;
 			break;
 		case "KeyD":
-			if (mapEditorEnabled == false) {
+			if (levelEditorEnabled == false) {
 				keyHeld_Right = value;
 			}
 			keyHeld_D = value;
@@ -215,7 +215,7 @@ function setValuesForKey(evt, value) {
 				keyHeld_Timer = 0;
 				gridEnabled = !gridEnabled;
 
-				if (mapEditorEnabled) {
+				if (levelEditorEnabled) {
 					console.log('Grid Enabled');
 				} else {
 					console.log('Grid Disabled');
@@ -261,9 +261,9 @@ function setValuesForKey(evt, value) {
 		case "KeyB":
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
-				mapEditorEnabled = !mapEditorEnabled;
+				levelEditorEnabled = !levelEditorEnabled;
 
-				if (mapEditorEnabled) {
+				if (levelEditorEnabled) {
 					console.log('Map Editor Enabled');
 				} else {
 					console.log('Map Editor Disabled');

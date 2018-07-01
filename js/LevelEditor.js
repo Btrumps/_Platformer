@@ -1,4 +1,4 @@
-var mapEditorEnabled = false;
+var levelEditorEnabled = false;
 var helpBGEnabled = false;
 var gridEnabled = false;
 var levelPreview = false;
