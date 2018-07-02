@@ -38,6 +38,8 @@ window.onload = function() {
 
 	document.addEventListener('keydown', keyDownHandler);
 	document.addEventListener('keyup', keyUpHandler);
+	scaledCanvas.addEventListener('mousedown', mousedownHandler);
+	scaledCanvas.addEventListener('mouseup', mouseupHandler);
 	scaledCanvas.addEventListener('mousemove', mouseMoveHandler);
 
 	
