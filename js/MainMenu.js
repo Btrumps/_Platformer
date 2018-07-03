@@ -236,3 +236,41 @@ function continueSavedGame() {
 	levelTransitionStarted = true;
 	mainMenuOpen = false;
 }
+
+function mainMenuMouseoverHandling() {
+	if (mouseX > MAIN_MENU_CONTINUE_START_X / PIXEL_SCALE_UP&&
+		mouseX < MAIN_MENU_CONTINUE_END_X / PIXEL_SCALE_UP &&
+		mouseY > MAIN_MENU_CONTINUE_START_Y / PIXEL_SCALE_UP &&
+		mouseY < MAIN_MENU_CONTINUE_END_Y / PIXEL_SCALE_UP && 
+		areYouSureOpen == false &&
+		noSavedGame == false) {
+		selectedOption = MAIN_MENU_CONTINUE;
+	}
+
+	if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
+		mouseX < MAIN_MENU_NEW_GAME_END_X / PIXEL_SCALE_UP &&
+		mouseY > MAIN_MENU_NEW_GAME_START_Y / PIXEL_SCALE_UP &&
+		mouseY < MAIN_MENU_NEW_GAME_END_Y / PIXEL_SCALE_UP &&
+		areYouSureOpen == false) {
+
+		selectedOption = MAIN_MENU_NEW_GAME;
+	}
+
+	if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
+		mouseX < MAIN_MENU_NO_END_X / PIXEL_SCALE_UP &&
+		mouseY > MAIN_MENU_NO_START_Y / PIXEL_SCALE_UP &&
+		mouseY < MAIN_MENU_NO_END_Y / PIXEL_SCALE_UP && 
+		areYouSureOpen) {
+
+		selectedOption = MAIN_MENU_NO;
+	}
+
+	if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
+		mouseX < MAIN_MENU_YES_END_X / PIXEL_SCALE_UP &&
+		mouseY > MAIN_MENU_YES_START_Y / PIXEL_SCALE_UP &&
+		mouseY < MAIN_MENU_YES_END_Y / PIXEL_SCALE_UP &&
+		areYouSureOpen) {
+		
+		selectedOption = MAIN_MENU_YES;
+	}
+}

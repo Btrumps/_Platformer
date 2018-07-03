@@ -127,7 +127,7 @@ function mouseupHandler(evt) {
 			mouseY > MAIN_MENU_YES_START_Y / PIXEL_SCALE_UP &&
 			mouseY < MAIN_MENU_YES_END_Y / PIXEL_SCALE_UP &&
 			areYouSureOpen) {
-			
+
 			startNewGame();
 		}
 
@@ -443,47 +443,5 @@ function mouseMoveHandler(evt) {
 
 	mouseX = (evt.clientX - rect.left) / PIXEL_SCALE_UP;
 	mouseY = (evt.clientY - rect.top) / PIXEL_SCALE_UP;
-
-	if  (mainMenuOpen) {
-		if (mouseX > MAIN_MENU_CONTINUE_START_X / PIXEL_SCALE_UP&&
-			mouseX < MAIN_MENU_CONTINUE_END_X / PIXEL_SCALE_UP &&
-			mouseY > MAIN_MENU_CONTINUE_START_Y / PIXEL_SCALE_UP &&
-			mouseY < MAIN_MENU_CONTINUE_END_Y / PIXEL_SCALE_UP && 
-			areYouSureOpen == false &&
-			noSavedGame == false) {
-			selectedOption = MAIN_MENU_CONTINUE;
-			console.log('continue');
-		}
-
-		if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
-			mouseX < MAIN_MENU_NEW_GAME_END_X / PIXEL_SCALE_UP &&
-			mouseY > MAIN_MENU_NEW_GAME_START_Y / PIXEL_SCALE_UP &&
-			mouseY < MAIN_MENU_NEW_GAME_END_Y / PIXEL_SCALE_UP &&
-			areYouSureOpen == false) {
-			selectedOption = MAIN_MENU_NEW_GAME;
-			
-			console.log('main menu');
-		}
-
-		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
-			mouseX < MAIN_MENU_NO_END_X / PIXEL_SCALE_UP &&
-			mouseY > MAIN_MENU_NO_START_Y / PIXEL_SCALE_UP &&
-			mouseY < MAIN_MENU_NO_END_Y / PIXEL_SCALE_UP && 
-			areYouSureOpen) {
-			selectedOption = MAIN_MENU_NO;
-			console.log('no');
-		}
-
-		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
-			mouseX < MAIN_MENU_YES_END_X / PIXEL_SCALE_UP &&
-			mouseY > MAIN_MENU_YES_START_Y / PIXEL_SCALE_UP &&
-			mouseY < MAIN_MENU_YES_END_Y / PIXEL_SCALE_UP &&
-			areYouSureOpen) {
-			selectedOption = MAIN_MENU_YES;
-			console.log('yes');
-		}
-	}
-
-	
 
 }

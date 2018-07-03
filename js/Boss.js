@@ -2,6 +2,7 @@ const BOSS_WIDTH = 48;
 const BOSS_HEIGHT = 48;
 const BOSS_MAX_HEALTH = 3;
 
+const BOSS_FIGHT_1_RIGHT_WALL_X = 460;
 const BOSS_FIGHT_1_FLOOR_Y = 368;
 
 const BOSS_CHASE_SPEED = 4;
@@ -46,8 +47,8 @@ const BOSS_STATE_ENRAGED = 10; // after two hits, boss will get enraged and cycl
 const BOSS_FIGHT_1_LEVEL = 15;
 
 function bossClass() {
-	this.x = canvas.width / 2;
-	this.y = canvas.height / 2;
+	this.x = BOSS_FIGHT_1_RIGHT_WALL_X;
+	this.y = BOSS_FIGHT_1_FLOOR_Y - BOSS_HEIGHT / 2;
 
 	this.topEdge = this.y  - BOSS_HEIGHT / 2;
 	this.bottomEdge = this.y + BOSS_HEIGHT / 2;
@@ -109,7 +110,7 @@ function bossClass() {
 				if (this.introTimer < BOSS_INTRO_MAX_TIME) {
 					this.introTimer++;
 				} else {
-					this.currentState = BOSS_STATE_PICKING_MOVE;
+					this.currentState = BOSS_STATE_RETURN_TO_CHASE;
 					this.introTimer = 0;
 				}
 				break;

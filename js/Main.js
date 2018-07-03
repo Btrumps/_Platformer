@@ -62,6 +62,7 @@ function updateAll() {
 
 function moveAll() {
 	if (mainMenuOpen) {
+		mainMenuMouseoverHandling();
 		mainMenuUpdate();
 	} else if (scoreScreenOpen) {
 		// do nothing, stops deathCount from going up in the background
