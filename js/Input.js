@@ -107,33 +107,19 @@ function keyUpHandler(evt) {
 }
 
 function mousedownHandler(evt) {
-	if (evt.which == LEFT_CLICK && mainMenuOpen) {
-		if (mouseX > MAIN_MENU_CONTINUE_START_X / PIXEL_SCALE_UP&&
-			mouseX < MAIN_MENU_CONTINUE_END_X / PIXEL_SCALE_UP &&
-			mouseY > MAIN_MENU_CONTINUE_START_Y / PIXEL_SCALE_UP &&
-			mouseY < MAIN_MENU_CONTINUE_END_Y / PIXEL_SCALE_UP && 
-			areYouSureOpen == false &&
-			noSavedGame == false) {
-			
-			console.log('continue');
-		}
+	
 
-		if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
-			mouseX < MAIN_MENU_NEW_GAME_END_X / PIXEL_SCALE_UP &&
-			mouseY > MAIN_MENU_NEW_GAME_START_Y / PIXEL_SCALE_UP &&
-			mouseY < MAIN_MENU_NEW_GAME_END_Y / PIXEL_SCALE_UP &&
-			areYouSureOpen == false) {
-			
-			console.log('main menu');
-		}
+}
 
-		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
+function mouseupHandler(evt) {
+
+	if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
 			mouseX < MAIN_MENU_NO_END_X / PIXEL_SCALE_UP &&
 			mouseY > MAIN_MENU_NO_START_Y / PIXEL_SCALE_UP &&
 			mouseY < MAIN_MENU_NO_END_Y / PIXEL_SCALE_UP && 
 			areYouSureOpen) {
-		
-			console.log('no');
+			
+			areYouSureOpen = false;
 		}
 
 		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
@@ -142,15 +128,31 @@ function mousedownHandler(evt) {
 			mouseY < MAIN_MENU_YES_END_Y / PIXEL_SCALE_UP &&
 			areYouSureOpen) {
 			
-			console.log('yes');
+			startNewGame();
 		}
+
+	if (evt.which == LEFT_CLICK && mainMenuOpen) {
+		if (mouseX > MAIN_MENU_CONTINUE_START_X / PIXEL_SCALE_UP&&
+			mouseX < MAIN_MENU_CONTINUE_END_X / PIXEL_SCALE_UP &&
+			mouseY > MAIN_MENU_CONTINUE_START_Y / PIXEL_SCALE_UP &&
+			mouseY < MAIN_MENU_CONTINUE_END_Y / PIXEL_SCALE_UP && 
+			areYouSureOpen == false &&
+			noSavedGame == false) {
+
+			continueSavedGame();
+		}
+
+		if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
+			mouseX < MAIN_MENU_NEW_GAME_END_X / PIXEL_SCALE_UP &&
+			mouseY > MAIN_MENU_NEW_GAME_START_Y / PIXEL_SCALE_UP &&
+			mouseY < MAIN_MENU_NEW_GAME_END_Y / PIXEL_SCALE_UP &&
+			areYouSureOpen == false) {
+
+			selectedOption = MAIN_MENU_NO;
+			areYouSureOpen = true;
+		}
+		
 	}
-
-}
-
-function mouseupHandler(evt) {
-
-
 
 }
 

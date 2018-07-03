@@ -89,19 +89,7 @@ function mainMenuUpdate() {
 
 		if (areYouSureOpen) {
 			if (selectedOption == MAIN_MENU_YES) {
-				currentLevel = 1;
-				totalGameTime = 0;
-				totalDeaths = 0;
-				totalCollectibles = 0;
-				saveLevel(); // overwrites old save file
-				saveGameTime();
-				saveDeathCount();
-				saveCollectibleCount();
-				saveCollectibleObtainedForLevel("false");
-				loadLevel(currentLevel);
-				levelTransitionStarted = true;
-				setInterval(gameTimer, 1000);
-				mainMenuOpen = false;
+				startNewGame();
 			} else if (selectedOption == MAIN_MENU_NO) {
 				areYouSureOpen = false;
 				optionSelectedThisFrame = true;
@@ -118,23 +106,7 @@ function mainMenuUpdate() {
 		    optionSelectedThisFrame == false &&
 		    noSavedGame == false) {
 			
-			var savedLevel = parseInt( getSavedLevel() );
-			currentLevel = savedLevel;
-			totalGameTime = parseInt( getGameTime() );
-			totalDeaths = parseInt( getDeathCount() );
-			totalCollectibles = parseInt( getCollectibleCount() );
-
-			// needs to be entered this way or it will be input as a string
-			if (getCollectibleObtainedForLevel() == "false") {
-				player.collectibleObtained = false;
-			} else {
-				player.collectibleObtained = true;
-			}
-
-			setInterval(gameTimer, 1000);
-			loadLevel(savedLevel);
-			levelTransitionStarted = true;
-			mainMenuOpen = false;
+			continueSavedGame();
 		}
 	}
 }
@@ -227,4 +199,40 @@ function drawMainMenuText() {
 		          unselectedOptionColor,
 		          FONT_MAIN_MENU);
 	}
+}
+
+function startNewGame() {
+	currentLevel = 1;
+	totalGameTime = 0;
+	totalDeaths = 0;
+	totalCollectibles = 0;
+	saveLevel(); // overwrites old save file
+	saveGameTime();
+	saveDeathCount();
+	saveCollectibleCount();
+	saveCollectibleObtainedForLevel("false");
+	loadLevel(currentLevel);
+	levelTransitionStarted = true;
+	setInterval(gameTimer, 1000);
+	mainMenuOpen = false;
+}
+
+function continueSavedGame() {
+	var savedLevel = parseInt( getSavedLevel() );
+	currentLevel = savedLevel;
+	totalGameTime = parseInt( getGameTime() );
+	totalDeaths = parseInt( getDeathCount() );
+	totalCollectibles = parseInt( getCollectibleCount() );
+
+	// needs to be entered this way or it will be input as a string
+	if (getCollectibleObtainedForLevel() == "false") {
+		player.collectibleObtained = false;
+	} else {
+		player.collectibleObtained = true;
+	}
+
+	setInterval(gameTimer, 1000);
+	loadLevel(savedLevel);
+	levelTransitionStarted = true;
+	mainMenuOpen = false;
 }
