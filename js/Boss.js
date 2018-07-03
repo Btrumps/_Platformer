@@ -2,7 +2,8 @@ const BOSS_WIDTH = 48;
 const BOSS_HEIGHT = 48;
 const BOSS_MAX_HEALTH = 3;
 
-const BOSS_FIGHT_1_RIGHT_WALL_X = 460;
+const BOSS_FIGHT_1_LEFT_WALL_X = 33;
+const BOSS_FIGHT_1_RIGHT_WALL_X = 479;
 const BOSS_FIGHT_1_FLOOR_Y = 368;
 
 const BOSS_CHASE_SPEED = 4;
@@ -47,7 +48,7 @@ const BOSS_STATE_ENRAGED = 10; // after two hits, boss will get enraged and cycl
 const BOSS_FIGHT_1_LEVEL = 15;
 
 function bossClass() {
-	this.x = BOSS_FIGHT_1_RIGHT_WALL_X;
+	this.x = BOSS_FIGHT_1_RIGHT_WALL_X - BOSS_HEIGHT / 2;
 	this.y = BOSS_FIGHT_1_FLOOR_Y - BOSS_HEIGHT / 2;
 
 	this.topEdge = this.y  - BOSS_HEIGHT / 2;
@@ -141,9 +142,9 @@ function bossClass() {
 			case BOSS_STATE_CHASE_PLAYER:
 				this.breathPercentage = 1.0;
 
-				if (this.x > player.x + BOSS_CHASE_DEADZONE) {
+				if (this.x > player.x + BOSS_CHASE_DEADZONE && this.x - BOSS_WIDTH / 2 > BOSS_FIGHT_1_LEFT_WALL_X) {
 					this.x -= this.chaseSpeed;
-				} else if (this.x < player.x - BOSS_CHASE_DEADZONE) {
+				} else if (this.x < player.x - BOSS_CHASE_DEADZONE && this.x + BOSS_WIDTH / 2 < BOSS_FIGHT_1_RIGHT_WALL_X) {
 					this.x += this.chaseSpeed;
 				} else {
 					if (player.y < boss.y) {
