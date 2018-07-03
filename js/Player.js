@@ -109,6 +109,11 @@ function playerClass() {
 					this.velX = 0;
 					this.velY = 0;
 					this.currentMoveState = PLAYER_STATE_IDLE;
+					this.triggerArray = [];
+					this.startCollectibleTimer = false;
+					this.playedCollectibleStartSound = false;
+					this.playedCollectibleObtainedSound = false;
+					this.collectibleIncrementTimer = 0;
 				}
 
 				// don't spawn collectible if the player has already obtained it
@@ -119,11 +124,7 @@ function playerClass() {
 			}
 		}
 
-		this.startCollectibleTimer = false;
-		this.playedCollectibleStartSound = false;
-		this.playedCollectibleObtainedSound = false;
-
-		this.collectibleIncrementTimer = 0;
+		
 
 	}
 
