@@ -384,6 +384,28 @@ function triggerClass(col, row, index, whichType) {
 	}
 
 	this.collectibleHandling = function () {
+		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.deathAnimationStarted == false && player.collectibleObtained == false) {
+			var deltaX = player.x - this.centeredX;
+			var deltaY = player.y - this.centeredY;
+			var distanceFromPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
+			// the farther the collectible is from the player, the faster it will travel
+			var speed = COLLECTIBLE_SPEED * distanceFromPlayer;
+
+			var moveX = speed * deltaX/distanceFromPlayer;
+			var moveY = speed * deltaY/distanceFromPlayer;
+
+			if (distanceFromPlayer > COLLECTIBLE_MAX_DIST_FROM_PLAYER) {
+
+				this.centeredX += moveX;
+				this.centeredY += moveY;
+
+				this.x = this.centeredX - TILE_WIDTH / 2;
+				this.y = this.centeredY - TILE_HEIGHT / 2;
+
+			}
+		}
+
 		if (this.type == LEVEL_COLLECTIBLE) {
 			player.recalculateCollisionEdges();
 			if (player.topEdge > this.y - COLLECTIBLE_TILE_OFFSET &&
@@ -435,28 +457,6 @@ function triggerClass(col, row, index, whichType) {
 				
 				player.triggerArray.push({index : this.index, type: this.type, x: this.x, y: this.y});
 				
-			}
-		}
-
-		if (this.type == LEVEL_COLLECTIBLE && player.startCollectibleTimer && player.deathAnimationStarted == false && player.collectibleObtained == false) {
-			var deltaX = player.x - this.centeredX;
-			var deltaY = player.y - this.centeredY;
-			var distanceFromPlayer = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
-
-			// the farther the collectible is from the player, the faster it will travel
-			var speed = COLLECTIBLE_SPEED * distanceFromPlayer;
-
-			var moveX = speed * deltaX/distanceFromPlayer;
-			var moveY = speed * deltaY/distanceFromPlayer;
-
-			if (distanceFromPlayer > COLLECTIBLE_MAX_DIST_FROM_PLAYER) {
-
-				this.centeredX += moveX;
-				this.centeredY += moveY;
-
-				this.x = this.centeredX - TILE_WIDTH / 2;
-				this.y = this.centeredY - TILE_HEIGHT / 2;
-
 			}
 		}
 	}
