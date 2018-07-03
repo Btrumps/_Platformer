@@ -5,6 +5,7 @@ const PLAYER_VEL_X_DECAY = 0.67;
 const PLAYER_JUMP_SPEED = 5;
 const VARIABLE_JUMP_WINDOW = 8;
 const MAX_DASH_FRAMES = 6;
+const MAX_POST_DASH_FRAMES = 30;
 const GROUNDED_DASH_COOLDOWN = 5;
 const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 4;
 
@@ -41,6 +42,7 @@ const PLAYER_STATE_RUNNING = 2;
 const PLAYER_STATE_JUMPING = 3;
 const PLAYER_STATE_DASHING = 4;
 const PLAYER_STATE_FALLING = 5;
+const PLAYER_STATE_POST_DASH = 6;
 
 function playerClass() {
 	// TODO: Remove hardcoded values
@@ -78,6 +80,10 @@ function playerClass() {
 	this.insideTrigger = false;
 
 	this.dashTrail = [];
+
+	this.postDashCounter = 0;
+	this.postDashVelX;
+	this.postDashVelY;
 
 	this.fadeOutStarted = false;
 	this.deathAnimationStarted = false;
@@ -201,6 +207,7 @@ function playerClass() {
 		this.velX *= PLAYER_VEL_X_DECAY;
 
 		this.dashHandling();
+		// this.postDashHandling();
 
 		if (this.velX <= 0 && this.currentMoveState != PLAYER_STATE_DASHING) {
 			this.direction = DIRECTION_LEFT;
@@ -268,6 +275,13 @@ function playerClass() {
 			this.updateCollectibleTimer();
 		}
 
+	}
+
+	this.playerDiedSoResetLevel = function() {
+		loadLevel(currentLevel);
+		this.reset();
+		totalDeaths++;
+		saveDeathCount();
 	}
 
 	this.dashHandling = function() {
@@ -353,17 +367,30 @@ function playerClass() {
 			} else {
 				// this NEEDS to be set to a diff state or we'll never leave dashing state
 				// this gets overwritten down at the end of move()
-				this.currentMoveState = undefined;
+				this.currentMoveState = PLAYER_STATE_FALLING;
 			}
 		}
 	}
 
-	
-	this.playerDiedSoResetLevel = function() {
-		loadLevel(currentLevel);
-		this.reset();
-		totalDeaths++;
-		saveDeathCount();
+	this.postDashHandling = function() {
+		if (this.currentMoveState == PLAYER_STATE_POST_DASH) {
+			if (this.postDashCounter == 0) {
+				this.postDashVelX = this.velX;
+				this.postDashVelY = this.velY;
+			}
+			if (this.postDashCounter < MAX_POST_DASH_FRAMES) {
+				this.velX = 0;
+				if (this.direction != DIRECTION_UP) {
+					this.velY = 0;
+				}
+				this.postDashCounter++;
+			} else {
+				this.postDashCounter = 0;
+				this.velX = this.postDashVelX;
+				this.velY = this.postDashVelY;
+				this.currentState = PLAYER_STATE_FALLING;
+			}
+		}
 	}
 
 	this.wallCollisionChecks = function() {
@@ -801,6 +828,10 @@ function playerClass() {
 						canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 						break;
 
+					case PLAYER_STATE_POST_DASH:
+						canvasContext.drawImage(playerDashLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
 					case PLAYER_STATE_FALLING:
 						canvasContext.drawImage(this.fallingLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 						break;
@@ -823,6 +854,10 @@ function playerClass() {
 						break;
 
 					case PLAYER_STATE_DASHING:
+						canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_POST_DASH:
 						canvasContext.drawImage(playerDashRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 						break;
 
