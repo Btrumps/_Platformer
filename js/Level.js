@@ -435,6 +435,7 @@ function drawLevel() {
 					break;
 
 				case LEVEL_SWITCH_1:
+					canvasContext.drawImage(switchOff, tileX, tileY);
 					for (var i = 0; i < allTriggersArray.length; i++) {
 						if (allTriggersArray[i].type == LEVEL_SWITCH_1) {
 							if (allTriggersArray[i].switchedOn) {
@@ -442,7 +443,7 @@ function drawLevel() {
 							} else {
 								canvasContext.drawImage(switchOff, tileX, tileY);
 							}
-						} 
+						}
 					}
 					
 					break;
