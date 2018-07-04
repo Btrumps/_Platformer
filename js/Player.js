@@ -7,7 +7,7 @@ const VARIABLE_JUMP_WINDOW = 8;
 const MAX_DASH_FRAMES = 6;
 const MAX_POST_DASH_FRAMES = 30;
 const GROUNDED_DASH_COOLDOWN = 5;
-const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 4;
+const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 0;
 
 const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
@@ -180,7 +180,7 @@ function playerClass() {
 			this.velX = -PLAYER_MAX_SPEED;
 		}
 
-		if (jumpJustPressed && this.framesSinceLeftGround < MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
+		if (jumpJustPressed && this.framesSinceLeftGround <= MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
 			this.velY = -PLAYER_JUMP_SPEED;
 
 		} else if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
