@@ -66,6 +66,7 @@ function moveAll() {
 		mainMenuUpdate();
 	} else if (scoreScreenOpen) {
 		// do nothing, stops deathCount from going up in the background
+		scoreScreenUpdate();
 	} else if (levelLayoutScreenOpen) {
 		checkLevelLayoutInput();
 	} else {

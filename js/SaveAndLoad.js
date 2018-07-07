@@ -37,3 +37,41 @@ function saveCollectibleCount() {
 function getCollectibleCount() {
 	return localStorage.getItem("collectibleCount");
 }
+
+function saveAnyPercentScore(timeValue, deathCountValue) {
+	localStorage.setItem("anyPercTime", timeValue);
+	localStorage.setItem("anyPercDeathCount", deathCountValue);
+}
+
+function saveHundredPercentScore(timeValue, deathCountValue) {
+	localStorage.setItem("hundredPercTime", timeValue);
+	localStorage.setItem("hundredPercDeathCount", deathCountValue);
+}
+
+function getAnyPercentTime() {
+	return localStorage.getItem("anyPercTime");
+}
+
+function getAnyPercentDeathCount() {
+	return localStorage.getItem("anyPercDeathCount");
+}
+
+function getHundredPercentTime() {
+	return localStorage.getItem("hundredPercTime");
+}
+
+function getHundredPercentDeathCount() {
+	return localStorage.getItem("hundredPercDeathCount");
+}
+
+function getHundredPercentDeathCount() {
+	return localStorage.getItem("hundredPercCollectibleCount");
+}
+
+function deleteAllSavedInfo() {
+	localStorage.removeItem("time");
+	localStorage.removeItem("level");
+	localStorage.removeItem("deathCount");
+	localStorage.removeItem("collectibleCount");
+	localStorage.removeItem("collectibleObtained");
+}
