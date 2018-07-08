@@ -104,7 +104,7 @@ function drawAll() {
 	} else if (levelLayoutScreenOpen) {
 		drawLevelLayoutScreen();
 	} else if (speedrunTimesOpen) {
-		// do nothing, displaying text after canvas is drawn
+		drawMainMenu(); // draws 'are you sure' box and header image
 	} else {
 		playerBlueImageSwap();
 		updateAnimations();

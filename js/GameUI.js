@@ -69,9 +69,9 @@ const SCORE_SCREEN_DIST_AWAY_FROM_SUB_TEXT = 350;
 const SPEEDRUN_RESET_TIMES = 1;
 const SPEEDRUN_BACK_TO_MAIN_MENU = 2;
 
-const SPEEDRUN_RESET_TIMES_X = 300;
+const SPEEDRUN_RESET_TIMES_X = 400;
 const SPEEDRUN_RESET_TIMES_Y = 700;
-const SPEEDRUN_BACK_TO_MAIN_MENU_X = 250;
+const SPEEDRUN_BACK_TO_MAIN_MENU_X = 390;
 const SPEEDRUN_BACK_TO_MAIN_MENU_Y = 800;
 
 var TOTAL_COLLECTIBLE_COUNT = 8; // change this number to the max amount of collectibles in the final game
@@ -169,7 +169,6 @@ function mainMenuUpdate() {
 
 		if (speedrunTimesOpen &&
 			selectedOption == SPEEDRUN_RESET_TIMES &&
-			keyHeld_Timer >= KEY_HELD_TIME_MAX &&
 			optionSelectedThisFrame == false) {
 
 			areYouSureOpen = true;
@@ -178,15 +177,15 @@ function mainMenuUpdate() {
 
 		if (speedrunTimesOpen &&
 			selectedOption == SPEEDRUN_BACK_TO_MAIN_MENU &&
-			keyHeld_Timer >= KEY_HELD_TIME_MAX &&
 			optionSelectedThisFrame == false) {
 
 			speedrunTimesOpen = false;
 			mainMenuOpen = true;
-			keyHeld_Timer = 0;
+			optionSelectedThisFrame = true;
 		}
 
-		if (selectedOption == MAIN_MENU_NEW_GAME) {
+		if (selectedOption == MAIN_MENU_NEW_GAME &&
+			optionSelectedThisFrame == false) {
 			selectedOption = 1;
 			areYouSureOpen = true;
 			optionSelectedThisFrame = true;
