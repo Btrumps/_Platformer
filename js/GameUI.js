@@ -5,6 +5,7 @@ const LEVELS_PER_WORLD = 15;
 
 const MAIN_MENU_CONTINUE = 1;
 const MAIN_MENU_NEW_GAME = 2;
+const MAIN_MENU_SPEEDRUN = 3;
 const MAIN_MENU_NO = 1;
 const MAIN_MENU_YES = 2;
 
@@ -17,6 +18,11 @@ const MAIN_MENU_NEW_GAME_START_X = 400;
 const MAIN_MENU_NEW_GAME_END_X = 650;
 const MAIN_MENU_NEW_GAME_START_Y = 465;
 const MAIN_MENU_NEW_GAME_END_Y = 520;
+
+const MAIN_MENU_SPEEDRUN_START_X = 400;
+const MAIN_MENU_SPEEDRUN_END_X = 650;
+const MAIN_MENU_SPEEDRUN_START_Y = 465;
+const MAIN_MENU_SPEEDRUN_END_Y = 520;
 
 const MAIN_MENU_NO_START_X = 475;
 const MAIN_MENU_NO_END_X = 550;
@@ -32,6 +38,8 @@ const MAIN_MENU_CONTINUE_X = 420;
 const MAIN_MENU_CONTINUE_Y = 400;
 const MAIN_MENU_NEW_GAME_X = 425;
 const MAIN_MENU_NEW_GAME_Y = 500;
+const MAIN_MENU_SPEEDRUN_X = 300;
+const MAIN_MENU_SPEEDRUN_Y = 600;
 const MAIN_MENU_ARE_YOU_SURE_X = 375;
 const MAIN_MENU_ARE_YOU_SURE_Y = 325;
 const MAIN_MENU_NO_X = 485;
@@ -43,7 +51,7 @@ const MAIN_MENU_ARE_YOU_SURE_WIDTH = 200;
 const MAIN_MENU_ARE_YOU_SURE_HEIGHT = 150;
 const MAIN_MENU_ARE_YOU_SURE_BORDER = 10;
 
-const MAIN_MENU_MAX_OPTIONS = 2; // increase this number every time we add something to the menu
+const MAIN_MENU_MAX_OPTIONS = 3; // increase this number every time we add something to the menu
 
 const SCORE_SCREEN_TIME_X = 325;
 const SCORE_SCREEN_TIME_Y = 300;
@@ -56,8 +64,15 @@ const BACK_TO_MAIN_MENU = 1;
 
 const SCORE_SCREEN_BACK_TO_MAIN_MENU_X = 135;
 const SCORE_SCREEN_BACK_TO_MAIN_MENU_Y = 700;
-
 const SCORE_SCREEN_DIST_AWAY_FROM_SUB_TEXT = 350;
+
+const SPEEDRUN_RESET_TIMES = 1;
+const SPEEDRUN_BACK_TO_MAIN_MENU = 2;
+
+const SPEEDRUN_RESET_TIMES_X = 300;
+const SPEEDRUN_RESET_TIMES_Y = 700;
+const SPEEDRUN_BACK_TO_MAIN_MENU_X = 250;
+const SPEEDRUN_BACK_TO_MAIN_MENU_Y = 800;
 
 var TOTAL_COLLECTIBLE_COUNT = 8; // change this number to the max amount of collectibles in the final game
 var TOTAL_LEVEL_COUNT = 15;
@@ -68,6 +83,7 @@ var totalGameTime = 0;
 var gameTimerInterval;
 
 var scoreScreenOpen = false;
+var speedrunTimesOpen = false;
 
 var selectedOption = MAIN_MENU_CONTINUE;
 var noSavedGame = false;
@@ -78,30 +94,44 @@ function mainMenuUpdate() {
 
 	// this is so we can grey out continue and start the menu selection on New Game
 	// this will only happen once, so it doesn't auto snap selection on the are you sure screen
-	if ((getSavedLevel() == null || getSavedLevel() == undefined) && areYouSureOpen == false) {
+	if ((getSavedLevel() == null || getSavedLevel() == undefined) && areYouSureOpen == false && selectedOption != MAIN_MENU_SPEEDRUN && speedrunTimesOpen == false) {
 		noSavedGame = true;
 		selectedOption = MAIN_MENU_NEW_GAME;
 	}
 
 	if ((keyHeld_ArrowUp || keyHeld_W) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-		if (noSavedGame && areYouSureOpen == false) {
-			// do nothing
+		if (noSavedGame && areYouSureOpen == false && mainMenuOpen) {
+			if (selectedOption > 2) {
+				selectedOption--;
+			} else if (selectedOption == 2) {
+				selectedOption = MAIN_MENU_MAX_OPTIONS;
+			}
 		} else {
 			if (selectedOption > 1) {
 				selectedOption--;
 			} else if (selectedOption == 1) {
 				 // change this number to the max number of options so it wraps to the bottom selection
 				selectedOption = MAIN_MENU_MAX_OPTIONS;
+
+				if (speedrunTimesOpen) {
+					selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
+				}
 			}
 		}	
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
 	if ((keyHeld_ArrowDown || keyHeld_S) && keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-		if (noSavedGame && areYouSureOpen == false) {
-			// do nothing
+		if (noSavedGame && areYouSureOpen == false && mainMenuOpen) {
+			if (selectedOption < MAIN_MENU_MAX_OPTIONS && mainMenuOpen) {
+				selectedOption++;
+			} else {
+				selectedOption = MAIN_MENU_NEW_GAME;
+			}
 		} else {
-			if (selectedOption < MAIN_MENU_MAX_OPTIONS) {
+			if (selectedOption < MAIN_MENU_MAX_OPTIONS && mainMenuOpen) {
+				selectedOption++;
+			} else if (selectedOption < MAIN_MENU_MAX_OPTIONS - 1 && speedrunTimesOpen) {
 				selectedOption++;
 			} else {
 				selectedOption = 1;
@@ -118,11 +148,42 @@ function mainMenuUpdate() {
 
 		if (areYouSureOpen) {
 			if (selectedOption == MAIN_MENU_YES) {
-				startNewGame();
+				if (mainMenuOpen) {
+					startNewGame();
+				} else if (speedrunTimesOpen) {
+					deleteAllSpeedRunInfo();
+					areYouSureOpen = false;
+					optionSelectedThisFrame = true;
+				}
+				
 			} else if (selectedOption == MAIN_MENU_NO) {
-				areYouSureOpen = false;
-				optionSelectedThisFrame = true;
+				if (mainMenuOpen) {
+					areYouSureOpen = false;
+					optionSelectedThisFrame = true;
+				} else if (speedrunTimesOpen) {
+					areYouSureOpen = false;
+					optionSelectedThisFrame = true;
+				}
 			}
+		}
+
+		if (speedrunTimesOpen &&
+			selectedOption == SPEEDRUN_RESET_TIMES &&
+			keyHeld_Timer >= KEY_HELD_TIME_MAX &&
+			optionSelectedThisFrame == false) {
+
+			areYouSureOpen = true;
+			keyHeld_Timer = 0;
+		}
+
+		if (speedrunTimesOpen &&
+			selectedOption == SPEEDRUN_BACK_TO_MAIN_MENU &&
+			keyHeld_Timer >= KEY_HELD_TIME_MAX &&
+			optionSelectedThisFrame == false) {
+
+			speedrunTimesOpen = false;
+			mainMenuOpen = true;
+			keyHeld_Timer = 0;
 		}
 
 		if (selectedOption == MAIN_MENU_NEW_GAME) {
@@ -136,6 +197,15 @@ function mainMenuUpdate() {
 		    noSavedGame == false) {
 			
 			continueSavedGame();
+		}
+
+		if (selectedOption == MAIN_MENU_SPEEDRUN &&
+		    optionSelectedThisFrame == false) {
+			
+			mainMenuOpen = false;
+			speedrunTimesOpen = true;
+			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
+			keyHeld_Timer = 0;
 		}
 	}
 }
@@ -164,11 +234,14 @@ function drawMainMenuText() {
 
 	var textToShow1;
 	var textToShow2;
+	var textToShow3;
 
 	var whereToShowText1X;
 	var whereToShowText1Y;
 	var whereToShowText2X;
 	var whereToShowText2Y;
+	var whereToShowText3X;
+	var whereToShowText3Y;
 
 	if (areYouSureOpen) {
 		textToShow1 = 'No';
@@ -183,17 +256,29 @@ function drawMainMenuText() {
 		          MAIN_MENU_ARE_YOU_SURE_Y,
 		          PALETTE_WHITE,
 		          FONT_MAIN_MENU);
+	} else if (speedrunTimesOpen) {
+		textToShow1 = 'Reset Times';
+		textToShow2 = 'Back To Menu';
+		whereToShowText1X = SPEEDRUN_RESET_TIMES_X;
+		whereToShowText1Y = SPEEDRUN_RESET_TIMES_Y;
+		whereToShowText2X = SPEEDRUN_BACK_TO_MAIN_MENU_X;
+		whereToShowText2Y = SPEEDRUN_BACK_TO_MAIN_MENU_Y;
+
 	} else {
 		textToShow1 = 'Continue';
 		textToShow2 = 'New Game';
+		textToShow3 = 'Speedrun Best Times';
 		whereToShowText1X = MAIN_MENU_CONTINUE_X;
 		whereToShowText1Y = MAIN_MENU_CONTINUE_Y;
 		whereToShowText2X = MAIN_MENU_NEW_GAME_X;
 		whereToShowText2Y = MAIN_MENU_NEW_GAME_Y;
+		whereToShowText3X = MAIN_MENU_SPEEDRUN_X;
+		whereToShowText3Y = MAIN_MENU_SPEEDRUN_Y;
 	}
 
 	if (noSavedGame &&
-		areYouSureOpen == false) {
+		areYouSureOpen == false
+		&& mainMenuOpen) {
 
 		colorText(textToShow1,
 		          whereToShowText1X,
@@ -201,7 +286,7 @@ function drawMainMenuText() {
 		          'grey',
 		          FONT_MAIN_MENU);
 
-	} else if (selectedOption == MAIN_MENU_CONTINUE || selectedOption == MAIN_MENU_NO) {
+	} else if (selectedOption == MAIN_MENU_CONTINUE || selectedOption == MAIN_MENU_NO || selectedOption == SPEEDRUN_RESET_TIMES) {
 		colorText(textToShow1,
 		          whereToShowText1X,
 		          whereToShowText1Y,
@@ -215,7 +300,7 @@ function drawMainMenuText() {
 		          FONT_MAIN_MENU);
 	}
 
-	if (selectedOption == MAIN_MENU_NEW_GAME || selectedOption == MAIN_MENU_YES) {
+	if (selectedOption == MAIN_MENU_NEW_GAME || selectedOption == MAIN_MENU_YES || selectedOption == SPEEDRUN_BACK_TO_MAIN_MENU) {
 		colorText(textToShow2,
 		          whereToShowText2X,
 		          whereToShowText2Y,
@@ -225,6 +310,20 @@ function drawMainMenuText() {
 		colorText(textToShow2,
 		          whereToShowText2X,
 		          whereToShowText2Y,
+		          unselectedOptionColor,
+		          FONT_MAIN_MENU);
+	}
+
+	if (selectedOption == MAIN_MENU_SPEEDRUN) {
+		colorText(textToShow3,
+		          whereToShowText3X,
+		          whereToShowText3Y,
+		          selectedOptionColor,
+		          FONT_MAIN_MENU);
+	} else {
+		colorText(textToShow3,
+		          whereToShowText3X,
+		          whereToShowText3Y,
 		          unselectedOptionColor,
 		          FONT_MAIN_MENU);
 	}
@@ -304,8 +403,6 @@ function mainMenuMouseoverHandling() {
 	}
 }
 
-
-
 function gameTimer() {
 	if (scoreScreenOpen == false &&
 		mainMenuOpen == false) {
@@ -313,7 +410,6 @@ function gameTimer() {
 	}
 	saveGameTime();
 }
-
 function scoreScreenUpdate() {
 	if (keyHeld_Enter) {
 		keyHeld_Timer = 0;

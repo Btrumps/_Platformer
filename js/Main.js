@@ -69,6 +69,8 @@ function moveAll() {
 		scoreScreenUpdate();
 	} else if (levelLayoutScreenOpen) {
 		checkLevelLayoutInput();
+	} else if (speedrunTimesOpen) {
+		mainMenuUpdate();
 	} else {
 		player.move();
 
@@ -101,6 +103,8 @@ function drawAll() {
 		// do nothing, we display text after initial canvas is drawn
 	} else if (levelLayoutScreenOpen) {
 		drawLevelLayoutScreen();
+	} else if (speedrunTimesOpen) {
+		// do nothing, displaying text after canvas is drawn
 	} else {
 		playerBlueImageSwap();
 		updateAnimations();
@@ -138,6 +142,8 @@ function drawAll() {
 		drawScoreScreenText();
 	} else if (levelLayoutScreenOpen) {
 
+	} else if (speedrunTimesOpen) {
+		drawMainMenuText();
 	} else {
 		showLevelText(currentLevel);
 		drawAllTriggerText();

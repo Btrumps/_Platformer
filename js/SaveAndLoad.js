@@ -68,6 +68,14 @@ function getHundredPercentDeathCount() {
 	return localStorage.getItem("hundredPercCollectibleCount");
 }
 
+function deleteAllSpeedRunInfo() {
+	localStorage.removeItem("anyPercTime");
+	localStorage.removeItem("anyPercDeathCount");
+	localStorage.removeItem("hundredPercTime");
+	localStorage.removeItem("hundredPercDeathCount");
+	localStorage.removeItem("hundredPercCollectibleCount");
+}
+
 function deleteAllSavedInfo() {
 	localStorage.removeItem("time");
 	localStorage.removeItem("level");
