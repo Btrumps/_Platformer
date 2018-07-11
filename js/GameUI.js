@@ -21,8 +21,8 @@ const MAIN_MENU_NEW_GAME_END_Y = 520;
 
 const MAIN_MENU_SPEEDRUN_START_X = 400;
 const MAIN_MENU_SPEEDRUN_END_X = 650;
-const MAIN_MENU_SPEEDRUN_START_Y = 465;
-const MAIN_MENU_SPEEDRUN_END_Y = 520;
+const MAIN_MENU_SPEEDRUN_START_Y = 565;
+const MAIN_MENU_SPEEDRUN_END_Y = 620;
 
 const MAIN_MENU_NO_START_X = 475;
 const MAIN_MENU_NO_END_X = 550;
@@ -33,6 +33,15 @@ const MAIN_MENU_YES_START_X = 470;
 const MAIN_MENU_YES_END_X = 575;
 const MAIN_MENU_YES_START_Y = 465;
 const MAIN_MENU_YES_END_Y = 520;
+
+const SPEEDRUN_RESET_TIMES_START_X = 370;
+const SPEEDRUN_RESET_TIMES_END_X = 675;
+const SPEEDRUN_RESET_TIMES_START_Y = 670;
+const SPEEDRUN_RESET_TIMES_END_Y = 725;
+const SPEEDRUN_BACK_TO_MAIN_MENU_START_X = 370;
+const SPEEDRUN_BACK_TO_MAIN_MENU_END_X = 675;
+const SPEEDRUN_BACK_TO_MAIN_MENU_START_Y = 770;
+const SPEEDRUN_BACK_TO_MAIN_MENU_END_Y = 825;
 
 const MAIN_MENU_CONTINUE_X = 420;
 const MAIN_MENU_CONTINUE_Y = 400;
@@ -69,9 +78,19 @@ const SCORE_SCREEN_DIST_AWAY_FROM_SUB_TEXT = 350;
 const SPEEDRUN_RESET_TIMES = 1;
 const SPEEDRUN_BACK_TO_MAIN_MENU = 2;
 
-const SPEEDRUN_RESET_TIMES_X = 400;
+const SPEEDRUN_ANY_PERC_LABEL_X = 275;
+const SPEEDRUN_ANY_PERC_LABEL_Y = 400;
+const SPEEDRUN_ANY_PERC_TIME_X = SPEEDRUN_ANY_PERC_LABEL_X + 400;
+const SPEEDRUN_ANY_PERC_TIME_Y = SPEEDRUN_ANY_PERC_LABEL_Y;
+
+const SPEEDRUN_HUNDRED_PERC_LABEL_X = SPEEDRUN_ANY_PERC_LABEL_X;
+const SPEEDRUN_HUNDRED_PERC_LABEL_Y = SPEEDRUN_ANY_PERC_LABEL_Y + 100;
+const SPEEDRUN_HUNDRED_PERC_TIME_X = SPEEDRUN_ANY_PERC_TIME_X;
+const SPEEDRUN_HUNDRED_PERC_TIME_Y = SPEEDRUN_HUNDRED_PERC_LABEL_Y;
+
+const SPEEDRUN_RESET_TIMES_X = 385;
 const SPEEDRUN_RESET_TIMES_Y = 700;
-const SPEEDRUN_BACK_TO_MAIN_MENU_X = 390;
+const SPEEDRUN_BACK_TO_MAIN_MENU_X = 380;
 const SPEEDRUN_BACK_TO_MAIN_MENU_Y = 800;
 
 var TOTAL_COLLECTIBLE_COUNT = 8; // change this number to the max amount of collectibles in the final game
@@ -106,6 +125,12 @@ function mainMenuUpdate() {
 			} else if (selectedOption == 2) {
 				selectedOption = MAIN_MENU_MAX_OPTIONS;
 			}
+		} else if (areYouSureOpen) {
+			if (selectedOption > 1) {
+				selectedOption--;
+			} else {
+				selectedOption = MAIN_MENU_YES;
+			}
 		} else {
 			if (selectedOption > 1) {
 				selectedOption--;
@@ -127,6 +152,12 @@ function mainMenuUpdate() {
 				selectedOption++;
 			} else {
 				selectedOption = MAIN_MENU_NEW_GAME;
+			}
+		} else if (areYouSureOpen) {
+			if (selectedOption < 2) {
+				selectedOption++;
+			} else {
+				selectedOption = MAIN_MENU_NO;
 			}
 		} else {
 			if (selectedOption < MAIN_MENU_MAX_OPTIONS && mainMenuOpen) {
@@ -326,6 +357,50 @@ function drawMainMenuText() {
 		          unselectedOptionColor,
 		          FONT_MAIN_MENU);
 	}
+
+	if (speedrunTimesOpen && areYouSureOpen == false) {
+
+		colorText(	'Any% Best Time',
+					SPEEDRUN_ANY_PERC_LABEL_X,
+					SPEEDRUN_ANY_PERC_LABEL_Y,
+					PALETTE_WHITE,
+					FONT_MAIN_MENU);
+
+		if (getAnyPercentTime() == null) {
+			colorText(	'N/A',
+						SPEEDRUN_ANY_PERC_TIME_X,
+						SPEEDRUN_ANY_PERC_TIME_Y,
+						PALETTE_WHITE,
+						FONT_MAIN_MENU);
+		} else {
+			colorText(	getAnyPercentTime(),
+						SPEEDRUN_ANY_PERC_TIME_X,
+						SPEEDRUN_ANY_PERC_TIME_Y,
+						PALETTE_WHITE,
+						FONT_MAIN_MENU);
+		}
+
+		colorText(	'100% Best Time',
+					SPEEDRUN_HUNDRED_PERC_LABEL_X,
+					SPEEDRUN_HUNDRED_PERC_LABEL_Y,
+					PALETTE_WHITE,
+					FONT_MAIN_MENU);
+
+		if (getHundredPercentTime() == null) {
+			colorText(	'N/A',
+						SPEEDRUN_HUNDRED_PERC_TIME_X,
+						SPEEDRUN_HUNDRED_PERC_TIME_Y,
+						PALETTE_WHITE,
+						FONT_MAIN_MENU);
+		} else {
+			colorText(	getHundredPercentTime(),
+						SPEEDRUN_HUNDRED_PERC_TIME_X,
+						SPEEDRUN_HUNDRED_PERC_TIME_Y,
+						PALETTE_WHITE,
+						FONT_MAIN_MENU);
+		}
+		
+	}
 }
 
 function startNewGame() {
@@ -381,6 +456,53 @@ function mainMenuMouseoverHandling() {
 		areYouSureOpen == false) {
 
 		selectedOption = MAIN_MENU_NEW_GAME;
+	}
+
+	if (mouseX > MAIN_MENU_SPEEDRUN_START_X / PIXEL_SCALE_UP&&
+		mouseX < MAIN_MENU_SPEEDRUN_END_X / PIXEL_SCALE_UP &&
+		mouseY > MAIN_MENU_SPEEDRUN_START_Y / PIXEL_SCALE_UP &&
+		mouseY < MAIN_MENU_SPEEDRUN_END_Y / PIXEL_SCALE_UP &&
+		areYouSureOpen == false) {
+
+		selectedOption = MAIN_MENU_SPEEDRUN;
+	}
+
+	if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
+		mouseX < MAIN_MENU_NO_END_X / PIXEL_SCALE_UP &&
+		mouseY > MAIN_MENU_NO_START_Y / PIXEL_SCALE_UP &&
+		mouseY < MAIN_MENU_NO_END_Y / PIXEL_SCALE_UP && 
+		areYouSureOpen) {
+
+		selectedOption = MAIN_MENU_NO;
+	}
+
+	if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
+		mouseX < MAIN_MENU_YES_END_X / PIXEL_SCALE_UP &&
+		mouseY > MAIN_MENU_YES_START_Y / PIXEL_SCALE_UP &&
+		mouseY < MAIN_MENU_YES_END_Y / PIXEL_SCALE_UP &&
+		areYouSureOpen) {
+		
+		selectedOption = MAIN_MENU_YES;
+	}
+}
+
+function speedrunMouseoverHandling() {
+	if (mouseX > SPEEDRUN_RESET_TIMES_START_X / PIXEL_SCALE_UP&&
+		mouseX < SPEEDRUN_RESET_TIMES_END_X / PIXEL_SCALE_UP &&
+		mouseY > SPEEDRUN_RESET_TIMES_START_Y / PIXEL_SCALE_UP &&
+		mouseY < SPEEDRUN_RESET_TIMES_END_Y / PIXEL_SCALE_UP && 
+		areYouSureOpen == false) {
+
+		selectedOption = SPEEDRUN_RESET_TIMES;
+	}
+
+	if (mouseX > SPEEDRUN_BACK_TO_MAIN_MENU_START_X / PIXEL_SCALE_UP&&
+		mouseX < SPEEDRUN_BACK_TO_MAIN_MENU_END_X / PIXEL_SCALE_UP &&
+		mouseY > SPEEDRUN_BACK_TO_MAIN_MENU_START_Y / PIXEL_SCALE_UP &&
+		mouseY < SPEEDRUN_BACK_TO_MAIN_MENU_END_Y / PIXEL_SCALE_UP &&
+		areYouSureOpen == false) {
+
+		selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
 	}
 
 	if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
@@ -449,7 +571,7 @@ function drawScoreScreenText() {
 	} else {
 		colorToShow = PALETTE_WHITE;
 	}
-
+	
 	gameTimeToShow.setSeconds(totalGameTime); // specify value for SECONDS here
 	var result = gameTimeToShow.toISOString().substr(11, 8); // turns seconds into HH:MM:SS
 	

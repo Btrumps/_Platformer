@@ -113,7 +113,8 @@ function mousedownHandler(evt) {
 
 function mouseupHandler(evt) {
 
-	if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
+	if (evt.which == LEFT_CLICK && mainMenuOpen) {
+		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
 			mouseX < MAIN_MENU_NO_END_X / PIXEL_SCALE_UP &&
 			mouseY > MAIN_MENU_NO_START_Y / PIXEL_SCALE_UP &&
 			mouseY < MAIN_MENU_NO_END_Y / PIXEL_SCALE_UP && 
@@ -131,7 +132,7 @@ function mouseupHandler(evt) {
 			startNewGame();
 		}
 
-	if (evt.which == LEFT_CLICK && mainMenuOpen) {
+		
 		if (mouseX > MAIN_MENU_CONTINUE_START_X / PIXEL_SCALE_UP&&
 			mouseX < MAIN_MENU_CONTINUE_END_X / PIXEL_SCALE_UP &&
 			mouseY > MAIN_MENU_CONTINUE_START_Y / PIXEL_SCALE_UP &&
@@ -151,7 +152,59 @@ function mouseupHandler(evt) {
 			selectedOption = MAIN_MENU_NO;
 			areYouSureOpen = true;
 		}
+
+		if (mouseX > MAIN_MENU_SPEEDRUN_START_X / PIXEL_SCALE_UP&&
+			mouseX < MAIN_MENU_SPEEDRUN_END_X / PIXEL_SCALE_UP &&
+			mouseY > MAIN_MENU_SPEEDRUN_START_Y / PIXEL_SCALE_UP &&
+			mouseY < MAIN_MENU_SPEEDRUN_END_Y / PIXEL_SCALE_UP &&
+			areYouSureOpen == false) {
+
+			speedrunTimesOpen = true;
+			mainMenuOpen = false;
+		}
+			
 		
+	} else if (evt.which == LEFT_CLICK && speedrunTimesOpen) {
+		if (mouseX > SPEEDRUN_RESET_TIMES_START_X / PIXEL_SCALE_UP&&
+			mouseX < SPEEDRUN_RESET_TIMES_END_X / PIXEL_SCALE_UP &&
+			mouseY > SPEEDRUN_RESET_TIMES_START_Y / PIXEL_SCALE_UP &&
+			mouseY < SPEEDRUN_RESET_TIMES_END_Y / PIXEL_SCALE_UP && 
+			areYouSureOpen == false) {
+
+			selectedOption = MAIN_MENU_NO;
+			areYouSureOpen = true;
+		}
+
+		if (mouseX > SPEEDRUN_BACK_TO_MAIN_MENU_START_X / PIXEL_SCALE_UP&&
+			mouseX < SPEEDRUN_BACK_TO_MAIN_MENU_END_X / PIXEL_SCALE_UP &&
+			mouseY > SPEEDRUN_BACK_TO_MAIN_MENU_START_Y / PIXEL_SCALE_UP &&
+			mouseY < SPEEDRUN_BACK_TO_MAIN_MENU_END_Y / PIXEL_SCALE_UP &&
+			areYouSureOpen == false) {
+
+			speedrunTimesOpen = false;
+			mainMenuOpen = true;
+			selectedOption = MAIN_MENU_SPEEDRUN;
+		}
+
+		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
+			mouseX < MAIN_MENU_NO_END_X / PIXEL_SCALE_UP &&
+			mouseY > MAIN_MENU_NO_START_Y / PIXEL_SCALE_UP &&
+			mouseY < MAIN_MENU_NO_END_Y / PIXEL_SCALE_UP && 
+			areYouSureOpen) {
+
+			areYouSureOpen = false;
+			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
+		}
+
+		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
+			mouseX < MAIN_MENU_YES_END_X / PIXEL_SCALE_UP &&
+			mouseY > MAIN_MENU_YES_START_Y / PIXEL_SCALE_UP &&
+			mouseY < MAIN_MENU_YES_END_Y / PIXEL_SCALE_UP &&
+			areYouSureOpen) {
+			
+			deleteAllSpeedRunInfo();
+			areYouSureOpen = false;
+		}
 	}
 
 }

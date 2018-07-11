@@ -45,7 +45,7 @@ const BOSS_STATE_RETURN_TO_CHASE = 8;
 const BOSS_STATE_RETURN_TO_ROOM_SLAM = 9;
 const BOSS_STATE_ENRAGED = 10; // after two hits, boss will get enraged and cycle faster
 
-const BOSS_FIGHT_1_LEVEL = 15;
+const BOSS_FIGHT_1_LEVEL = 99;
 
 function bossClass() {
 	this.x = BOSS_FIGHT_1_RIGHT_WALL_X - BOSS_HEIGHT / 2;

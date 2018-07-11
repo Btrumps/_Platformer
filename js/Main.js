@@ -65,11 +65,11 @@ function moveAll() {
 		mainMenuMouseoverHandling();
 		mainMenuUpdate();
 	} else if (scoreScreenOpen) {
-		// do nothing, stops deathCount from going up in the background
 		scoreScreenUpdate();
 	} else if (levelLayoutScreenOpen) {
 		checkLevelLayoutInput();
 	} else if (speedrunTimesOpen) {
+		speedrunMouseoverHandling();
 		mainMenuUpdate();
 	} else {
 		player.move();

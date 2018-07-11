@@ -39,12 +39,20 @@ function getCollectibleCount() {
 }
 
 function saveAnyPercentScore(timeValue, deathCountValue) {
-	localStorage.setItem("anyPercTime", timeValue);
+	var gameTimeToShow = new Date(null);
+	gameTimeToShow.setSeconds(parseInt(timeValue)); // specify value for SECONDS here
+	var result = gameTimeToShow.toISOString().substr(11, 8); // turns seconds into HH:MM:SS
+
+	localStorage.setItem("anyPercTime", result);
 	localStorage.setItem("anyPercDeathCount", deathCountValue);
 }
 
 function saveHundredPercentScore(timeValue, deathCountValue) {
-	localStorage.setItem("hundredPercTime", timeValue);
+	var gameTimeToShow = new Date(null);
+	gameTimeToShow.setSeconds(timeValue); // specify value for SECONDS here
+	var result = gameTimeToShow.toISOString().substr(11, 8); // turns seconds into HH:MM:SS
+
+	localStorage.setItem("hundredPercTime", result);
 	localStorage.setItem("hundredPercDeathCount", deathCountValue);
 }
 
