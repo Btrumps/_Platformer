@@ -359,6 +359,13 @@ function drawMainMenuText() {
 	}
 
 	if (speedrunTimesOpen && areYouSureOpen == false) {
+		var colorToShow;
+
+		if (getAnyPercentDeathCount() == 0) {
+			colorToShow = PALETTE_BLUE;
+		} else {
+			colorToShow = PALETTE_WHITE;
+		}
 
 		colorText(	'Any% Best Time',
 					SPEEDRUN_ANY_PERC_LABEL_X,
@@ -376,8 +383,14 @@ function drawMainMenuText() {
 			colorText(	getAnyPercentTime(),
 						SPEEDRUN_ANY_PERC_TIME_X,
 						SPEEDRUN_ANY_PERC_TIME_Y,
-						PALETTE_WHITE,
+						colorToShow,
 						FONT_MAIN_MENU);
+		}
+
+		if (getHundredPercentDeathCount() == 0) {
+			colorToShow = PALETTE_BLUE;
+		} else {
+			colorToShow = PALETTE_WHITE;
 		}
 
 		colorText(	'100% Best Time',
@@ -396,7 +409,7 @@ function drawMainMenuText() {
 			colorText(	getHundredPercentTime(),
 						SPEEDRUN_HUNDRED_PERC_TIME_X,
 						SPEEDRUN_HUNDRED_PERC_TIME_Y,
-						PALETTE_WHITE,
+						colorToShow,
 						FONT_MAIN_MENU);
 		}
 		
