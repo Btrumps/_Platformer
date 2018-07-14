@@ -39,20 +39,12 @@ function getCollectibleCount() {
 }
 
 function saveAnyPercentScore(timeValue, deathCountValue) {
-	var gameTimeToShow = new Date(null);
-	gameTimeToShow.setSeconds(parseInt(timeValue)); // specify value for SECONDS here
-	var result = gameTimeToShow.toISOString().substr(11, 8); // turns seconds into HH:MM:SS
-
-	localStorage.setItem("anyPercTime", result);
+	localStorage.setItem("anyPercTime", timeValue);
 	localStorage.setItem("anyPercDeathCount", deathCountValue);
 }
 
 function saveHundredPercentScore(timeValue, deathCountValue) {
-	var gameTimeToShow = new Date(null);
-	gameTimeToShow.setSeconds(timeValue); // specify value for SECONDS here
-	var result = gameTimeToShow.toISOString().substr(11, 8); // turns seconds into HH:MM:SS
-
-	localStorage.setItem("hundredPercTime", result);
+	localStorage.setItem("hundredPercTime", timeValue);
 	localStorage.setItem("hundredPercDeathCount", deathCountValue);
 }
 
@@ -70,10 +62,6 @@ function getHundredPercentTime() {
 
 function getHundredPercentDeathCount() {
 	return localStorage.getItem("hundredPercDeathCount");
-}
-
-function getHundredPercentDeathCount() {
-	return localStorage.getItem("hundredPercCollectibleCount");
 }
 
 function deleteAllSpeedRunInfo() {

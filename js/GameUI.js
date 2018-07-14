@@ -361,7 +361,7 @@ function drawMainMenuText() {
 	if (speedrunTimesOpen && areYouSureOpen == false) {
 		var colorToShow;
 
-		if (getAnyPercentDeathCount() == 0) {
+		if (parseInt(getAnyPercentDeathCount()) == 0) {
 			colorToShow = PALETTE_BLUE;
 		} else {
 			colorToShow = PALETTE_WHITE;
@@ -380,14 +380,20 @@ function drawMainMenuText() {
 						PALETTE_WHITE,
 						FONT_MAIN_MENU);
 		} else {
-			colorText(	getAnyPercentTime(),
+
+			var gameTimeToShow = new Date(null);
+			var timeValue = parseInt(getAnyPercentTime());
+			gameTimeToShow.setSeconds(timeValue); // specify value for SECONDS here
+			var result = gameTimeToShow.toISOString().substr(11, 8); // turns seconds into HH:MM:SS
+
+			colorText(	result,
 						SPEEDRUN_ANY_PERC_TIME_X,
 						SPEEDRUN_ANY_PERC_TIME_Y,
 						colorToShow,
 						FONT_MAIN_MENU);
 		}
 
-		if (getHundredPercentDeathCount() == 0) {
+		if (parseInt(getHundredPercentDeathCount()) == 0) {
 			colorToShow = PALETTE_BLUE;
 		} else {
 			colorToShow = PALETTE_WHITE;
@@ -406,7 +412,12 @@ function drawMainMenuText() {
 						PALETTE_WHITE,
 						FONT_MAIN_MENU);
 		} else {
-			colorText(	getHundredPercentTime(),
+			var gameTimeToShow = new Date(null);
+			var timeValue = parseInt(getHundredPercentTime());
+			gameTimeToShow.setSeconds(timeValue); // specify value for SECONDS here
+			var result = gameTimeToShow.toISOString().substr(11, 8); // turns seconds into HH:MM:SS
+			
+			colorText(	result,
 						SPEEDRUN_HUNDRED_PERC_TIME_X,
 						SPEEDRUN_HUNDRED_PERC_TIME_Y,
 						colorToShow,
