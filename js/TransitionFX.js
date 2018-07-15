@@ -17,10 +17,19 @@ function deathFadeCheck() {
 }
 
 function levelTransitionCheck() {
-	if (levelTransitionStarted) {
+	// if we are the first 15 levels, we want to transition from left to right
+	// the next group of 15 should go right to left
+	if (levelTransitionStarted && currentLevel <= LEVELS_PER_WORLD) {
 		levelFadeX += levelFadeSpeed;
 		colorRect(levelFadeX, levelFadeY, canvas.width,canvas.height, 'black');
 		if (levelFadeX > canvas.width) {
+			levelTransitionStarted = false;
+			levelFadeX = 0;
+		}
+	} else if (levelTransitionStarted && currentLevel > LEVELS_PER_WORLD) {
+		levelFadeX -= levelFadeSpeed;
+		colorRect(levelFadeX, levelFadeY, canvas.width,canvas.height, 'black');
+		if (levelFadeX < -canvas.width) {
 			levelTransitionStarted = false;
 			levelFadeX = 0;
 		}

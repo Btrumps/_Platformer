@@ -81,15 +81,15 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_E_PILLAR;
 		}
 
-		if (keyHeld_I) {
+		if (keyHeld_I || keyHeld_Num7) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_NW;
 		}
 
-		if (keyHeld_O) {
+		if (keyHeld_O || keyHeld_Num8) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_N;
 		}
 
-		if (keyHeld_P) {
+		if (keyHeld_P || keyHeld_Num9) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_NE;
 		}
 
@@ -125,15 +125,15 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_S_PILLAR;
 		}
 
-		if (keyHeld_K) {
+		if (keyHeld_K || keyHeld_Num4) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_W;
 		}
 
-		if (keyHeld_L) {
+		if (keyHeld_L || keyHeld_Num5) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_SINGLE;
 		}
 
-		if (keyHeld_Semicolon) {
+		if (keyHeld_Semicolon || keyHeld_Num6) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_E;
 		}
 
@@ -149,15 +149,15 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_VERTICAL_MIDDLE;
 		}
 
-		if (keyHeld_Comma) {
+		if (keyHeld_Comma || keyHeld_Num1) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_SW;
 		}
 
-		if (keyHeld_Period) {
+		if (keyHeld_Period || keyHeld_Num2) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_S;
 		}
 
-		if (keyHeld_Slash) {
+		if (keyHeld_Slash || keyHeld_Num3) {
 			levelGrid[mouseIndex] = LEVEL_PLATFORM_SE;
 		}
 	} else {
