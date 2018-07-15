@@ -1,8 +1,6 @@
 const TEXT_LEVEL_START_X = 15;
 const TEXT_LEVEL_START_Y = 25;
 
-const LEVELS_PER_WORLD = 15;
-
 const MAIN_MENU_CONTINUE = 1;
 const MAIN_MENU_NEW_GAME = 2;
 const MAIN_MENU_SPEEDRUN = 3;
@@ -93,8 +91,9 @@ const SPEEDRUN_RESET_TIMES_Y = 700;
 const SPEEDRUN_BACK_TO_MAIN_MENU_X = 380;
 const SPEEDRUN_BACK_TO_MAIN_MENU_Y = 800;
 
-var TOTAL_COLLECTIBLE_COUNT = 8; // change this number to the max amount of collectibles in the final game
-var TOTAL_LEVEL_COUNT = 15;
+const TOTAL_COLLECTIBLE_COUNT = 8; // change this number to the max amount of collectibles in the final game
+const LEVELS_PER_WORLD = 15;
+
 var totalCollectibles = 0;
 var totalDeaths = 0;
 var totalGameTime = 0;
