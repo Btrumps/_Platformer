@@ -39,6 +39,15 @@ function isObstacleAtPixel(x, y, whichEdge) {
 						}
 					}
 
+					// added to prevent pushing the player up or down...
+					// ...if their top or bottom colliders touched a wall they are clearly not supposed to
+					if ((whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) &&
+						(obstacleTileArray[i] == LEVEL_PLATFORM_E ||
+						 obstacleTileArray[i] == LEVEL_PLATFORM_W)) {
+						console.log('top or bottom edge collided with east/west wall');
+						return false;
+					}
+
 					return true;
 				}
 			}
@@ -158,7 +167,6 @@ function checkBossCollisionsWithPlayer() {
 	    	player.rightEdge < boss.leftEdge) ) &&
 	    	boss.bottomEdge > player.topEdge &&
 	    	boss.topEdge < player.topEdge) {
-		
 		player.deathAnimationStarted = true;
 	}
 
