@@ -97,6 +97,7 @@ var helpGrid = [];
 	const LEVEL_SQUARE_SPIKE_V = 35;
 	const LEVEL_SQUARE_SPIKE_H = 36;
 	const LEVEL_FOLLOW_DRONE = 38;
+	const LEVEL_BOUNCE_BLOCK = 39;
 	const LEVEL_SWITCH_1 = 33;
 	const LEVEL_DOOR_1 = 34;
 	const LEVEL_START = 500;
@@ -173,6 +174,7 @@ var triggerTileArray = [LEVEL_SPIKE_W,
 						LEVEL_SQUARE_SPIKE_V,
 						LEVEL_SQUARE_SPIKE_H,
 						LEVEL_FOLLOW_DRONE,
+						LEVEL_BOUNCE_BLOCK,
 						LEVEL_END];
 
 // used to have square spikes bounce between two points
@@ -440,6 +442,10 @@ function drawLevel() {
 						canvasContext.drawImage(followDrone, tileX, tileY);
 						canvasContext.globalAlpha = 1;
 					}
+					break;
+
+				case LEVEL_BOUNCE_BLOCK:
+					canvasContext.drawImage(useImg, tileX, tileY);
 					break;
 
 				case LEVEL_PLATFORM_FALLING:

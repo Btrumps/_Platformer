@@ -114,7 +114,7 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_F) {
-			
+			levelGrid[mouseIndex] = LEVEL_BOUNCE_BLOCK;
 		}
 
 		if (keyHeld_H) {

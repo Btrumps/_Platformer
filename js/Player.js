@@ -723,6 +723,13 @@ function playerClass() {
 				}
 			}
 
+			if (this.triggerArray[i].type == LEVEL_BOUNCE_BLOCK) {
+				if (this.y < this.triggerArray[i].y) {
+					this.y = (this.triggerArray[i].y - TILE_HEIGHT / 2) - PLAYER_HEIGHT / 2 + 4;
+				}
+				this.velY = -MAX_Y_VELOCITY;
+			}
+
 		}
 
 		this.triggerArray = [];
