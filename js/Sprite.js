@@ -163,7 +163,7 @@ function setupSpriteSheets() {
       image: shooterWAnim,
       loop: false,
       numberOfFrames: 4,
-      ticksPerFrame: 15,
+      ticksPerFrame: 8,
     });
 
     shooterEAnim = sprite({
@@ -173,7 +173,7 @@ function setupSpriteSheets() {
       image: shooterEAnim,
       loop: false,
       numberOfFrames: 4,
-      ticksPerFrame: 15,
+      ticksPerFrame: 8,
     });
 
     shooterNAnim = sprite({
@@ -183,7 +183,7 @@ function setupSpriteSheets() {
       image: shooterNAnim,
       loop: false,
       numberOfFrames: 4,
-      ticksPerFrame: 15,
+      ticksPerFrame: 8,
     });
 
     shooterSAnim = sprite({
@@ -193,7 +193,7 @@ function setupSpriteSheets() {
       image: shooterSAnim,
       loop: false,
       numberOfFrames: 4,
-      ticksPerFrame: 15,
+      ticksPerFrame: 8,
     });
 
     collectibleAnim = sprite({

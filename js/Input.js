@@ -114,6 +114,17 @@ function mousedownHandler(evt) {
 function mouseupHandler(evt) {
 
 	if (evt.which == LEFT_CLICK && mainMenuOpen) {
+		
+		if (mouseX > MAIN_MENU_CONTINUE_START_X / PIXEL_SCALE_UP&&
+			mouseX < MAIN_MENU_CONTINUE_END_X / PIXEL_SCALE_UP &&
+			mouseY > MAIN_MENU_CONTINUE_START_Y / PIXEL_SCALE_UP &&
+			mouseY < MAIN_MENU_CONTINUE_END_Y / PIXEL_SCALE_UP && 
+			areYouSureOpen == false &&
+			noSavedGame == false) {
+
+			continueSavedGame();
+		}
+
 		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
 			mouseX < MAIN_MENU_NO_END_X / PIXEL_SCALE_UP &&
 			mouseY > MAIN_MENU_NO_START_Y / PIXEL_SCALE_UP &&
@@ -130,17 +141,6 @@ function mouseupHandler(evt) {
 			areYouSureOpen) {
 
 			startNewGame();
-		}
-
-		
-		if (mouseX > MAIN_MENU_CONTINUE_START_X / PIXEL_SCALE_UP&&
-			mouseX < MAIN_MENU_CONTINUE_END_X / PIXEL_SCALE_UP &&
-			mouseY > MAIN_MENU_CONTINUE_START_Y / PIXEL_SCALE_UP &&
-			mouseY < MAIN_MENU_CONTINUE_END_Y / PIXEL_SCALE_UP && 
-			areYouSureOpen == false &&
-			noSavedGame == false) {
-
-			continueSavedGame();
 		}
 
 		if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
@@ -267,6 +267,7 @@ function setValuesForKey(evt, value) {
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
 				loadLevel(currentLevel);
+				totalDeaths++;
 			}
 			break;
 		case "KeyT":

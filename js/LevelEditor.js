@@ -102,11 +102,11 @@ function placeTilesOnButtonPress() {
 		}
 
 		if (keyHeld_A) {
-			levelGrid[mouseIndex] = LEVEL_SHOOTER_E;
+			levelGrid[mouseIndex] = LEVEL_SHOOTER_W;
 		}
 
 		if (keyHeld_S) {
-			levelGrid[mouseIndex] = LEVEL_SHOOTER_W;
+			levelGrid[mouseIndex] = LEVEL_SHOOTER_E;
 		}
 
 		if (keyHeld_D) {
