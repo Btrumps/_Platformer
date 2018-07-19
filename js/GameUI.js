@@ -91,7 +91,7 @@ const SPEEDRUN_RESET_TIMES_Y = 700;
 const SPEEDRUN_BACK_TO_MAIN_MENU_X = 380;
 const SPEEDRUN_BACK_TO_MAIN_MENU_Y = 800;
 
-const TOTAL_COLLECTIBLE_COUNT = 13; // change this number to the max amount of collectibles in the final game
+const TOTAL_COLLECTIBLE_COUNT = 15; // change this number to the max amount of collectibles in the final game
 const LEVELS_PER_WORLD = 15;
 
 var totalCollectibles = 0;
