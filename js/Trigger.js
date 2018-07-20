@@ -7,7 +7,7 @@ const SQUARE_SPIKE_SPEED = 3;
 const STARTING_FOLLOW_DRONE_SPEED = 2;
 
 const COLLECTIBLE_SPEED = 0.1;
-const COLLECTIBLE_TILE_OFFSET = 6; // how many pixels larger than the initial collectible tile that a player can pick up collectible
+const COLLECTIBLE_TILE_OFFSET = 4; // how many pixels larger than the initial collectible tile that a player can pick up collectible
 const COLLECTIBLE_MAX_DIST_FROM_PLAYER = 25;
 
 const POWERUP_COOLDOWN_MAX = 45; // 2 sec

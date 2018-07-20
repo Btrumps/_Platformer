@@ -402,9 +402,6 @@ function playerClass() {
 		// in the future, should 100% not be included in top edge collision checks
 		if (this.isGrounded == false && ( this.topEdge < 0 || isObstacleAtPixel(this.x, this.topEdge, TOP_EDGE) ) ) {
 			var topEdgeRow = Math.floor(this.topEdge / TILE_HEIGHT);
-			if (topEdgeRow == LEVEL_ROWS) {
-				topEdgeRow = LEVEL_ROWS - 1;
-			}
 
 			// if we are going too fast when we check for collisions when dashing left/right,
 			// it will think there is a platform above us, and try to snap the player down
@@ -422,9 +419,7 @@ function playerClass() {
 		// the effect allows the player to dash at a wall in the air infinitely
 		if (this.bottomEdge > CANVAS_HEIGHT || isObstacleAtPixel(this.x, this.bottomEdge, BOTTOM_EDGE) && (this.currentMoveState != PLAYER_STATE_DASHING && this.direction != DIRECTION_UP)) {
 			var bottomEdgeRow = Math.floor(this.bottomEdge / TILE_HEIGHT);
-			if (bottomEdgeRow == LEVEL_ROWS) {
-				bottomEdgeRow = LEVEL_ROWS - 1;
-			}
+
 			this.velY = 0;
 			this.y = (bottomEdgeRow * TILE_HEIGHT) - (PLAYER_HEIGHT / 2) + PLAYER_HITBOX_INNER_Y_OFFSET;
 			
@@ -456,23 +451,11 @@ function playerClass() {
 				this.recalculateCollisionEdges();
 				
 			}
-
-			if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
-				var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
-				if (rightEdgeCol == LEVEL_COLS) {
-					rightEdgeCol = LEVEL_COLS - 1;
-				}
-				this.velX = 0;
-				this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 2;
-				this.recalculateCollisionEdges();
-				
-			}
+			
 		} else {
 			if (this.rightEdge > CANVAS_WIDTH || isObstacleAtPixel(this.rightEdge, this.y, RIGHT_EDGE) ) {
 				var rightEdgeCol = Math.floor(this.rightEdge / TILE_WIDTH);
-				if (rightEdgeCol == LEVEL_COLS) {
-					rightEdgeCol = LEVEL_COLS - 1;
-				}
+
 				this.velX = 0;
 				if (this.currentMoveState == PLAYER_STATE_DASHING) {
 					this.x = (rightEdgeCol * TILE_WIDTH) - (PLAYER_WIDTH / 2) + PLAYER_HITBOX_INNER_X_OFFSET - 2;
@@ -484,16 +467,6 @@ function playerClass() {
 				
 			}
 
-			if (this.leftEdge < 0 || isObstacleAtPixel(this.leftEdge, this.y, LEFT_EDGE)) {
-				var leftEdgeCol = Math.floor(this.leftEdge / TILE_WIDTH);
-				if (leftEdgeCol == LEVEL_COLS) {
-					leftEdgeCol = LEVEL_COLS - 1;
-				}
-				this.velX = 0
-				this.x = (leftEdgeCol * TILE_WIDTH) + PLAYER_WIDTH + (PLAYER_WIDTH / 2) - PLAYER_HITBOX_INNER_X_OFFSET + 2;
-				this.recalculateCollisionEdges();
-				
-			}
 		}		
 
 	}

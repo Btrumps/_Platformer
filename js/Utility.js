@@ -29,14 +29,41 @@ function indexToCenteredXY(index) {
 }
 
 function returnTileTypeAtPixel(x, y) {
+	// This is added to stop from choosing the index of the other side of the screen
+	if (x >= canvas.width) {
+		x = canvas.width - 1;
+	} else if (x < 0) {
+		x = 0;
+	}
+
+	if (y >= canvas.height) {
+		y = canvas.height - 1;
+	} else if (y < 0) {
+		y = 0;
+	}
+
 	var xCol = Math.floor(x / TILE_WIDTH);
 	var yRow = Math.floor(y / TILE_HEIGHT);
+
 	var index = colRowToArrayIndex(xCol, yRow);
 
 	return levelGrid[index];
 }
 
 function returnIndexAtPixel(x, y) {
+	// This is added to stop from choosing the index of the other side of the screen
+	if (x >= canvas.width) {
+		x = canvas.width - 1;
+	} else if (x < 0) {
+		x = 0;
+	}
+
+	if (y >= canvas.height) {
+		y = canvas.height - 1;
+	} else if (y < 0) {
+		y = 0;
+	}
+
 	var xCol = Math.floor(x / TILE_WIDTH);
 	var yRow = Math.floor(y / TILE_HEIGHT);
 
