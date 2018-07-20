@@ -60,12 +60,14 @@ const MAIN_MENU_ARE_YOU_SURE_BORDER = 10;
 
 const MAIN_MENU_MAX_OPTIONS = 3; // increase this number every time we add something to the menu
 
-const SCORE_SCREEN_TIME_X = 325;
-const SCORE_SCREEN_TIME_Y = 300;
-const SCORE_SCREEN_DEATHS_X = 325;
-const SCORE_SCREEN_DEATHS_Y = 400;
-const SCORE_SCREEN_COLLECTIBLES_X = 325;
-const SCORE_SCREEN_COLLECTIBLES_Y = 500;
+const SCORE_SCREEN_NEW_RECORD_X = 410;
+const SCORE_SCREEN_NEW_RECORD_Y = 250;
+const SCORE_SCREEN_TIME_X = 300;
+const SCORE_SCREEN_TIME_Y = 350;
+const SCORE_SCREEN_DEATHS_X = SCORE_SCREEN_TIME_X;
+const SCORE_SCREEN_DEATHS_Y = SCORE_SCREEN_TIME_Y + 100;
+const SCORE_SCREEN_COLLECTIBLES_X = SCORE_SCREEN_TIME_X;
+const SCORE_SCREEN_COLLECTIBLES_Y = SCORE_SCREEN_DEATHS_Y + 100;
 
 const BACK_TO_MAIN_MENU = 1;
 
@@ -102,6 +104,8 @@ var gameTimerInterval;
 
 var scoreScreenOpen = false;
 var speedrunTimesOpen = false;
+var hasSavedRunAlready = false;
+var showNewRecordText = false;
 
 var selectedOption = MAIN_MENU_CONTINUE;
 var noSavedGame = false;
@@ -555,25 +559,35 @@ function gameTimer() {
 	saveGameTime();
 }
 function scoreScreenUpdate() {
+
+	if (hasSavedRunAlready == false) {
+		if (totalCollectibles >= TOTAL_COLLECTIBLE_COUNT &&
+			(getHundredPercentTime() == null ||
+			parseInt(getGameTime()) < parseInt(getHundredPercentTime()))) {
+
+			saveHundredPercentScore(getGameTime(),getDeathCount());
+			showNewRecordText = true;
+		}
+
+		if (getAnyPercentTime() == null ||
+			parseInt(getGameTime()) < parseInt(getAnyPercentTime())) {
+
+			saveAnyPercentScore(getGameTime(), getDeathCount());
+			showNewRecordText = true;
+		}
+
+		deleteAllSavedInfo();
+		clearInterval(gameTimerInterval);
+		hasSavedRunAlready = true;
+	}
+
 	if (keyHeld_Enter) {
 		keyHeld_Timer = 0;
 		scoreScreenOpen = false;
 		areYouSureOpen = false;
 		mainMenuOpen = true;
-
-		if (totalCollectibles >= TOTAL_COLLECTIBLE_COUNT &&
-			(getHundredPercentTime() == null ||
-			getGameTime() < getHundredPercentTime())) {
-
-			saveHundredPercentScore(getGameTime(),getDeathCount());
-		} else if (	totalCollectibles < TOTAL_COLLECTIBLE_COUNT &&
-					(getAnyPercentTime() == null ||
-					getGameTime() < getAnyPercentTime())) {
-			saveAnyPercentScore(getGameTime(), getDeathCount());
-		}
-
-		deleteAllSavedInfo();
-		clearInterval(gameTimerInterval);
+		hasSavedRunAlready = false;
+		showNewRecordText = false;
 		totalGameTime = 0;
 	}
 }
@@ -582,6 +596,14 @@ function drawScoreScreenText() {
 
 	var colorToShow;
 	var gameTimeToShow = new Date(null);
+
+	if (showNewRecordText) {
+		colorText('New Record!',
+	          SCORE_SCREEN_NEW_RECORD_X,
+	          SCORE_SCREEN_NEW_RECORD_Y,
+	          PALETTE_BLUE, // white
+	          FONT_MAIN_MENU);
+	}
 
 	colorText('Time: ',
 	          SCORE_SCREEN_TIME_X,
@@ -613,7 +635,7 @@ function drawScoreScreenText() {
 
 	if (totalDeaths == 0) {
 		colorToShow = PALETTE_BLUE;
-	} else { // come up with an average number, red should be bad
+	} else { // Come up with an average number, red should be bad
 		colorToShow = PALETTE_WHITE;
 	}
 
@@ -625,7 +647,7 @@ function drawScoreScreenText() {
 
 
 
-	colorText('Collectibles: ',
+	colorText('Diamonds: ',
 	          SCORE_SCREEN_COLLECTIBLES_X,
 	          SCORE_SCREEN_COLLECTIBLES_Y,
 	          PALETTE_WHITE,
@@ -636,11 +658,18 @@ function drawScoreScreenText() {
 	} else {
 		colorToShow = PALETTE_WHITE;
 	}
+
+	var collectibleCountToShow = totalCollectibles;
+
+	// This prevents the collectible count showing anything higher than the max (if any bugs)
+	if (totalCollectibles > TOTAL_COLLECTIBLE_COUNT) {
+		collectibleCountToShow = TOTAL_COLLECTIBLE_COUNT;
+	}
 	
-	colorText(totalCollectibles,
+	colorText(collectibleCountToShow + ' / ' + TOTAL_COLLECTIBLE_COUNT,
 	          SCORE_SCREEN_COLLECTIBLES_X + SCORE_SCREEN_DIST_AWAY_FROM_SUB_TEXT,
 	          SCORE_SCREEN_COLLECTIBLES_Y,
-	          colorToShow, // white
+	          colorToShow,
 	          FONT_MAIN_MENU);
 
 	colorText(	'Press Enter To Go Back To Main Menu',
@@ -652,7 +681,7 @@ function drawScoreScreenText() {
 }
 
 function showLevelText(currentLevel) {
-	if (currentLevel <= LEVELS_PER_WORLD) { // change this number based off of how many levels are in each world
+	if (currentLevel <= LEVELS_PER_WORLD) {
 		colorText('1-' + currentLevel, TEXT_LEVEL_START_X, TEXT_LEVEL_START_Y, 'white', FONT_LEVEL_NAME);
 	} else if (currentLevel > LEVELS_PER_WORLD && currentLevel <= LEVELS_PER_WORLD * 2) {
 		colorText('2-' + (currentLevel - LEVELS_PER_WORLD), TEXT_LEVEL_START_X, TEXT_LEVEL_START_Y, 'white', FONT_LEVEL_NAME);
