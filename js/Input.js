@@ -266,10 +266,9 @@ function setValuesForKey(evt, value) {
 		case "KeyR":
 			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
-				loadLevel(currentLevel);
 				// Prevents the deathcount from increasing in realtime on the score screen
 				if (scoreScreenOpen == false) {
-					totalDeaths++;
+					player.deathAnimationStarted = true;
 				}
 			}
 			break;
