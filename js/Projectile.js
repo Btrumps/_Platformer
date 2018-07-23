@@ -26,7 +26,7 @@ function projectileClass(fromX, fromY, whichDirection) {
 			this.y += PROJECTILE_SPEED;
 		}
 
-
+		/*
 		if ((this.x > canvas.width ||
 		    this.y > canvas.height ||
 		    this.x < 0 ||
@@ -35,6 +35,7 @@ function projectileClass(fromX, fromY, whichDirection) {
 			var thisIndex = projectileArray.indexOf(this);
 			projectileArray.splice(thisIndex, 1);
 		}
+		*/
 	}
 
 	this.draw = function() {
