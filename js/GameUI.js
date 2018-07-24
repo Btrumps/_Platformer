@@ -1,5 +1,23 @@
-const TEXT_LEVEL_START_X = 15;
-const TEXT_LEVEL_START_Y = 25;
+const FONT_LEVEL_NAME = '16pt Retro';
+const FONT_MAIN_MENU = '22pt Retro';
+const FONT_LEVEL_PLATFORM = '8pt Retro';
+
+const PALETTE_RED = '#fe0000';
+const PALETTE_WHITE = '#fefefe';
+const PALETTE_BLACK = '#000000';
+const PALETTE_BLUE = '#208eff';
+
+const TEXT_LEVEL_START_X = 20;
+const TEXT_LEVEL_START_Y = 35;
+const TEXT_COLLECTIBLE_START_X = (512 * 2) - 90; // 512 is the canvas width
+const TEXT_COLLECTIBLE_START_Y = TEXT_LEVEL_START_Y;
+const TEXT_COLLECTIBLE_TEN_OFFSET = 10;
+const TEXT_COLLECTIBLE_TWENTY_OFFSET = 20;
+
+const ICON_COLLECTIBLE_START_X = 512 - 65;
+const ICON_COLLECTIBLE_START_Y = 5;
+const ICON_COLLECTIBLE_TEN_OFFSET = 5;
+const ICON_COLLECTIBLE_TWENTY_OFFSET = 10;
 
 const MAIN_MENU_CONTINUE = 1;
 const MAIN_MENU_NEW_GAME = 2;
@@ -93,7 +111,7 @@ const SPEEDRUN_RESET_TIMES_Y = 700;
 const SPEEDRUN_BACK_TO_MAIN_MENU_X = 380;
 const SPEEDRUN_BACK_TO_MAIN_MENU_Y = 800;
 
-const TOTAL_COLLECTIBLE_COUNT = 15; // change this number to the max amount of collectibles in the final game
+const TOTAL_COLLECTIBLE_COUNT = 25; // change this number to the max amount of collectibles in the final game
 const LEVELS_PER_WORLD = 15;
 
 var totalCollectibles = 0;
@@ -590,6 +608,56 @@ function scoreScreenUpdate() {
 		showNewRecordText = false;
 		totalGameTime = 0;
 	}
+}
+
+function drawCollectibleIcon() {
+	var offset = 0;
+
+	if (totalCollectibles == 10 ||
+	   (totalCollectibles > 11 &&
+	    totalCollectibles < 20)) {
+		offset = ICON_COLLECTIBLE_TEN_OFFSET;
+	} else if (totalCollectibles == 20 ||
+	    totalCollectibles > 21) {
+		offset = ICON_COLLECTIBLE_TWENTY_OFFSET;
+	} else if (totalCollectibles == 11) {
+		offset = 0;
+	} else {
+		offset = 0;
+	}
+
+
+	canvasContext.drawImage(collectibleIcon,
+	                        ICON_COLLECTIBLE_START_X - offset,
+	                        ICON_COLLECTIBLE_START_Y);
+}
+
+function drawCollectibleText() {
+	var offset = 0;
+	var collectibleCountToShow = totalCollectibles;
+
+	if (totalCollectibles == 10 ||
+	   (totalCollectibles > 11 &&
+	    totalCollectibles < 20)) {
+		offset = TEXT_COLLECTIBLE_TEN_OFFSET;
+	} else if (totalCollectibles == 20 ||
+	    totalCollectibles > 21) {
+		offset = TEXT_COLLECTIBLE_TWENTY_OFFSET;
+	} else if (totalCollectibles == 21) {
+		offset = TEXT_COLLECTIBLE_TEN_OFFSET;
+	} else {
+		offset = 0;
+	}
+
+	if (collectibleCountToShow > TOTAL_COLLECTIBLE_COUNT) {
+		collectibleCountToShow = TOTAL_COLLECTIBLE_COUNT;
+	}
+
+	colorText(collectibleCountToShow + '/' + TOTAL_COLLECTIBLE_COUNT,
+	          TEXT_COLLECTIBLE_START_X - offset,
+	          TEXT_COLLECTIBLE_START_Y,
+	          PALETTE_WHITE, // white
+	          FONT_LEVEL_NAME);
 }
 
 function drawScoreScreenText() {

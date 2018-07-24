@@ -16,7 +16,6 @@ window.onload = function() {
 	scaledCanvas = document.getElementById('gameCanvas');
 	canvas = document.createElement('canvas');
 	
-	
 	// Sizing game canvas for pixel doubling
 	canvas.width = TILE_WIDTH * LEVEL_COLS;
 	canvas.height = TILE_HEIGHT * LEVEL_ROWS;
@@ -35,14 +34,11 @@ window.onload = function() {
 	canvasContext.imageSmoothingEnabled = false;
 	canvasContext.msSmoothingEnabled = false;
 
-
 	document.addEventListener('keydown', keyDownHandler);
 	document.addEventListener('keyup', keyUpHandler);
 	scaledCanvas.addEventListener('mousedown', mousedownHandler);
 	scaledCanvas.addEventListener('mouseup', mouseupHandler);
 	scaledCanvas.addEventListener('mousemove', mouseMoveHandler);
-
-	
 
 	startScreenWithLoadingImagesText();
 	loadImages();
@@ -52,7 +48,6 @@ window.onload = function() {
 
 function imagesDoneLoadingSoStartGame() {
 	setInterval(updateAll, 1000 / FPS);
-	
 }
 
 function updateAll() {
@@ -128,6 +123,7 @@ function drawAll() {
 
 		deathFadeCheck();
 		levelTransitionCheck();
+		drawCollectibleIcon();
 
 	}
 
@@ -146,6 +142,7 @@ function drawAll() {
 		drawMainMenuText();
 	} else {
 		showLevelText(currentLevel);
+		drawCollectibleText();
 		drawAllTriggerText();
 	}
 	

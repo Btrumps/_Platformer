@@ -45,6 +45,7 @@ var powerupTaken = document.createElement("img");
 var fallingPlatformTaken = document.createElement("img");
 var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
+var collectibleIcon = document.createElement("img");
 var collectibleAnim = document.createElement("img");
 var collectibleObtainedAnim = document.createElement("img");
 
@@ -106,6 +107,7 @@ function loadImages() {
 		{varName: fallingPlatformTaken, theFile: "./images/level_tiles/platform_falling_taken.png"},
 		{varName: enterPortalAnim, theFile: "./images/level_obstacles/enter_portal_anim2.png"},
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
+		{varName: collectibleIcon, theFile: "./images/level_obstacles/collectible_icon.png"},
 		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},
 		{varName: collectibleObtainedAnim, theFile: "./images/level_obstacles/collectible_obtained_anim.png"},
 		{varName: fallingSpike, theFile: "./images/level_obstacles/spike_S2.png"},
