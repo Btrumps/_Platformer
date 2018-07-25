@@ -25,8 +25,7 @@ function projectileClass(fromX, fromY, whichDirection) {
 		if (this.direction == DIRECTION_DOWN) {
 			this.y += PROJECTILE_SPEED;
 		}
-
-		/*
+		
 		if ((this.x > canvas.width ||
 		    this.y > canvas.height ||
 		    this.x < 0 ||
@@ -35,7 +34,7 @@ function projectileClass(fromX, fromY, whichDirection) {
 			var thisIndex = projectileArray.indexOf(this);
 			projectileArray.splice(thisIndex, 1);
 		}
-		*/
+		
 	}
 
 	this.draw = function() {
@@ -49,7 +48,7 @@ function projectileClass(fromX, fromY, whichDirection) {
 }
 
 function moveAllProjectiles() {
-	for (var i = 0; i < projectileArray.length; i++) {
+	for (var i = projectileArray.length - 1; i >= 0; i--) {
 		projectileArray[i].move();
 	}
 }
