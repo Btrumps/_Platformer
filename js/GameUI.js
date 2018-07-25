@@ -679,7 +679,7 @@ function drawScoreScreenText() {
 	          PALETTE_WHITE, // white
 	          FONT_MAIN_MENU);
 
-	if (totalGameTime < 240) { // under 4 minute
+	if (totalGameTime < 480) { // under 8 minutes
 		colorToShow = PALETTE_BLUE;
 	} else {
 		colorToShow = PALETTE_WHITE;

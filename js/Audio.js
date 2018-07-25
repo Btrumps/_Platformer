@@ -44,7 +44,6 @@ function playCollectibleStartSound() {
 
 function loadSounds() {
 	setFormat();
-	firstSong = new Audio("./audio/deepdark" + audioFormat);
 	deathSound = new Audio("./audio/sfx/death_sfx.mp3");
 	collectibleObtainedSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
 	collectibleStartTimerSound = new Audio("./audio/sfx/collectible_start_sfx.mp3");
