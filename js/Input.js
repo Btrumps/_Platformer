@@ -123,7 +123,7 @@ function mouseupHandler(evt) {
 			noSavedGame == false) {
 
 			continueSavedGame();
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
+			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
@@ -133,7 +133,7 @@ function mouseupHandler(evt) {
 			areYouSureOpen) {
 			
 			areYouSureOpen = false;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
+			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
@@ -143,7 +143,7 @@ function mouseupHandler(evt) {
 			areYouSureOpen) {
 
 			startNewGame();
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
+			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
@@ -178,7 +178,7 @@ function mouseupHandler(evt) {
 
 			selectedOption = MAIN_MENU_NO;
 			areYouSureOpen = true;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
+			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > SPEEDRUN_BACK_TO_MAIN_MENU_START_X / PIXEL_SCALE_UP&&
@@ -190,7 +190,7 @@ function mouseupHandler(evt) {
 			speedrunTimesOpen = false;
 			mainMenuOpen = true;
 			selectedOption = MAIN_MENU_SPEEDRUN;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
+			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
@@ -201,7 +201,7 @@ function mouseupHandler(evt) {
 
 			areYouSureOpen = false;
 			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
+			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&

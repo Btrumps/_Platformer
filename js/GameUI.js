@@ -168,7 +168,7 @@ function mainMenuUpdate() {
 				}
 			}
 		}
-		playSound(menuMoveSound, MENU_MOVE_VOLUME);
+		// playSound(menuMoveSound, MENU_MOVE_VOLUME);
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
@@ -194,7 +194,7 @@ function mainMenuUpdate() {
 				selectedOption = 1;
 			}
 		}
-		playSound(menuMoveSound, MENU_MOVE_VOLUME);
+		// playSound(menuMoveSound, MENU_MOVE_VOLUME);
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
@@ -212,6 +212,7 @@ function mainMenuUpdate() {
 					deleteAllSpeedRunInfo();
 					areYouSureOpen = false;
 					optionSelectedThisFrame = true;
+					playSound(menuSelectSound, MENU_SELECT_VOLUME);
 				}
 				
 			} else if (selectedOption == MAIN_MENU_NO) {
@@ -247,6 +248,7 @@ function mainMenuUpdate() {
 			selectedOption = 1;
 			areYouSureOpen = true;
 			optionSelectedThisFrame = true;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (selectedOption == MAIN_MENU_CONTINUE &&
@@ -263,9 +265,8 @@ function mainMenuUpdate() {
 			speedrunTimesOpen = true;
 			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
 			keyHeld_Timer = 0;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
-
-		playSound(menuSelectSound, MENU_SELECT_VOLUME);
 	}
 }
 
