@@ -71,6 +71,7 @@ function playerClass() {
 	this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 
 	this.isGrounded = true;
+	this.hasPlayedLandingSound = true;
 	this.hasResetJumpAnim = false;
 	this.variableJumpCounter = 0;
 
@@ -80,7 +81,7 @@ function playerClass() {
 	this.insideTrigger = false;
 
 	this.dashTrail = [];
-
+	this.hasPlayedDashSound = false;
 	this.postDashCounter = 0;
 	this.postDashVelX;
 	this.postDashVelY;
@@ -142,7 +143,7 @@ function playerClass() {
 
 		if (this.deathAnimationStarted) {
 			if (this.hasPlayedDeathSound == false) {
-				playDeathSound();
+				playSound(deathSound, DEATH_VOLUME);
 				// spawnParticles('death', this.x, this.y);
 				this.hasPlayedDeathSound = true;
 			}
@@ -231,6 +232,11 @@ function playerClass() {
 		this.currentIndex = this.getCurrentPlayerIndex();
 
 		if (this.isGrounded && this.currentMoveState != PLAYER_STATE_DASHING) {
+			if (this.hasPlayedLandingSound == false) {
+				this.hasPlayedLandingSound = true;
+				playSound(landingSound, LANDING_VOLUME);
+			}
+
 			this.variableJumpCounter = 0;
 			this.framesSinceLeftGround = 0;
 			this.dashesLeft = this.maxDashLimit;
@@ -300,6 +306,10 @@ function playerClass() {
 				this.dashesLeft--;
 				keyHeld_DashTimer = 0;
 
+				if (this.hasPlayedDashSound == false) {
+					this.hasPlayedDashSound = true;
+					playSound(dashSound, DASH_VOLUME);
+				}
 
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
@@ -322,6 +332,11 @@ function playerClass() {
 				this.dashesLeft--;
 				keyHeld_DashTimer = 0;
 
+				if (this.hasPlayedDashSound == false) {
+					this.hasPlayedDashSound = true;
+					playSound(dashSound, DASH_VOLUME);
+				}
+
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 				}
@@ -342,6 +357,11 @@ function playerClass() {
 				this.direction = DIRECTION_UP;
 				this.dashesLeft--;
 				keyHeld_DashTimer = 0;
+
+				if (this.hasPlayedDashSound == false) {
+					this.hasPlayedDashSound = true;
+					playSound(dashSound, DASH_VOLUME);
+				}
 
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
@@ -368,6 +388,7 @@ function playerClass() {
 				// this NEEDS to be set to a diff state or we'll never leave dashing state
 				// this gets overwritten down at the end of move()
 				this.currentMoveState = PLAYER_STATE_FALLING;
+				this.hasPlayedDashSound = false;
 			}
 		}
 	}
@@ -433,6 +454,7 @@ function playerClass() {
 			// if we don't check up, no top edge collisions will occur when we dash into a platform above us
 			if (this.currentMoveState != PLAYER_STATE_DASHING || this.direction == DIRECTION_UP) {
 				this.isGrounded = false;
+				this.hasPlayedLandingSound = false;
 			}
 
 			this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
@@ -633,7 +655,7 @@ function playerClass() {
 			if (this.triggerArray[i].type == LEVEL_COLLECTIBLE) {
 				levelGrid[this.triggerArray[i].index] = 0;
 				if (this.playedCollectibleStartSound == false) {
-					playCollectibleStartSound();
+					playSound(collectibleStartTimerSound, COLLECTIBLE_START_TIMER_VOLUME);
 					this.playedCollectibleStartSound = true;
 				}
 				this.startCollectibleTimer = true;
@@ -645,7 +667,7 @@ function playerClass() {
 				if (this.collectibleObtained || this.startCollectibleTimer) {
 					if (this.playedCollectibleObtainedSound == false &&
 					    getCollectibleObtainedForLevel() == "false") {
-						playCollectibleObtainedSound();
+						playSound(collectibleObtainedSound, COLLECTIBLE_OBTAINED_VOLUME);
 						// we only include this here if the collectible timer hasn't completed already
 						totalCollectibles++;
 						saveCollectibleCount();
@@ -717,7 +739,7 @@ function playerClass() {
 		           this.deathAnimationStarted == false) {
 			
 			if (this.playedCollectibleObtainedSound == false) {
-				playCollectibleObtainedSound();
+				playSound(collectibleObtainedSound, COLLECTIBLE_OBTAINED_VOLUME);
 				totalCollectibles++;
 				saveCollectibleCount();
 				saveCollectibleObtainedForLevel("true");

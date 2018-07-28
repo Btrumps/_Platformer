@@ -78,9 +78,19 @@ function moveAll() {
 		moveAllProjectiles();
 		checkLevelSkipInput();
 
-		if (musicEnabled) {
-			playBGM(currentLevel);
+		
+			
+		if (currentLevel <= LEVELS_PER_WORLD) {
+			playBGM(firstSong, FIRST_SONG_VOLUME);
+		} else if (currentLevel > LEVELS_PER_WORLD && currentLevel <= LEVELS_PER_WORLD * 2) {
+			firstSong.pause();
+			firstSong.currentTime = 0;
+			playBGM(secondSong, SECOND_SONG_VOLUME);
+		} else if (currentLevel > LEVELS_PER_WORLD * 2) {
+			// need to put third song here
 		}
+			
+		
 		if (levelEditorEnabled) {
 			placeTilesOnButtonPress();
 		}

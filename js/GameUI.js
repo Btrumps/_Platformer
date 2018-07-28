@@ -1,5 +1,6 @@
 const FONT_LEVEL_NAME = '16pt Retro';
 const FONT_MAIN_MENU = '22pt Retro';
+const FONT_GAME_TITLE = '36pt Retro';
 const FONT_LEVEL_PLATFORM = '8pt Retro';
 
 const PALETTE_RED = '#fe0000';
@@ -18,6 +19,9 @@ const ICON_COLLECTIBLE_START_X = 512 - 65;
 const ICON_COLLECTIBLE_START_Y = 5;
 const ICON_COLLECTIBLE_TEN_OFFSET = 5;
 const ICON_COLLECTIBLE_TWENTY_OFFSET = 10;
+
+const MAIN_MENU_GAME_NAME_START_X = 300;
+const MAIN_MENU_GAME_NAME_START_Y = 275;
 
 const MAIN_MENU_CONTINUE = 1;
 const MAIN_MENU_NEW_GAME = 2;
@@ -163,7 +167,8 @@ function mainMenuUpdate() {
 					selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
 				}
 			}
-		}	
+		}
+		playSound(menuMoveSound, MENU_MOVE_VOLUME);
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
@@ -188,7 +193,8 @@ function mainMenuUpdate() {
 			} else {
 				selectedOption = 1;
 			}
-		}		
+		}
+		playSound(menuMoveSound, MENU_MOVE_VOLUME);
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
@@ -258,6 +264,8 @@ function mainMenuUpdate() {
 			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
 			keyHeld_Timer = 0;
 		}
+
+		playSound(menuSelectSound, MENU_SELECT_VOLUME);
 	}
 }
 
@@ -293,6 +301,14 @@ function drawMainMenuText() {
 	var whereToShowText2Y;
 	var whereToShowText3X;
 	var whereToShowText3Y;
+
+	if (mainMenuOpen && areYouSureOpen == false) {
+		colorText('Sadisticave',
+		          MAIN_MENU_GAME_NAME_START_X,
+		          MAIN_MENU_GAME_NAME_START_Y,
+		          PALETTE_WHITE,
+		          FONT_GAME_TITLE);
+	}
 
 	if (areYouSureOpen) {
 		textToShow1 = 'No';

@@ -1,10 +1,29 @@
+const COLLECTIBLE_OBTAINED_VOLUME = 0.05;
+const COLLECTIBLE_START_TIMER_VOLUME = 0.3;
+const DEATH_VOLUME = 0.1;
+const DASH_VOLUME = 0.5;
+const LANDING_VOLUME = 0.5;
+const LEVEL_TRANSITION_VOLUME = 0.5;
+const MENU_MOVE_VOLUME = 0.5;
+const MENU_SELECT_VOLUME = 0.05;
+
+const FIRST_SONG_VOLUME = 0.2;
+const SECOND_SONG_VOLUME = 0.5;
+
+
 var audioFormat;
-var musicEnabled = false;
+var musicEnabled = true;
 var firstSong;
+var secondSong;
 
 var deathSound;
 var collectibleStartTimerSound;
 var collectibleObtainedSound;
+var dashSound;
+var landingSound;
+var levelTransitionSound;
+var menuMoveSound;
+var menuSelectSound;
 
 
 function setFormat() {
@@ -17,34 +36,31 @@ function setFormat() {
 	}
 }
 
-function playBGM() {
+function playBGM(whatSong, whatVolume) {
 	if (musicEnabled) {
-		firstSong.volume = 0.8;
-		firstSong.play();
+		whatSong.volume = whatVolume;
+		whatSong.play();
 	} else {
-		firstSong.pause();
-		firstSong.currentTime = 0;
+		whatSong.pause();
+		whatSong.currentTime = 0;
 	}
 }
 
-function playDeathSound() {
-	deathSound.volume = 0.1;
-	deathSound.play();
-}
-
-function playCollectibleObtainedSound() {
-	collectibleObtainedSound.volume = 0.05;
-	collectibleObtainedSound.play();
-}
-
-function playCollectibleStartSound() {
-	collectibleStartTimerSound.volume = 0.3;
-	collectibleStartTimerSound.play();
+function playSound(whatSound, whatVolume) {
+	whatSound.volume = whatVolume;
+	whatSound.play();
 }
 
 function loadSounds() {
 	setFormat();
+	firstSong = new Audio("./audio/music/Sadisticave1V2.mp3");
+	secondSong = new Audio("./audio/music/Sadisticave2V2.mp3");
 	deathSound = new Audio("./audio/sfx/death_sfx.mp3");
 	collectibleObtainedSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
 	collectibleStartTimerSound = new Audio("./audio/sfx/collectible_start_sfx.mp3");
+	dashSound = new Audio("./audio/sfx/dash_sfx.mp3");
+	landingSound = new Audio("./audio/sfx/landing2_sfx.mp3");
+	menuMoveSound = new Audio("./audio/sfx/menumove_sfx.mp3");
+	menuSelectSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
+	levelTransitionSound = new Audio("./audio/sfx/leveltransition_sfx.mp3");
 }

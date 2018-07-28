@@ -123,6 +123,7 @@ function mouseupHandler(evt) {
 			noSavedGame == false) {
 
 			continueSavedGame();
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
@@ -132,6 +133,7 @@ function mouseupHandler(evt) {
 			areYouSureOpen) {
 			
 			areYouSureOpen = false;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
@@ -141,6 +143,7 @@ function mouseupHandler(evt) {
 			areYouSureOpen) {
 
 			startNewGame();
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
@@ -151,6 +154,7 @@ function mouseupHandler(evt) {
 
 			selectedOption = MAIN_MENU_NO;
 			areYouSureOpen = true;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_SPEEDRUN_START_X / PIXEL_SCALE_UP&&
@@ -161,6 +165,7 @@ function mouseupHandler(evt) {
 
 			speedrunTimesOpen = true;
 			mainMenuOpen = false;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 			
 		
@@ -173,6 +178,7 @@ function mouseupHandler(evt) {
 
 			selectedOption = MAIN_MENU_NO;
 			areYouSureOpen = true;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > SPEEDRUN_BACK_TO_MAIN_MENU_START_X / PIXEL_SCALE_UP&&
@@ -184,6 +190,7 @@ function mouseupHandler(evt) {
 			speedrunTimesOpen = false;
 			mainMenuOpen = true;
 			selectedOption = MAIN_MENU_SPEEDRUN;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
@@ -194,6 +201,7 @@ function mouseupHandler(evt) {
 
 			areYouSureOpen = false;
 			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
@@ -204,6 +212,7 @@ function mouseupHandler(evt) {
 			
 			deleteAllSpeedRunInfo();
 			areYouSureOpen = false;
+			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 	}
 
@@ -393,7 +402,16 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 		case "KeyM":
-			keyHeld_M = value;
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+				keyHeld_Timer = 0;
+				musicEnabled = !musicEnabled;
+
+				if (musicEnabled) {
+					console.log('music Enabled');
+				} else {
+					console.log('music Disabled');
+				}
+			}
 			break;
 		case "Comma":
 			keyHeld_Comma = value;
