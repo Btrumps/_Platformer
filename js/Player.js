@@ -681,6 +681,8 @@ function playerClass() {
 				
 				if (currentLevel == TOTAL_LEVEL_COUNT + 1) { // +1 because we increment in this function
 					scoreScreenOpen = true;
+					thirdSong.pause();
+					thirdSong.currentTime = 0;
 				}
 				
 				break;

@@ -1,14 +1,15 @@
 const COLLECTIBLE_OBTAINED_VOLUME = 0.05;
 const COLLECTIBLE_START_TIMER_VOLUME = 0.3;
 const DEATH_VOLUME = 0.1;
-const DASH_VOLUME = 0.5;
-const LANDING_VOLUME = 0.5;
+const DASH_VOLUME = 0.2;
+const LANDING_VOLUME = 0.1;
 const LEVEL_TRANSITION_VOLUME = 0.5;
 const MENU_MOVE_VOLUME = 0.5;
 const MENU_SELECT_VOLUME = 0.05;
 
 const FIRST_SONG_VOLUME = 0.2;
-const SECOND_SONG_VOLUME = 0.5;
+const SECOND_SONG_VOLUME = 0.4;
+const THIRD_SONG_VOLUME = 0.4;
 
 
 var audioFormat;
@@ -54,7 +55,8 @@ function playSound(whatSound, whatVolume) {
 function loadSounds() {
 	setFormat();
 	firstSong = new Audio("./audio/music/Sadisticave1V2.mp3");
-	secondSong = new Audio("./audio/music/Sadisticave2V2.mp3");
+	secondSong = new Audio("./audio/music/Sadisticave2V3.mp3");
+	thirdSong = new Audio("./audio/music/Sadisticave3V2.mp3");
 	deathSound = new Audio("./audio/sfx/death_sfx.mp3");
 	collectibleObtainedSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
 	collectibleStartTimerSound = new Audio("./audio/sfx/collectible_start_sfx.mp3");

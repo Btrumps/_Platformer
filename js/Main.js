@@ -78,16 +78,19 @@ function moveAll() {
 		moveAllProjectiles();
 		checkLevelSkipInput();
 
-		
-			
-		if (currentLevel <= LEVELS_PER_WORLD) {
+
+		if (mainMenuOpen || speedrunTimesOpen) {
+
+		} else if (currentLevel <= LEVELS_PER_WORLD) {
 			playBGM(firstSong, FIRST_SONG_VOLUME);
 		} else if (currentLevel > LEVELS_PER_WORLD && currentLevel <= LEVELS_PER_WORLD * 2) {
 			firstSong.pause();
 			firstSong.currentTime = 0;
 			playBGM(secondSong, SECOND_SONG_VOLUME);
-		} else if (currentLevel > LEVELS_PER_WORLD * 2) {
-			// need to put third song here
+		} else if (currentLevel > LEVELS_PER_WORLD * 2 && currentLevel <= LEVELS_PER_WORLD * 3) {
+			secondSong.pause();
+			secondSong.currentTime = 0;
+			playBGM(thirdSong, THIRD_SONG_VOLUME);
 		}
 			
 		
