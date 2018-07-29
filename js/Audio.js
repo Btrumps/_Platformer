@@ -1,21 +1,25 @@
 const COLLECTIBLE_OBTAINED_VOLUME = 0.05;
 const COLLECTIBLE_START_TIMER_VOLUME = 0.3;
-const DEATH_VOLUME = 0.1;
-const DASH_VOLUME = 0.2;
-const LANDING_VOLUME = 0.1;
+const DEATH_VOLUME = 0.2;
+const DASH_VOLUME = 0.25;
+const LANDING_VOLUME = 0.15;
 const LEVEL_TRANSITION_VOLUME = 0.5;
 const MENU_MOVE_VOLUME = 0.5;
 const MENU_SELECT_VOLUME = 0.05;
 
-const FIRST_SONG_VOLUME = 0.2;
-const SECOND_SONG_VOLUME = 0.4;
+const MENU_SONG_VOLUME = 0.4;
+const FIRST_SONG_VOLUME = 0.3;
+const SECOND_SONG_VOLUME = 0.2;
 const THIRD_SONG_VOLUME = 0.4;
 
 
 var audioFormat;
 var musicEnabled = true;
+var menuSong;
 var firstSong;
 var secondSong;
+var thirdSong;
+
 
 var deathSound;
 var collectibleStartTimerSound;
@@ -39,12 +43,24 @@ function setFormat() {
 
 function playBGM(whatSong, whatVolume) {
 	if (musicEnabled) {
+		whatSong.loop = true;
 		whatSong.volume = whatVolume;
 		whatSong.play();
 	} else {
 		whatSong.pause();
 		whatSong.currentTime = 0;
 	}
+}
+
+function stopAllBGM() {
+	menuSong.pause();
+	menuSong.currentTime = 0;
+	firstSong.pause();
+	firstSong.currentTime = 0;
+	secondSong.pause();
+	secondSong.currentTime = 0;
+	thirdSong.pause();
+	thirdSong.currentTime = 0;
 }
 
 function playSound(whatSound, whatVolume) {
@@ -54,9 +70,10 @@ function playSound(whatSound, whatVolume) {
 
 function loadSounds() {
 	setFormat();
-	firstSong = new Audio("./audio/music/Sadisticave1V2.mp3");
-	secondSong = new Audio("./audio/music/Sadisticave2V3.mp3");
-	thirdSong = new Audio("./audio/music/Sadisticave3V2.mp3");
+	menuSong = new Audio("./audio/music/SadisticaveMenu.mp3");
+	firstSong = new Audio("./audio/music/Sadisticave1.mp3");
+	secondSong = new Audio("./audio/music/Sadisticave2.mp3");
+	thirdSong = new Audio("./audio/music/Sadisticave3.mp3");
 	deathSound = new Audio("./audio/sfx/death_sfx.mp3");
 	collectibleObtainedSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
 	collectibleStartTimerSound = new Audio("./audio/sfx/collectible_start_sfx.mp3");
