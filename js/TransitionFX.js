@@ -1,6 +1,6 @@
 var levelFadeX = 0;
 var levelFadeY = 0;
-var levelFadeSpeed = 30;
+var levelFadeSpeed = 50;
 var levelTransitionStarted = false;
 
 function deathFadeCheck() {
