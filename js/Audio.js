@@ -1,11 +1,13 @@
-const COLLECTIBLE_OBTAINED_VOLUME = 0.05;
-const COLLECTIBLE_START_TIMER_VOLUME = 0.3;
-const DEATH_VOLUME = 0.2;
+const COLLECTIBLE_OBTAINED_VOLUME = 0.1;
+const COLLECTIBLE_START_TIMER_VOLUME = 0.6;
+const DEATH_VOLUME = 0.35;
 const DASH_VOLUME = 0.25;
 const LANDING_VOLUME = 0.15;
-const LEVEL_TRANSITION_VOLUME = 0.5;
+const POWERUP_VOLUME = 0.15;
+const LEVEL_TRANSITION_VOLUME = 0.2;
+const PLATFORM_FALLING_VOLUME = 0.2;
 const MENU_MOVE_VOLUME = 0.5;
-const MENU_SELECT_VOLUME = 0.05;
+const MENU_SELECT_VOLUME = COLLECTIBLE_OBTAINED_VOLUME;
 
 const MENU_SONG_VOLUME = 0.4;
 const FIRST_SONG_VOLUME = 0.3;
@@ -25,11 +27,21 @@ var deathSound;
 var collectibleStartTimerSound;
 var collectibleObtainedSound;
 var dashSound;
+var dashSoundAlt;
 var landingSound;
+var landingSoundAlt;
+var powerupSound;
+var powerupSoundAlt;
+var platformFallingSound;
+var platformFallingSoundAlt;
 var levelTransitionSound;
 var menuMoveSound;
 var menuSelectSound;
 
+
+var dashAltSoundTurn = false;
+var landingAltSoundTurn = false;
+var powerupAltSoundTurn = false;
 
 function setFormat() {
 	var audio = new Audio();
@@ -48,7 +60,6 @@ function playBGM(whatSong, whatVolume) {
 		whatSong.play();
 	} else {
 		whatSong.pause();
-		whatSong.currentTime = 0;
 	}
 }
 
@@ -68,6 +79,22 @@ function playSound(whatSound, whatVolume) {
 	whatSound.play();
 }
 
+function playRepeatingSound(whatSound, whatAltSound, altBool, whatVolume) {
+  	
+    if(altBool) {
+    	whatAltSound.volume = whatVolume;
+    	whatAltSound.currentTime = 0;
+     	whatAltSound.play();
+    } else {
+    	whatSound.volume = whatVolume;
+      	whatSound.currentTime = 0;
+      	whatSound.play();
+    }
+
+    altBool = !altBool;
+  
+}
+
 function loadSounds() {
 	setFormat();
 	menuSong = new Audio("./audio/music/SadisticaveMenu.mp3");
@@ -79,7 +106,9 @@ function loadSounds() {
 	collectibleStartTimerSound = new Audio("./audio/sfx/collectible_start_sfx.mp3");
 	dashSound = new Audio("./audio/sfx/dash_sfx.mp3");
 	landingSound = new Audio("./audio/sfx/landing2_sfx.mp3");
+	platformFallingSound = new Audio("./audio/sfx/platform_falling_sfx.mp3");
+	powerupSound = new Audio("./audio/sfx/powerup_sfx.mp3");
 	menuMoveSound = new Audio("./audio/sfx/menumove_sfx.mp3");
 	menuSelectSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
-	levelTransitionSound = new Audio("./audio/sfx/leveltransition_sfx.mp3");
+	levelTransitionSound = new Audio("./audio/sfx/level_transition_sfx.mp3");
 }

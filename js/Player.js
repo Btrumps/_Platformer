@@ -234,7 +234,10 @@ function playerClass() {
 		if (this.isGrounded && this.currentMoveState != PLAYER_STATE_DASHING) {
 			if (this.hasPlayedLandingSound == false) {
 				this.hasPlayedLandingSound = true;
-				playSound(landingSound, LANDING_VOLUME);
+				playRepeatingSound(	landingSound,
+									landingSoundAlt,
+									landingAltSoundTurn,
+									LANDING_VOLUME);
 			}
 
 			this.variableJumpCounter = 0;
@@ -308,7 +311,10 @@ function playerClass() {
 
 				if (this.hasPlayedDashSound == false) {
 					this.hasPlayedDashSound = true;
-					playSound(dashSound, DASH_VOLUME);
+					playRepeatingSound(	dashSound,
+										dashSoundAlt,
+										dashAltSoundTurn,
+										DASH_VOLUME);
 				}
 
 				if (this.isGrounded == false) {
@@ -334,7 +340,10 @@ function playerClass() {
 
 				if (this.hasPlayedDashSound == false) {
 					this.hasPlayedDashSound = true;
-					playSound(dashSound, DASH_VOLUME);
+					playRepeatingSound(	dashSound,
+										dashSoundAlt,
+										dashAltSoundTurn,
+										DASH_VOLUME);
 				}
 
 				if (this.isGrounded == false) {
@@ -360,7 +369,10 @@ function playerClass() {
 
 				if (this.hasPlayedDashSound == false) {
 					this.hasPlayedDashSound = true;
-					playSound(dashSound, DASH_VOLUME);
+					playRepeatingSound(	dashSound,
+										dashSoundAlt,
+										dashAltSoundTurn,
+										DASH_VOLUME);
 				}
 
 				if (this.isGrounded == false) {
@@ -678,7 +690,7 @@ function playerClass() {
 				}			
 				loadLevel(currentLevel);
 				levelTransitionStarted = true;
-				
+				playSound(levelTransitionSound, LEVEL_TRANSITION_VOLUME);
 				if (currentLevel == TOTAL_LEVEL_COUNT + 1) { // +1 because we increment in this function
 					scoreScreenOpen = true;
 					thirdSong.pause();
@@ -694,6 +706,11 @@ function playerClass() {
 				}
 				this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 				levelGrid[this.triggerArray[i].index] = 0;
+
+				playRepeatingSound(	powerupSound,
+									powerupSoundAlt,
+									powerupAltSoundTurn,
+									POWERUP_VOLUME);
 
 				for (var j = 0; j < allTriggersArray.length; j++) {
 					if (allTriggersArray[j].index == this.triggerArray[i].index) {
