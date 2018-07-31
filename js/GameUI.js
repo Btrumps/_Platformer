@@ -69,6 +69,8 @@ const MAIN_MENU_NEW_GAME_X = 425;
 const MAIN_MENU_NEW_GAME_Y = 500;
 const MAIN_MENU_SPEEDRUN_X = 300;
 const MAIN_MENU_SPEEDRUN_Y = 600;
+const MAIN_MENU_TOOLTIP_X = 620;
+const MAIN_MENU_TOOLTIP_Y = 870;
 const MAIN_MENU_ARE_YOU_SURE_X = 375;
 const MAIN_MENU_ARE_YOU_SURE_Y = 325;
 const MAIN_MENU_NO_X = 485;
@@ -675,6 +677,14 @@ function drawCollectibleText() {
 	          TEXT_COLLECTIBLE_START_Y,
 	          PALETTE_WHITE, // white
 	          FONT_LEVEL_NAME);
+}
+
+function drawMusicToolTipText() {
+	colorText('M to Toggle Music',
+	          MAIN_MENU_TOOLTIP_X,
+	          MAIN_MENU_TOOLTIP_Y,
+	          PALETTE_WHITE, // white
+	          FONT_MAIN_MENU);
 }
 
 function drawScoreScreenText() {

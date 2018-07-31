@@ -17,7 +17,7 @@ const THIRD_SONG_VOLUME = 0.4;
 
 
 var audioFormat;
-var musicEnabled = false;
+var musicEnabled = true;
 var menuSong;
 var firstSong;
 var secondSong;

@@ -87,7 +87,11 @@ function moveAll() {
 		moveParticles();
 		moveAllTriggers();
 		moveAllProjectiles();
-		checkLevelSkipInput();
+
+		if (debugMode) {
+			checkLevelSkipInput();
+		}
+		
 
 
 		if (currentLevel <= LEVELS_PER_WORLD) {
@@ -162,6 +166,7 @@ function drawAll() {
 
 	if (mainMenuOpen) {
 		drawMainMenuText();
+		drawMusicToolTipText();
 	} else if (scoreScreenOpen) {
 		drawScoreScreenText();
 	} else if (levelLayoutScreenOpen) {
