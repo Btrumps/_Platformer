@@ -1,4 +1,22 @@
 var playerIdleLeftAnim;
+var playerIdleRightAnim;
+var playerRunLeftAnim;
+var playerRunRightAnim;
+var playerDeathLeftAnim;
+var playerDeathRightAnim;
+
+var bossIntroAnim;
+var bossSlamAnim;
+
+var shooterWAnim;
+var shooterEAnim;
+var shooterNAnim;
+var shooterSAnim;
+
+var collectibleAnim;
+var collectibleLargeAnim;
+var collectibleObtainedAnim;
+var collectibleObtainedLargeAnim;
 
 function sprite(options) {
     var that = {};
@@ -58,6 +76,7 @@ function updateAnimations() {
   bossIntroAnim.update();
 
   collectibleAnim.update();
+  collectibleLargeAnim.update();
 
   if (okayToUpdateShooterAnim_W) {
     shooterWAnim.update();
@@ -206,11 +225,31 @@ function setupSpriteSheets() {
       ticksPerFrame: 6,
     });
 
+    collectibleLargeAnim = sprite({
+      context: canvasContext,
+      width: 128,
+      height: 144,
+      image: collectibleLargeAnim,
+      loop: true,
+      numberOfFrames: 8,
+      ticksPerFrame: 8,
+    });
+
     collectibleObtainedAnim = sprite({
       context: canvasContext,
       width: 16,
       height: 16,
       image: collectibleObtainedAnim,
+      loop: false,
+      numberOfFrames: 11,
+      ticksPerFrame: 1,
+    });
+
+    collectibleObtainedLargeAnim = sprite({
+      context: canvasContext,
+      width: 128,
+      height: 128,
+      image: collectibleObtainedLargeAnim,
       loop: false,
       numberOfFrames: 11,
       ticksPerFrame: 1,

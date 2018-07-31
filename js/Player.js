@@ -691,10 +691,19 @@ function playerClass() {
 				loadLevel(currentLevel);
 				levelTransitionStarted = true;
 				playSound(levelTransitionSound, LEVEL_TRANSITION_VOLUME);
+
 				if (currentLevel == TOTAL_LEVEL_COUNT + 1) { // +1 because we increment in this function
 					scoreScreenOpen = true;
-					thirdSong.pause();
-					thirdSong.currentTime = 0;
+				}
+
+				if (currentLevel == TOTAL_LEVEL_COUNT) {
+					keyHeld_Jump = false;
+					keyHeld_Left = false;
+					keyHeld_Right = false;
+					keyHeld_DashUp = false;
+					keyHeld_DashLeft = false;
+					keyHeld_DashRight = false;
+					endingCutsceneStarted = true;
 				}
 				
 				break;

@@ -47,7 +47,9 @@ var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
 var collectibleIcon = document.createElement("img");
 var collectibleAnim = document.createElement("img");
+var collectibleLargeAnim = document.createElement("img");
 var collectibleObtainedAnim = document.createElement("img");
+var collectibleObtainedLargeAnim = document.createElement("img");
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
@@ -109,7 +111,9 @@ function loadImages() {
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleIcon, theFile: "./images/level_obstacles/collectible_icon.png"},
 		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},
+		{varName: collectibleLargeAnim, theFile: "./images/level_obstacles/collectible_large_anim.png"},
 		{varName: collectibleObtainedAnim, theFile: "./images/level_obstacles/collectible_obtained_anim.png"},
+		{varName: collectibleObtainedLargeAnim, theFile: "./images/level_obstacles/collectible_obtained_large_anim.png"},
 		{varName: fallingSpike, theFile: "./images/level_obstacles/spike_S2.png"},
 		{levelType: LEVEL_PLATFORM_N, theFile: "./images/level_tiles/platform_N.png"},
 		{levelType: LEVEL_PLATFORM_S, theFile: "./images/level_tiles/platform_S.png"},

@@ -264,7 +264,7 @@ function setValuesForKey(evt, value) {
 			keyHeld_Q = value;
 			break;
 		case "KeyW":
-			if (levelEditorEnabled == false) {
+			if (levelEditorEnabled == false && endingCutsceneStarted == false && currentLevel != 1) {
 				keyHeld_Jump = value;
 			}
 			keyHeld_W = value;
@@ -310,7 +310,7 @@ function setValuesForKey(evt, value) {
 			break;
 
 		case "KeyA":
-			if (levelEditorEnabled == false) {
+			if (levelEditorEnabled == false & endingCutsceneStarted == false) {
 				keyHeld_Left = value;
 			}
 			keyHeld_A = value;
@@ -319,7 +319,7 @@ function setValuesForKey(evt, value) {
 			keyHeld_S = value;
 			break;
 		case "KeyD":
-			if (levelEditorEnabled == false) {
+			if (levelEditorEnabled == false && endingCutsceneStarted == false) {
 				keyHeld_Right = value;
 			}
 			keyHeld_D = value;
@@ -425,7 +425,7 @@ function setValuesForKey(evt, value) {
 
 
 		case "ArrowUp":
-			if (currentLevel > 2) {
+			if (currentLevel > 2 && endingCutsceneStarted == false) {
 				keyHeld_DashUp = value;
 			}
 			keyHeld_ArrowUp = value;
@@ -434,13 +434,13 @@ function setValuesForKey(evt, value) {
 			keyHeld_ArrowDown = value;
 			break;
 		case "ArrowLeft":
-			if (currentLevel > 2) {
+			if (currentLevel > 2 && endingCutsceneStarted == false) {
 				keyHeld_DashLeft = value;
 			}
 			keyHeld_ArrowLeft = value;
 			break;
 		case "ArrowRight":
-			if (currentLevel > 2) {
+			if (currentLevel > 2 && endingCutsceneStarted == false) {
 				keyHeld_DashRight = value;
 			}
 			keyHeld_ArrowRight = value;

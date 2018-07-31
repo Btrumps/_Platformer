@@ -8,6 +8,7 @@ const LEVEL_TRANSITION_VOLUME = 0.2;
 const PLATFORM_FALLING_VOLUME = 0.2;
 const MENU_MOVE_VOLUME = 0.5;
 const MENU_SELECT_VOLUME = 0.1;
+const VICTORY_VOLUME = 0.5;
 
 const MENU_SONG_VOLUME = 0.4;
 const FIRST_SONG_VOLUME = 0.3;
@@ -16,7 +17,7 @@ const THIRD_SONG_VOLUME = 0.4;
 
 
 var audioFormat;
-var musicEnabled = true;
+var musicEnabled = false;
 var menuSong;
 var firstSong;
 var secondSong;
@@ -37,7 +38,7 @@ var platformFallingSoundAlt;
 var levelTransitionSound;
 var menuMoveSound;
 var menuSelectSound;
-
+var victorySound;
 
 var dashAltSoundTurn = false;
 var landingAltSoundTurn = false;
@@ -111,4 +112,5 @@ function loadSounds() {
 	menuMoveSound = new Audio("./audio/sfx/menumove_sfx.mp3");
 	menuSelectSound = new Audio("./audio/sfx/collectible_obtained_sfx.mp3");
 	levelTransitionSound = new Audio("./audio/sfx/level_transition_sfx.mp3");
+	victorySound = new Audio("./audio/sfx/victory_sfx.mp3");
 }

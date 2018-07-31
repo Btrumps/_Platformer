@@ -70,12 +70,20 @@ function moveAll() {
 		mainMenuUpdate();
 		playBGM(menuSong, MENU_SONG_VOLUME);
 	} else {
+		
+		if (endingCutsceneStarted) {
+			controlPlayerForEnding();
+		}
+		
+
 		player.move();
 
+		/* No boss fight
 		if (currentLevel == BOSS_FIGHT_1_LEVEL) {
 			boss.move();
 		}
-		
+		*/
+
 		moveParticles();
 		moveAllTriggers();
 		moveAllProjectiles();

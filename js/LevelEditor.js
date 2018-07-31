@@ -45,9 +45,11 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_V;
 		}
 
-		if (keyHeld_9) {
+		if (keyHeld_9 && currentLevel != 46) {
 			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE;
-		}	
+		}	else if (keyHeld_9 && currentLevel == 46) {
+			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE_LARGE;
+		}
 
 		if (keyHeld_0) {
 			levelGrid[mouseIndex] = LEVEL_DASH_POWERUP;
