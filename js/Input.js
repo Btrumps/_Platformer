@@ -370,13 +370,13 @@ function setValuesForKey(evt, value) {
 			keyHeld_C = value;
 			break;
 		case "KeyV":
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && debugMode) {
 				keyHeld_Timer = 0;
 				outputLevelToConsole();
 			}
 			break;
 		case "KeyB":
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && debugMode) {
 				keyHeld_Timer = 0;
 				levelEditorEnabled = !levelEditorEnabled;
 
@@ -389,7 +389,7 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 		case "KeyN":
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && debugMode) {
 				keyHeld_Timer = 0;
 				helpBGEnabled = !helpBGEnabled;
 
