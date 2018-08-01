@@ -135,11 +135,11 @@ function isProjectileKillingPlayer(x, y) {
 
 	// player.recalculateCollisionEdges();
 
-	var playerLeft = x - (PLAYER_WIDTH / 2);
-	var playerRight = x + (PLAYER_WIDTH / 2);
+	var playerLeft = x - (PLAYER_WIDTH / 2) + 2 ;
+	var playerRight = x + (PLAYER_WIDTH / 2) - 2;
 
-	var playerTop = y - (PLAYER_HEIGHT / 2) + 1;
-	var playerBottom = y + (PLAYER_HEIGHT / 2) - 1;
+	var playerTop = y - (PLAYER_HEIGHT / 2) + 2;
+	var playerBottom = y + (PLAYER_HEIGHT / 2) - 2;
 	
 	for (var i = 0; i < projectileArray.length; i++) {
 
