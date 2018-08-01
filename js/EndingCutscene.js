@@ -72,7 +72,7 @@ function controlPlayerForEnding() {
 		} else if (whichAction == CUTSCENE_COLLECTIBLE_OBTAINED) {
 			playSound(collectibleObtainedSound, COLLECTIBLE_OBTAINED_VOLUME);
 		} else if (whichAction == CUTSCENE_SOUND_PLAYOUT) {
-			
+			// do nothing
 		}
 
 		actionTimer = 0;
