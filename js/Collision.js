@@ -138,8 +138,8 @@ function isProjectileKillingPlayer(x, y) {
 	var playerLeft = x - (PLAYER_WIDTH / 2) + 2 ;
 	var playerRight = x + (PLAYER_WIDTH / 2) - 2;
 
-	var playerTop = y - (PLAYER_HEIGHT / 2) + 2;
-	var playerBottom = y + (PLAYER_HEIGHT / 2) - 2;
+	var playerTop = y - (PLAYER_HEIGHT / 2) + 5;
+	var playerBottom = y + (PLAYER_HEIGHT / 2) - 5;
 	
 	for (var i = 0; i < projectileArray.length; i++) {
 
