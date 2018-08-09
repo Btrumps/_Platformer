@@ -22,6 +22,7 @@ var playerFallingLeftImg = document.createElement("img");
 var playerFallingLeftImg_Blue = document.createElement("img");
 var playerFallingRightImg = document.createElement("img");
 var playerFallingRightImg_Blue = document.createElement("img");
+var playerVictoryImg = document.createElement("img");
 
 
 var bossIntro = document.createElement("img");
@@ -93,6 +94,7 @@ function loadImages() {
 		{varName: playerFallingLeftImg_Blue, theFile: "./images/player/player_fallingleft_blue.png"},
 		{varName: playerFallingRightImg, theFile: "./images/player/player_fallingright.png"},
 		{varName: playerFallingRightImg_Blue, theFile: "./images/player/player_fallingright_blue.png"},
+		{varName: playerVictoryImg, theFile: "./images/player/player_victory.png"},
 		{varName: bossIntro, theFile: "./images/enemy/boss_intro_anim.png"},
 		{varName: bossSlam, theFile: "./images/enemy/boss_slam_anim.png"},
 		{varName: bossRoomSlamFace, theFile: "./images/enemy/boss_room_slam_face.png"},

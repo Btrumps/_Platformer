@@ -43,6 +43,7 @@ const PLAYER_STATE_JUMPING = 3;
 const PLAYER_STATE_DASHING = 4;
 const PLAYER_STATE_FALLING = 5;
 const PLAYER_STATE_POST_DASH = 6;
+const PLAYER_STATE_VICTORY = 7;
 
 function playerClass() {
 	// TODO: Remove hardcoded values
@@ -227,6 +228,14 @@ function playerClass() {
 
 		}
 
+		if (endingCutsceneStarted &&
+		    (whichAction == CUTSCENE_COLLECTIBLE_OBTAINED ||
+		     whichAction == CUTSCENE_SOUND_PLAYOUT)) {
+			this.velX = 0;
+			this.velY = 0;
+			console.log('yes');
+		}
+
 		this.x += this.velX;
 		this.y += this.velY;
 
@@ -263,6 +272,12 @@ function playerClass() {
 			} else if (this.isGrounded && Math.abs(this.velX) > .25) {
 
 				this.currentMoveState = PLAYER_STATE_RUNNING;
+			} else if (	endingCutsceneStarted &&
+						(CUTSCENE_COLLECTIBLE_OBTAINED || CUTSCENE_SOUND_PLAYOUT)&&
+						this.velX == 0 && this.velY == 0) {
+
+				this.currentMoveState = PLAYER_STATE_VICTORY;
+
 			} else {
 
 				this.currentMoveState = PLAYER_STATE_IDLE;
@@ -867,6 +882,10 @@ function playerClass() {
 						canvasContext.drawImage(this.fallingLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 						break;
 
+					case PLAYER_STATE_VICTORY:
+						canvasContext.drawImage(playerVictoryImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
 				}
 
 			} else if (this.direction == DIRECTION_RIGHT) {
@@ -894,6 +913,10 @@ function playerClass() {
 
 					case PLAYER_STATE_FALLING:
 						canvasContext.drawImage(this.fallingRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
+						break;
+
+					case PLAYER_STATE_VICTORY:
+						canvasContext.drawImage(playerVictoryImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 						break;
 
 				}
