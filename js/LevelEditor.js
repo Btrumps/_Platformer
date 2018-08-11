@@ -180,19 +180,19 @@ function placeTilesOnButtonPress() {
 			helpGrid[mouseIndex] = LEVEL_HELP_VE;
 		}
 		if (keyHeld_6) {
-			helpGrid[mouseIndex] = LEVEL_HELP_JU;
+			helpGrid[mouseIndex] = LEVEL_HELP_R_KEY;
 		}
 		if (keyHeld_7) {
-			helpGrid[mouseIndex] = LEVEL_HELP_MP;
+			helpGrid[mouseIndex] = LEVEL_HELP_RE;
 		}
 		if (keyHeld_8) {
-			helpGrid[mouseIndex] = LEVEL_HELP_AG;
+			helpGrid[mouseIndex] = LEVEL_HELP_ST;
 		}
 		if (keyHeld_9) {
-			helpGrid[mouseIndex] = LEVEL_HELP_AI;
+			helpGrid[mouseIndex] = LEVEL_HELP_AR;
 		}
 		if (keyHeld_0) {
-			helpGrid[mouseIndex] = LEVEL_HELP_N;
+			helpGrid[mouseIndex] = LEVEL_HELP_T2;
 		}
 
 		if (keyHeld_Z) {
