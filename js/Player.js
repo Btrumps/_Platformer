@@ -233,7 +233,6 @@ function playerClass() {
 		     whichAction == CUTSCENE_SOUND_PLAYOUT)) {
 			this.velX = 0;
 			this.velY = 0;
-			console.log('yes');
 		}
 
 		this.x += this.velX;

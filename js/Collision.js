@@ -44,7 +44,7 @@ function isObstacleAtPixel(x, y, whichEdge) {
 					if ((whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) &&
 						(obstacleTileArray[i] == LEVEL_PLATFORM_E ||
 						 obstacleTileArray[i] == LEVEL_PLATFORM_W)) {
-						console.log('top or bottom edge collided with east/west wall');
+
 						return false;
 					}
 

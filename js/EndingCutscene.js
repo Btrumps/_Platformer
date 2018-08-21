@@ -121,7 +121,6 @@ function controlPlayerForEnding() {
 
 		actionTimer = 0;
 		whichAction++;
-		console.log(whichAction);
 	}
 	
 }

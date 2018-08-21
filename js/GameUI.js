@@ -272,6 +272,47 @@ function mainMenuUpdate() {
 	}
 }
 
+function startNewGame() {
+	currentLevel = 1;
+	totalGameTime = 0;
+	totalDeaths = 0;
+	totalCollectibles = 0;
+	saveLevel(); // overwrites old save file
+	saveGameTime();
+	saveDeathCount();
+	saveCollectibleCount();
+	saveCollectibleObtainedForLevel("false");
+	loadLevel(currentLevel);
+	levelTransitionStarted = true;
+	gameTimerInterval = setInterval(gameTimer, 1000);
+	mainMenuOpen = false;
+}
+
+function continueSavedGame() {
+	var savedLevel = parseInt( getSavedLevel() );
+	currentLevel = savedLevel;
+	totalGameTime = parseInt( getGameTime() );
+	totalDeaths = parseInt( getDeathCount() );
+	totalCollectibles = parseInt( getCollectibleCount() );
+
+	// needs to be entered this way or it will be input as a string
+	if (getCollectibleObtainedForLevel() == "false") {
+		player.collectibleObtained = false;
+	} else {
+		player.collectibleObtained = true;
+	}
+
+	gameTimerInterval = setInterval(gameTimer, 1000);
+	loadLevel(savedLevel);
+
+	if (savedLevel == 46) {
+		endingCutsceneStarted = true;
+	}
+
+	levelTransitionStarted = true;
+	mainMenuOpen = false;
+}
+
 function drawMainMenu() {
 	canvasContext.drawImage(mainMenuImg, -10,25);
 
@@ -465,42 +506,6 @@ function drawMainMenuText() {
 		}
 		
 	}
-}
-
-function startNewGame() {
-	currentLevel = 1;
-	totalGameTime = 0;
-	totalDeaths = 0;
-	totalCollectibles = 0;
-	saveLevel(); // overwrites old save file
-	saveGameTime();
-	saveDeathCount();
-	saveCollectibleCount();
-	saveCollectibleObtainedForLevel("false");
-	loadLevel(currentLevel);
-	levelTransitionStarted = true;
-	gameTimerInterval = setInterval(gameTimer, 1000);
-	mainMenuOpen = false;
-}
-
-function continueSavedGame() {
-	var savedLevel = parseInt( getSavedLevel() );
-	currentLevel = savedLevel;
-	totalGameTime = parseInt( getGameTime() );
-	totalDeaths = parseInt( getDeathCount() );
-	totalCollectibles = parseInt( getCollectibleCount() );
-
-	// needs to be entered this way or it will be input as a string
-	if (getCollectibleObtainedForLevel() == "false") {
-		player.collectibleObtained = false;
-	} else {
-		player.collectibleObtained = true;
-	}
-
-	gameTimerInterval = setInterval(gameTimer, 1000);
-	loadLevel(savedLevel);
-	levelTransitionStarted = true;
-	mainMenuOpen = false;
 }
 
 function mainMenuMouseoverHandling() {
