@@ -1,6 +1,5 @@
 const FONT_LEVEL_NAME = '16pt Retro';
 const FONT_MAIN_MENU = '22pt Retro';
-const FONT_GAME_TITLE = '36pt Retro';
 const FONT_LEVEL_PLATFORM = '8pt Retro';
 
 const PALETTE_RED = '#fe0000';
@@ -19,9 +18,6 @@ const ICON_COLLECTIBLE_START_X = 512 - 65;
 const ICON_COLLECTIBLE_START_Y = 5;
 const ICON_COLLECTIBLE_TEN_OFFSET = 5;
 const ICON_COLLECTIBLE_TWENTY_OFFSET = 10;
-
-const MAIN_MENU_GAME_NAME_START_X = 300;
-const MAIN_MENU_GAME_NAME_START_Y = 275;
 
 const MAIN_MENU_CONTINUE = 1;
 const MAIN_MENU_NEW_GAME = 2;
@@ -69,8 +65,6 @@ const MAIN_MENU_NEW_GAME_X = 425;
 const MAIN_MENU_NEW_GAME_Y = 500;
 const MAIN_MENU_SPEEDRUN_X = 300;
 const MAIN_MENU_SPEEDRUN_Y = 600;
-const MAIN_MENU_TOOLTIP_X = 620;
-const MAIN_MENU_TOOLTIP_Y = 870;
 const MAIN_MENU_ARE_YOU_SURE_X = 375;
 const MAIN_MENU_ARE_YOU_SURE_Y = 325;
 const MAIN_MENU_NO_X = 485;
@@ -169,8 +163,7 @@ function mainMenuUpdate() {
 					selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
 				}
 			}
-		}
-		// playSound(menuMoveSound, MENU_MOVE_VOLUME);
+		}	
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
@@ -195,8 +188,7 @@ function mainMenuUpdate() {
 			} else {
 				selectedOption = 1;
 			}
-		}
-		// playSound(menuMoveSound, MENU_MOVE_VOLUME);
+		}		
 		keyHeld_Timer = 0; // sets timer to 0 to prevent changing every frame
 	}
 
@@ -214,7 +206,6 @@ function mainMenuUpdate() {
 					deleteAllSpeedRunInfo();
 					areYouSureOpen = false;
 					optionSelectedThisFrame = true;
-					playSound(menuSelectSound, MENU_SELECT_VOLUME);
 				}
 				
 			} else if (selectedOption == MAIN_MENU_NO) {
@@ -250,7 +241,6 @@ function mainMenuUpdate() {
 			selectedOption = 1;
 			areYouSureOpen = true;
 			optionSelectedThisFrame = true;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (selectedOption == MAIN_MENU_CONTINUE &&
@@ -267,50 +257,8 @@ function mainMenuUpdate() {
 			speedrunTimesOpen = true;
 			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
 			keyHeld_Timer = 0;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 	}
-}
-
-function startNewGame() {
-	currentLevel = 1;
-	totalGameTime = 0;
-	totalDeaths = 0;
-	totalCollectibles = 0;
-	saveLevel(); // overwrites old save file
-	saveGameTime();
-	saveDeathCount();
-	saveCollectibleCount();
-	saveCollectibleObtainedForLevel("false");
-	loadLevel(currentLevel);
-	levelTransitionStarted = true;
-	gameTimerInterval = setInterval(gameTimer, 1000);
-	mainMenuOpen = false;
-}
-
-function continueSavedGame() {
-	var savedLevel = parseInt( getSavedLevel() );
-	currentLevel = savedLevel;
-	totalGameTime = parseInt( getGameTime() );
-	totalDeaths = parseInt( getDeathCount() );
-	totalCollectibles = parseInt( getCollectibleCount() );
-
-	// needs to be entered this way or it will be input as a string
-	if (getCollectibleObtainedForLevel() == "false") {
-		player.collectibleObtained = false;
-	} else {
-		player.collectibleObtained = true;
-	}
-
-	gameTimerInterval = setInterval(gameTimer, 1000);
-	loadLevel(savedLevel);
-
-	if (savedLevel == 46) {
-		endingCutsceneStarted = true;
-	}
-
-	levelTransitionStarted = true;
-	mainMenuOpen = false;
 }
 
 function drawMainMenu() {
@@ -345,14 +293,6 @@ function drawMainMenuText() {
 	var whereToShowText2Y;
 	var whereToShowText3X;
 	var whereToShowText3Y;
-
-	if (mainMenuOpen && areYouSureOpen == false) {
-		colorText('Sadisticave',
-		          MAIN_MENU_GAME_NAME_START_X,
-		          MAIN_MENU_GAME_NAME_START_Y,
-		          PALETTE_WHITE,
-		          FONT_GAME_TITLE);
-	}
 
 	if (areYouSureOpen) {
 		textToShow1 = 'No';
@@ -506,6 +446,42 @@ function drawMainMenuText() {
 		}
 		
 	}
+}
+
+function startNewGame() {
+	currentLevel = 1;
+	totalGameTime = 0;
+	totalDeaths = 0;
+	totalCollectibles = 0;
+	saveLevel(); // overwrites old save file
+	saveGameTime();
+	saveDeathCount();
+	saveCollectibleCount();
+	saveCollectibleObtainedForLevel("false");
+	loadLevel(currentLevel);
+	levelTransitionStarted = true;
+	gameTimerInterval = setInterval(gameTimer, 1000);
+	mainMenuOpen = false;
+}
+
+function continueSavedGame() {
+	var savedLevel = parseInt( getSavedLevel() );
+	currentLevel = savedLevel;
+	totalGameTime = parseInt( getGameTime() );
+	totalDeaths = parseInt( getDeathCount() );
+	totalCollectibles = parseInt( getCollectibleCount() );
+
+	// needs to be entered this way or it will be input as a string
+	if (getCollectibleObtainedForLevel() == "false") {
+		player.collectibleObtained = false;
+	} else {
+		player.collectibleObtained = true;
+	}
+
+	gameTimerInterval = setInterval(gameTimer, 1000);
+	loadLevel(savedLevel);
+	levelTransitionStarted = true;
+	mainMenuOpen = false;
 }
 
 function mainMenuMouseoverHandling() {
@@ -682,14 +658,6 @@ function drawCollectibleText() {
 	          TEXT_COLLECTIBLE_START_Y,
 	          PALETTE_WHITE, // white
 	          FONT_LEVEL_NAME);
-}
-
-function drawMusicToolTipText() {
-	colorText('M to Toggle Music',
-	          MAIN_MENU_TOOLTIP_X,
-	          MAIN_MENU_TOOLTIP_Y,
-	          PALETTE_WHITE, // white
-	          FONT_MAIN_MENU);
 }
 
 function drawScoreScreenText() {

@@ -1,4 +1,4 @@
-const MAX_FALLING_SPIKE_TRIGGER_RANGE = 145;
+const MAX_FALLING_SPIKE_TRIGGER_RANGE = 125;
 const FALLING_SPIKE_TRIGGER_OFFSET = 2;
 const FALL_SPEED = 5;
 
@@ -258,8 +258,7 @@ function triggerClass(col, row, index, whichType) {
 				}
 			}
 
-			if (this.fallTimerStarted && this.startRespawnTimer == false) {
-				// playSound(platformFallingSound, PLATFORM_FALLING_VOLUME);
+			if (this.fallTimerStarted && this.startRespawnTimer == false) {		
 
 				if (this.fallTimer >= this.maxTimeTilFall) {
 					levelGrid[this.index] = 0;
@@ -684,7 +683,7 @@ function triggerClass(col, row, index, whichType) {
 		    this.fallTimerStarted &&
 		    this.fallTimer < this.maxTimeTilFall) {
 			// countdown timer
-			// colorText(Math.round((this.maxTimeTilFall - this.fallTimer) / 30) + 1, (this.centeredX - 1.5) * PIXEL_SCALE_UP, (this.centeredY + 1.5) * PIXEL_SCALE_UP, 'white', FONT_LEVEL_PLATFORM);
+			colorText(Math.round((this.maxTimeTilFall - this.fallTimer) / 30) + 1, (this.centeredX - 1.5) * PIXEL_SCALE_UP, (this.centeredY + 1.5) * PIXEL_SCALE_UP, 'white', FONT_LEVEL_PLATFORM);
 		}
 	}
 }

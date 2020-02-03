@@ -22,7 +22,6 @@ var playerFallingLeftImg = document.createElement("img");
 var playerFallingLeftImg_Blue = document.createElement("img");
 var playerFallingRightImg = document.createElement("img");
 var playerFallingRightImg_Blue = document.createElement("img");
-var playerVictoryImg = document.createElement("img");
 
 
 var bossIntro = document.createElement("img");
@@ -48,9 +47,7 @@ var enterPortalAnim = document.createElement("img");
 var exitPortalAnim = document.createElement("img");
 var collectibleIcon = document.createElement("img");
 var collectibleAnim = document.createElement("img");
-var collectibleLargeAnim = document.createElement("img");
 var collectibleObtainedAnim = document.createElement("img");
-var collectibleObtainedLargeAnim = document.createElement("img");
 
 function countLoadedImagesAndLaunchIfReady() {
 	picsToLoad--;
@@ -94,7 +91,6 @@ function loadImages() {
 		{varName: playerFallingLeftImg_Blue, theFile: "./images/player/player_fallingleft_blue.png"},
 		{varName: playerFallingRightImg, theFile: "./images/player/player_fallingright.png"},
 		{varName: playerFallingRightImg_Blue, theFile: "./images/player/player_fallingright_blue.png"},
-		{varName: playerVictoryImg, theFile: "./images/player/player_victory.png"},
 		{varName: bossIntro, theFile: "./images/enemy/boss_intro_anim.png"},
 		{varName: bossSlam, theFile: "./images/enemy/boss_slam_anim.png"},
 		{varName: bossRoomSlamFace, theFile: "./images/enemy/boss_room_slam_face.png"},
@@ -113,9 +109,7 @@ function loadImages() {
 		{varName: exitPortalAnim, theFile: "./images/level_obstacles/exit_portal_anim2.png"},
 		{varName: collectibleIcon, theFile: "./images/level_obstacles/collectible_icon.png"},
 		{varName: collectibleAnim, theFile: "./images/level_obstacles/collectible_anim.png"},
-		{varName: collectibleLargeAnim, theFile: "./images/level_obstacles/collectible_large_anim.png"},
 		{varName: collectibleObtainedAnim, theFile: "./images/level_obstacles/collectible_obtained_anim.png"},
-		{varName: collectibleObtainedLargeAnim, theFile: "./images/level_obstacles/collectible_obtained_large_anim.png"},
 		{varName: fallingSpike, theFile: "./images/level_obstacles/spike_S2.png"},
 		{levelType: LEVEL_PLATFORM_N, theFile: "./images/level_tiles/platform_N.png"},
 		{levelType: LEVEL_PLATFORM_S, theFile: "./images/level_tiles/platform_S.png"},
@@ -150,7 +144,6 @@ function loadImages() {
 		{helpType: LEVEL_HELP_AG, theFile: "./images/level_help/level_ag.png"},
 		{helpType: LEVEL_HELP_AI, theFile: "./images/level_help/level_ai.png"},
 		{helpType: LEVEL_HELP_AP, theFile: "./images/level_help/level_ap.png"},
-		{helpType: LEVEL_HELP_AR, theFile: "./images/level_help/level_ar.png"},
 		{helpType: LEVEL_HELP_N, theFile: "./images/level_help/level_n.png"},
 		{helpType: LEVEL_HELP_ARROW_DOWN, theFile: "./images/level_help/level_arrow_down.png"},
 		{helpType: LEVEL_HELP_ARROW_LEFT, theFile: "./images/level_help/level_arrow_left.png"},
@@ -165,12 +158,8 @@ function loadImages() {
 		{helpType: LEVEL_HELP_MP, theFile: "./images/level_help/level_mp.png"},
 		{helpType: LEVEL_HELP_RIGHT_ARROWKEY, theFile: "./images/level_help/level_right_arrowkey.png"},
 		{helpType: LEVEL_HELP_S_KEY, theFile: "./images/level_help/level_s_key.png"},
-		{helpType: LEVEL_HELP_R_KEY, theFile: "./images/level_help/level_r_key.png"},
-		{helpType: LEVEL_HELP_RE, theFile: "./images/level_help/level_re.png"},
 		{helpType: LEVEL_HELP_SH, theFile: "./images/level_help/level_sh.png"},
-		{helpType: LEVEL_HELP_ST, theFile: "./images/level_help/level_st.png"},
 		{helpType: LEVEL_HELP_T, theFile: "./images/level_help/level_t.png"},
-		{helpType: LEVEL_HELP_T2, theFile: "./images/level_help/level_t2.png"},
 		{helpType: LEVEL_HELP_TO, theFile: "./images/level_help/level_to.png"},
 		{helpType: LEVEL_HELP_UP_ARROWKEY, theFile: "./images/level_help/level_up_arrowkey.png"},
 		{helpType: LEVEL_HELP_VE, theFile: "./images/level_help/level_ve.png"},

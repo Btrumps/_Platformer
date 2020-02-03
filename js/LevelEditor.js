@@ -45,11 +45,9 @@ function placeTilesOnButtonPress() {
 			levelGrid[mouseIndex] = LEVEL_SQUARE_SPIKE_V;
 		}
 
-		if (keyHeld_9 && currentLevel != 46) {
+		if (keyHeld_9) {
 			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE;
-		}	else if (keyHeld_9 && currentLevel == 46) {
-			levelGrid[mouseIndex] = LEVEL_COLLECTIBLE_LARGE;
-		}
+		}	
 
 		if (keyHeld_0) {
 			levelGrid[mouseIndex] = LEVEL_DASH_POWERUP;
@@ -180,19 +178,19 @@ function placeTilesOnButtonPress() {
 			helpGrid[mouseIndex] = LEVEL_HELP_VE;
 		}
 		if (keyHeld_6) {
-			helpGrid[mouseIndex] = LEVEL_HELP_R_KEY;
+			helpGrid[mouseIndex] = LEVEL_HELP_JU;
 		}
 		if (keyHeld_7) {
-			helpGrid[mouseIndex] = LEVEL_HELP_RE;
+			helpGrid[mouseIndex] = LEVEL_HELP_MP;
 		}
 		if (keyHeld_8) {
-			helpGrid[mouseIndex] = LEVEL_HELP_ST;
+			helpGrid[mouseIndex] = LEVEL_HELP_AG;
 		}
 		if (keyHeld_9) {
-			helpGrid[mouseIndex] = LEVEL_HELP_AR;
+			helpGrid[mouseIndex] = LEVEL_HELP_AI;
 		}
 		if (keyHeld_0) {
-			helpGrid[mouseIndex] = LEVEL_HELP_T2;
+			helpGrid[mouseIndex] = LEVEL_HELP_N;
 		}
 
 		if (keyHeld_Z) {

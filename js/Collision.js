@@ -44,7 +44,7 @@ function isObstacleAtPixel(x, y, whichEdge) {
 					if ((whichEdge == TOP_EDGE || whichEdge == BOTTOM_EDGE) &&
 						(obstacleTileArray[i] == LEVEL_PLATFORM_E ||
 						 obstacleTileArray[i] == LEVEL_PLATFORM_W)) {
-
+						console.log('top or bottom edge collided with east/west wall');
 						return false;
 					}
 
@@ -135,23 +135,18 @@ function isProjectileKillingPlayer(x, y) {
 
 	// player.recalculateCollisionEdges();
 
-	var playerLeft = x - (PLAYER_WIDTH / 2) + 2 ;
-	var playerRight = x + (PLAYER_WIDTH / 2) - 2;
+	var startX = x - (PLAYER_WIDTH / 2);
+	var endX = x + (PLAYER_WIDTH / 2);
 
-	var playerTop = y - (PLAYER_HEIGHT / 2) + 5;
-	var playerBottom = y + (PLAYER_HEIGHT / 2) - 5;
+	var startY = y - (PLAYER_HEIGHT / 2) + 1;
+	var endY = y + (PLAYER_HEIGHT / 2) - 1;
 	
 	for (var i = 0; i < projectileArray.length; i++) {
 
-		var projectileLeft = projectileArray[i].x - PROJECTILE_WIDTH / 2;
-		var projectileRight = projectileArray[i].x + PROJECTILE_WIDTH / 2;
-		var projectileTop = projectileArray[i].y - PROJECTILE_HEIGHT / 2;
-		var projectileBottom = projectileArray[i].y + PROJECTILE_HEIGHT / 2;
-
-		if ((projectileRight < playerLeft ||	// is projectileRight left of playerLeft
-			 projectileLeft > playerRight ||	// is projectileLeft right of playerRight
-			 projectileBottom < playerTop ||		// is projectileBottom above playerTop
-			 projectileTop > playerBottom) == false) {	// is projectileTop below playerBottom
+		if (projectileArray[i].x > startX &&
+			projectileArray[i].x < endX &&
+			projectileArray[i].y > startY &&
+			projectileArray[i].y < endY) {
 			
 			return true;
 		}

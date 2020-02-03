@@ -1,6 +1,6 @@
 var levelFadeX = 0;
 var levelFadeY = 0;
-var levelFadeSpeed = 50;
+var levelFadeSpeed = 30;
 var levelTransitionStarted = false;
 
 function deathFadeCheck() {
@@ -19,14 +19,14 @@ function deathFadeCheck() {
 function levelTransitionCheck() {
 	// if we are the first 15 levels, we want to transition from left to right
 	// the next group of 15 should go right to left
-	if (levelTransitionStarted && (currentLevel <= LEVELS_PER_WORLD || currentLevel > LEVELS_PER_WORLD * 2)) {
+	if (levelTransitionStarted && currentLevel <= LEVELS_PER_WORLD) {
 		levelFadeX += levelFadeSpeed;
 		colorRect(levelFadeX, levelFadeY, canvas.width,canvas.height, 'black');
 		if (levelFadeX > canvas.width) {
 			levelTransitionStarted = false;
 			levelFadeX = 0;
 		}
-	} else if (levelTransitionStarted && currentLevel > LEVELS_PER_WORLD && currentLevel <= LEVELS_PER_WORLD * 2) {
+	} else if (levelTransitionStarted && currentLevel > LEVELS_PER_WORLD) {
 		levelFadeX -= levelFadeSpeed;
 		colorRect(levelFadeX, levelFadeY, canvas.width,canvas.height, 'black');
 		if (levelFadeX < -canvas.width) {

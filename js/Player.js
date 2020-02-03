@@ -7,7 +7,7 @@ const VARIABLE_JUMP_WINDOW = 8;
 const MAX_DASH_FRAMES = 6;
 const MAX_POST_DASH_FRAMES = 30;
 const GROUNDED_DASH_COOLDOWN = 5;
-const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 4;
+const MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP = 0;
 
 const MAX_Y_VELOCITY = 10;
 const GRAVITY = .8;
@@ -43,7 +43,6 @@ const PLAYER_STATE_JUMPING = 3;
 const PLAYER_STATE_DASHING = 4;
 const PLAYER_STATE_FALLING = 5;
 const PLAYER_STATE_POST_DASH = 6;
-const PLAYER_STATE_VICTORY = 7;
 
 function playerClass() {
 	// TODO: Remove hardcoded values
@@ -72,7 +71,6 @@ function playerClass() {
 	this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 
 	this.isGrounded = true;
-	this.hasPlayedLandingSound = true;
 	this.hasResetJumpAnim = false;
 	this.variableJumpCounter = 0;
 
@@ -82,7 +80,7 @@ function playerClass() {
 	this.insideTrigger = false;
 
 	this.dashTrail = [];
-	this.hasPlayedDashSound = false;
+
 	this.postDashCounter = 0;
 	this.postDashVelX;
 	this.postDashVelY;
@@ -144,7 +142,7 @@ function playerClass() {
 
 		if (this.deathAnimationStarted) {
 			if (this.hasPlayedDeathSound == false) {
-				playSound(deathSound, DEATH_VOLUME);
+				playDeathSound();
 				// spawnParticles('death', this.x, this.y);
 				this.hasPlayedDeathSound = true;
 			}
@@ -182,11 +180,10 @@ function playerClass() {
 			this.velX = -PLAYER_MAX_SPEED;
 		}
 
-		if (this.framesSinceLeftGround >= MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP && keyHeld_Jump == false) {
-			this.variableJumpCounter = VARIABLE_JUMP_WINDOW + 1;
-		}
+		if (jumpJustPressed && this.framesSinceLeftGround <= MAX_FRAMES_SINCE_LEFT_GROUND_TO_JUMP) {
+			this.velY = -PLAYER_JUMP_SPEED;
 
-		if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
+		} else if (keyHeld_Jump && this.variableJumpCounter <= VARIABLE_JUMP_WINDOW) {
 			this.velY = -PLAYER_JUMP_SPEED;
 		}
 
@@ -228,27 +225,12 @@ function playerClass() {
 
 		}
 
-		if (endingCutsceneStarted &&
-		    (whichAction == CUTSCENE_COLLECTIBLE_OBTAINED ||
-		     whichAction == CUTSCENE_SOUND_PLAYOUT)) {
-			this.velX = 0;
-			this.velY = 0;
-		}
-
 		this.x += this.velX;
 		this.y += this.velY;
 
 		this.currentIndex = this.getCurrentPlayerIndex();
 
 		if (this.isGrounded && this.currentMoveState != PLAYER_STATE_DASHING) {
-			if (this.hasPlayedLandingSound == false) {
-				this.hasPlayedLandingSound = true;
-				playRepeatingSound(	landingSound,
-									landingSoundAlt,
-									landingAltSoundTurn,
-									LANDING_VOLUME);
-			}
-
 			this.variableJumpCounter = 0;
 			this.framesSinceLeftGround = 0;
 			this.dashesLeft = this.maxDashLimit;
@@ -271,12 +253,6 @@ function playerClass() {
 			} else if (this.isGrounded && Math.abs(this.velX) > .25) {
 
 				this.currentMoveState = PLAYER_STATE_RUNNING;
-			} else if (	endingCutsceneStarted &&
-						(CUTSCENE_COLLECTIBLE_OBTAINED || CUTSCENE_SOUND_PLAYOUT)&&
-						this.velX == 0 && this.velY == 0) {
-
-				this.currentMoveState = PLAYER_STATE_VICTORY;
-
 			} else {
 
 				this.currentMoveState = PLAYER_STATE_IDLE;
@@ -324,13 +300,6 @@ function playerClass() {
 				this.dashesLeft--;
 				keyHeld_DashTimer = 0;
 
-				if (this.hasPlayedDashSound == false) {
-					this.hasPlayedDashSound = true;
-					playRepeatingSound(	dashSound,
-										dashSoundAlt,
-										dashAltSoundTurn,
-										DASH_VOLUME);
-				}
 
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
@@ -353,14 +322,6 @@ function playerClass() {
 				this.dashesLeft--;
 				keyHeld_DashTimer = 0;
 
-				if (this.hasPlayedDashSound == false) {
-					this.hasPlayedDashSound = true;
-					playRepeatingSound(	dashSound,
-										dashSoundAlt,
-										dashAltSoundTurn,
-										DASH_VOLUME);
-				}
-
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 				}
@@ -381,14 +342,6 @@ function playerClass() {
 				this.direction = DIRECTION_UP;
 				this.dashesLeft--;
 				keyHeld_DashTimer = 0;
-
-				if (this.hasPlayedDashSound == false) {
-					this.hasPlayedDashSound = true;
-					playRepeatingSound(	dashSound,
-										dashSoundAlt,
-										dashAltSoundTurn,
-										DASH_VOLUME);
-				}
 
 				if (this.isGrounded == false) {
 					this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
@@ -415,7 +368,6 @@ function playerClass() {
 				// this NEEDS to be set to a diff state or we'll never leave dashing state
 				// this gets overwritten down at the end of move()
 				this.currentMoveState = PLAYER_STATE_FALLING;
-				this.hasPlayedDashSound = false;
 			}
 		}
 	}
@@ -481,7 +433,6 @@ function playerClass() {
 			// if we don't check up, no top edge collisions will occur when we dash into a platform above us
 			if (this.currentMoveState != PLAYER_STATE_DASHING || this.direction == DIRECTION_UP) {
 				this.isGrounded = false;
-				this.hasPlayedLandingSound = false;
 			}
 
 			this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
@@ -682,7 +633,7 @@ function playerClass() {
 			if (this.triggerArray[i].type == LEVEL_COLLECTIBLE) {
 				levelGrid[this.triggerArray[i].index] = 0;
 				if (this.playedCollectibleStartSound == false) {
-					playSound(collectibleStartTimerSound, COLLECTIBLE_START_TIMER_VOLUME);
+					playCollectibleStartSound();
 					this.playedCollectibleStartSound = true;
 				}
 				this.startCollectibleTimer = true;
@@ -694,7 +645,7 @@ function playerClass() {
 				if (this.collectibleObtained || this.startCollectibleTimer) {
 					if (this.playedCollectibleObtainedSound == false &&
 					    getCollectibleObtainedForLevel() == "false") {
-						playSound(collectibleObtainedSound, COLLECTIBLE_OBTAINED_VOLUME);
+						playCollectibleObtainedSound();
 						// we only include this here if the collectible timer hasn't completed already
 						totalCollectibles++;
 						saveCollectibleCount();
@@ -705,20 +656,9 @@ function playerClass() {
 				}			
 				loadLevel(currentLevel);
 				levelTransitionStarted = true;
-				playSound(levelTransitionSound, LEVEL_TRANSITION_VOLUME);
-
+				
 				if (currentLevel == TOTAL_LEVEL_COUNT + 1) { // +1 because we increment in this function
 					scoreScreenOpen = true;
-				}
-
-				if (currentLevel == TOTAL_LEVEL_COUNT) {
-					keyHeld_Jump = false;
-					keyHeld_Left = false;
-					keyHeld_Right = false;
-					keyHeld_DashUp = false;
-					keyHeld_DashLeft = false;
-					keyHeld_DashRight = false;
-					endingCutsceneStarted = true;
 				}
 				
 				break;
@@ -730,11 +670,6 @@ function playerClass() {
 				}
 				this.dashCooldownCounter = GROUNDED_DASH_COOLDOWN;
 				levelGrid[this.triggerArray[i].index] = 0;
-
-				playRepeatingSound(	powerupSound,
-									powerupSoundAlt,
-									powerupAltSoundTurn,
-									POWERUP_VOLUME);
 
 				for (var j = 0; j < allTriggersArray.length; j++) {
 					if (allTriggersArray[j].index == this.triggerArray[i].index) {
@@ -782,7 +717,7 @@ function playerClass() {
 		           this.deathAnimationStarted == false) {
 			
 			if (this.playedCollectibleObtainedSound == false) {
-				playSound(collectibleObtainedSound, COLLECTIBLE_OBTAINED_VOLUME);
+				playCollectibleObtainedSound();
 				totalCollectibles++;
 				saveCollectibleCount();
 				saveCollectibleObtainedForLevel("true");
@@ -881,10 +816,6 @@ function playerClass() {
 						canvasContext.drawImage(this.fallingLeftImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 						break;
 
-					case PLAYER_STATE_VICTORY:
-						canvasContext.drawImage(playerVictoryImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-						break;
-
 				}
 
 			} else if (this.direction == DIRECTION_RIGHT) {
@@ -912,10 +843,6 @@ function playerClass() {
 
 					case PLAYER_STATE_FALLING:
 						canvasContext.drawImage(this.fallingRightImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
-						break;
-
-					case PLAYER_STATE_VICTORY:
-						canvasContext.drawImage(playerVictoryImg, this.x - PLAYER_WIDTH / 2, this.y - PLAYER_HEIGHT / 2);
 						break;
 
 				}

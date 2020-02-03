@@ -123,7 +123,6 @@ function mouseupHandler(evt) {
 			noSavedGame == false) {
 
 			continueSavedGame();
-			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
@@ -133,7 +132,6 @@ function mouseupHandler(evt) {
 			areYouSureOpen) {
 			
 			areYouSureOpen = false;
-			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
@@ -143,7 +141,6 @@ function mouseupHandler(evt) {
 			areYouSureOpen) {
 
 			startNewGame();
-			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NEW_GAME_START_X / PIXEL_SCALE_UP&&
@@ -154,7 +151,6 @@ function mouseupHandler(evt) {
 
 			selectedOption = MAIN_MENU_NO;
 			areYouSureOpen = true;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_SPEEDRUN_START_X / PIXEL_SCALE_UP&&
@@ -165,7 +161,6 @@ function mouseupHandler(evt) {
 
 			speedrunTimesOpen = true;
 			mainMenuOpen = false;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 			
 		
@@ -178,7 +173,6 @@ function mouseupHandler(evt) {
 
 			selectedOption = MAIN_MENU_NO;
 			areYouSureOpen = true;
-			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > SPEEDRUN_BACK_TO_MAIN_MENU_START_X / PIXEL_SCALE_UP&&
@@ -190,7 +184,6 @@ function mouseupHandler(evt) {
 			speedrunTimesOpen = false;
 			mainMenuOpen = true;
 			selectedOption = MAIN_MENU_SPEEDRUN;
-			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_NO_START_X / PIXEL_SCALE_UP&&
@@ -201,7 +194,6 @@ function mouseupHandler(evt) {
 
 			areYouSureOpen = false;
 			selectedOption = SPEEDRUN_BACK_TO_MAIN_MENU;
-			// playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 
 		if (mouseX > MAIN_MENU_YES_START_X / PIXEL_SCALE_UP&&
@@ -212,7 +204,6 @@ function mouseupHandler(evt) {
 			
 			deleteAllSpeedRunInfo();
 			areYouSureOpen = false;
-			playSound(menuSelectSound, MENU_SELECT_VOLUME);
 		}
 	}
 
@@ -264,7 +255,7 @@ function setValuesForKey(evt, value) {
 			keyHeld_Q = value;
 			break;
 		case "KeyW":
-			if (levelEditorEnabled == false && endingCutsceneStarted == false && currentLevel != 1) {
+			if (levelEditorEnabled == false) {
 				keyHeld_Jump = value;
 			}
 			keyHeld_W = value;
@@ -310,7 +301,7 @@ function setValuesForKey(evt, value) {
 			break;
 
 		case "KeyA":
-			if (levelEditorEnabled == false & endingCutsceneStarted == false) {
+			if (levelEditorEnabled == false) {
 				keyHeld_Left = value;
 			}
 			keyHeld_A = value;
@@ -319,7 +310,7 @@ function setValuesForKey(evt, value) {
 			keyHeld_S = value;
 			break;
 		case "KeyD":
-			if (levelEditorEnabled == false && endingCutsceneStarted == false) {
+			if (levelEditorEnabled == false) {
 				keyHeld_Right = value;
 			}
 			keyHeld_D = value;
@@ -370,13 +361,13 @@ function setValuesForKey(evt, value) {
 			keyHeld_C = value;
 			break;
 		case "KeyV":
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && debugMode) {
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
 				outputLevelToConsole();
 			}
 			break;
 		case "KeyB":
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && debugMode) {
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
 				levelEditorEnabled = !levelEditorEnabled;
 
@@ -389,7 +380,7 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 		case "KeyN":
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX && debugMode) {
+			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
 				keyHeld_Timer = 0;
 				helpBGEnabled = !helpBGEnabled;
 
@@ -402,16 +393,7 @@ function setValuesForKey(evt, value) {
 			}
 			break;
 		case "KeyM":
-			if (keyHeld_Timer >= KEY_HELD_TIME_MAX) {
-				keyHeld_Timer = 0;
-				musicEnabled = !musicEnabled;
-
-				if (musicEnabled) {
-					console.log('music Enabled');
-				} else {
-					console.log('music Disabled');
-				}
-			}
+			keyHeld_M = value;
 			break;
 		case "Comma":
 			keyHeld_Comma = value;
@@ -425,7 +407,7 @@ function setValuesForKey(evt, value) {
 
 
 		case "ArrowUp":
-			if (currentLevel > 2 && endingCutsceneStarted == false) {
+			if (currentLevel > 2) {
 				keyHeld_DashUp = value;
 			}
 			keyHeld_ArrowUp = value;
@@ -434,13 +416,13 @@ function setValuesForKey(evt, value) {
 			keyHeld_ArrowDown = value;
 			break;
 		case "ArrowLeft":
-			if (currentLevel > 2 && endingCutsceneStarted == false) {
+			if (currentLevel > 2) {
 				keyHeld_DashLeft = value;
 			}
 			keyHeld_ArrowLeft = value;
 			break;
 		case "ArrowRight":
-			if (currentLevel > 2 && endingCutsceneStarted == false) {
+			if (currentLevel > 2) {
 				keyHeld_DashRight = value;
 			}
 			keyHeld_ArrowRight = value;

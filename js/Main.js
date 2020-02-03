@@ -59,60 +59,28 @@ function moveAll() {
 	if (mainMenuOpen) {
 		mainMenuMouseoverHandling();
 		mainMenuUpdate();
-		playBGM(menuSong, MENU_SONG_VOLUME);
 	} else if (scoreScreenOpen) {
 		scoreScreenUpdate();
-		playBGM(menuSong, MENU_SONG_VOLUME);
 	} else if (levelLayoutScreenOpen) {
 		checkLevelLayoutInput();
 	} else if (speedrunTimesOpen) {
 		speedrunMouseoverHandling();
 		mainMenuUpdate();
-		playBGM(menuSong, MENU_SONG_VOLUME);
 	} else {
-		
-		if (endingCutsceneStarted) {
-			controlPlayerForEnding();
-		}
-		
-
 		player.move();
 
-		/* No boss fight
 		if (currentLevel == BOSS_FIGHT_1_LEVEL) {
 			boss.move();
 		}
-		*/
-
+		
 		moveParticles();
 		moveAllTriggers();
 		moveAllProjectiles();
+		checkLevelSkipInput();
 
-		if (debugMode) {
-			checkLevelSkipInput();
+		if (musicEnabled) {
+			playBGM(currentLevel);
 		}
-		
-
-
-		if (currentLevel <= LEVELS_PER_WORLD) {
-			menuSong.pause();
-			menuSong.currentTime = 0;
-			playBGM(firstSong, FIRST_SONG_VOLUME);
-		} else if (currentLevel > LEVELS_PER_WORLD && currentLevel <= LEVELS_PER_WORLD * 2) {
-			menuSong.pause();
-			menuSong.currentTime = 0;
-			firstSong.pause();
-			firstSong.currentTime = 0;
-			playBGM(secondSong, SECOND_SONG_VOLUME);
-		} else if (currentLevel > LEVELS_PER_WORLD * 2 && currentLevel <= LEVELS_PER_WORLD * 3) {
-			menuSong.pause();
-			menuSong.currentTime = 0;
-			secondSong.pause();
-			secondSong.currentTime = 0;
-			playBGM(thirdSong, THIRD_SONG_VOLUME);
-		}
-			
-		
 		if (levelEditorEnabled) {
 			placeTilesOnButtonPress();
 		}
@@ -166,7 +134,6 @@ function drawAll() {
 
 	if (mainMenuOpen) {
 		drawMainMenuText();
-		drawMusicToolTipText();
 	} else if (scoreScreenOpen) {
 		drawScoreScreenText();
 	} else if (levelLayoutScreenOpen) {
